@@ -2,6 +2,7 @@
 
 import { getTransactions } from "@/api/transactions-api";
 import { AppLayout } from "@/components/layout/app-layout"
+import { TransactionsTable } from "@/components/transactions-table/transactions-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Transaction } from "@/types/transaction-types"
 import { useQuery } from "@tanstack/react-query";
@@ -26,13 +27,7 @@ export default function TransactionsPage() {
             {isError && <p className="text-red-500">{error?.message}</p>}
             {!isLoading && transactions?.length === 0 && <p>No transactions found.</p>}
             {!isLoading && (transactions ?? []).length > 0 && (
-              <ul>
-                {transactions?.map(t => (
-                  <li key={t._id}>
-                    {t.description} - {t.amount} {t.currency} ({new Date(t.date).toLocaleDateString()})
-                  </li>
-                ))}
-              </ul>
+              <TransactionsTable transactions={transactions!}/>
             )}
             
           </CardContent>
