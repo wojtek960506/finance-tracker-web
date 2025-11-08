@@ -16,6 +16,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { SelectValue } from "@radix-ui/react-select";
+import { TextField } from "./fields/text-field";
+import { DateField } from "./fields/date-field";
 
 
 type AddTransactionModalProps = {
@@ -121,25 +123,21 @@ export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => 
   
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           
-          <Label className="grid grid-cols-[3fr_5fr] gap-2">
-            <span className="text-sm flex items-center">Date</span>
-            <Input
-              type="date"
-              value={date}
-              onChange={e => setDate(e.target.value)}
-              required
-            />
-          </Label>
+          <DateField
+            title="Date"
+            value={date}
+            setValue={setDate}
+            classNameLabel="grid grid-cols-[3fr_5fr] gap-2"
+            classNameSpan="text-sm flex items-center"
+          />
 
-          <Label className="grid grid-cols-[3fr_5fr] gap-2">
-            <span className="text-sm">Description</span>
-            <Input
-              type="text"
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              required
-            />
-          </Label>
+          <TextField
+            title="Description"
+            value={description}
+            setValue={setDescription}
+            classNameLabel="grid grid-cols-[3fr_5fr] gap-2"
+            classNameSpan="text-sm flex items-center"
+          />
 
           <Label className="grid grid-cols-[3fr_5fr] gap-2">
             <span className="text-sm">Amount</span>

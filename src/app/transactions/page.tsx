@@ -24,7 +24,6 @@ export default function TransactionsPage() {
     }
   })
 
-
   return (
     <AppLayout>
       <div className="space-y-4">
@@ -33,11 +32,9 @@ export default function TransactionsPage() {
             <CardTitle>Recent Transactions</CardTitle>
           </CardHeader>
           <CardContent>
-            
             <AddTransactionModal
               onCreated={(created: TransactionCreateDTO) => createMutation.mutate(created)}
             />
-
             {isLoading && <p>Loading...</p>}
             {isError && <p className="text-red-500">{error?.message}</p>}
             {!isLoading && transactions?.length === 0 && <p>No transactions found.</p>}
