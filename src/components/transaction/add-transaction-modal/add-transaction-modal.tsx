@@ -13,11 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
-import { SelectValue } from "@radix-ui/react-select";
-import { TextField } from "./fields/text-field";
-import { DateField } from "./fields/date-field";
+import { DateField, TextField, NumberField, SelectField } from "./fields";
 
 
 type AddTransactionModalProps = {
@@ -127,64 +123,70 @@ export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => 
             title="Date"
             value={date}
             setValue={setDate}
-            classNameLabel="grid grid-cols-[3fr_5fr] gap-2"
-            classNameSpan="text-sm flex items-center"
+            classNameMain="grid grid-cols-[3fr_5fr] gap-2"
+            classNameLabel="text-sm flex items-center"
           />
 
           <TextField
             title="Description"
             value={description}
             setValue={setDescription}
-            classNameLabel="grid grid-cols-[3fr_5fr] gap-2"
-            classNameSpan="text-sm flex items-center"
+            classNameMain="grid grid-cols-[3fr_5fr] gap-2"
+            classNameLabel="text-sm flex items-center"
           />
 
-          <Label className="grid grid-cols-[3fr_5fr] gap-2">
-            <span className="text-sm">Amount</span>
-            <Input
-              type="number"
-              step="0.01"
-              value={amount}
-              onChange={e => setAmount(e.target.value)}
-              required
-            />
-          </Label>
+          <NumberField 
+            title="Amount"
+            value={amount}
+            setValue={setAmount}
+            classNameMain="grid grid-cols-[3fr_5fr] gap-2"
+            classNameLabel="text-sm flex items-center"
+          />
+
+          <SelectField
+            title="Currency"
+            value={currency}
+            setValue={setCurrency}
+            options={CURRENCIES}
+            placeholder="Select currency"
+            classNameMain="grid grid-cols-[3fr_5fr] gap-2"
+            classNameLabel="w-full flex justify-center items-center"
+          />
+
+          <SelectField
+            title="Category"
+            value={category}
+            setValue={setCategory}
+            options={CATEGORIES}
+            placeholder="Select category"
+            classNameMain="grid grid-cols-[3fr_5fr] gap-2"
+            classNameLabel="w-full flex justify-center items-center"
+          />
+
+          <SelectField
+            title="Payment Method"
+            value={paymentMethod}
+            setValue={setPaymentMethod}
+            options={PAYMENT_METHODS}
+            placeholder="Select payment method"
+            classNameMain="grid grid-cols-[3fr_5fr] gap-2"
+            classNameLabel="w-full flex justify-center items-center"
+          />
+
+          <SelectField
+            title="Account"
+            value={account}
+            setValue={setAccount}
+            options={ACCOUNTS}
+            placeholder="Select account"
+            classNameMain="grid grid-cols-[3fr_5fr] gap-2"
+            classNameLabel="w-full flex justify-center items-center"
+          />
+
 
           <div className="grid grid-cols-[3fr_5fr] gap-2">
             <Label>
-              <span className="w-full flex justify-center items-center">Currency</span>
-            </Label>
-            <Select value={currency} onValueChange={(v) => setCurrency(v)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select currency" />
-              </SelectTrigger>
-              <SelectContent>
-                {CURRENCIES.map(c => (
-                  <SelectItem key={c.key} value={c.key}>{c.value}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="grid grid-cols-[3fr_5fr] gap-2">
-            <Label>
-              <span className="w-full flex justify-center items-center">Category</span>
-            </Label>
-            <Select value={category} onValueChange={(v) => setCategory(v)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                {CATEGORIES.map(c => (
-                  <SelectItem key={c.key} value={c.key}>{c.value}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="grid grid-cols-[3fr_5fr] gap-2">
-            <Label>
-              <span>Transaction Type</span>
+              <span className="w-full flex justify-center items-center">Transaction Type</span>
             </Label>
             <div className="flex gap-2 items-center">
               <Label className="flex gap-2 items-center">
@@ -206,38 +208,6 @@ export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => 
               </Label>
               <span>Income</span>
             </div>
-          </div>
-
-          <div className="grid grid-cols-[3fr_5fr] gap-2">
-            <Label>
-              <span className="w-full flex justify-center items-center">Payment Method</span>
-            </Label>
-            <Select value={paymentMethod} onValueChange={(v) => setPaymentMethod(v)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select payment method" />
-              </SelectTrigger>
-              <SelectContent>
-                {PAYMENT_METHODS.map(pm => (
-                  <SelectItem key={pm.key} value={pm.key}>{pm.value}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="grid grid-cols-[3fr_5fr] gap-2">
-            <Label>
-              <span className="w-full flex justify-end items-center">Account</span>
-            </Label>
-            <Select value={account} onValueChange={(v) => setAccount(v)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select account" />
-              </SelectTrigger>
-              <SelectContent>
-                {ACCOUNTS.map(a => (
-                  <SelectItem key={a.key} value={a.key}>{a.value}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
 
           <DialogFooter className="flex justify-end gap-2">

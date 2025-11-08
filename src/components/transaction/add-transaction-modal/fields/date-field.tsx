@@ -5,20 +5,20 @@ interface DateFieldProps {
   title: string;
   value: string;
   setValue: (v: string) => void;
+  classNameMain?: string;
   classNameLabel?: string;
-  classNameSpan?: string;
 }
 
 export const DateField = ({ 
   title,
   value,
   setValue,
-  classNameLabel,
-  classNameSpan
+  classNameMain,
+  classNameLabel
 }: DateFieldProps) => {
   return (
-    <Label className={classNameLabel}>
-      <span className={classNameSpan}>{title}</span>
+    <Label className={classNameMain}>
+      <span className={classNameLabel}>{title}</span>
       <Input
         type="date"
         value={value}
