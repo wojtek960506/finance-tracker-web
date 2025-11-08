@@ -12,8 +12,7 @@ import {
   DialogFooter
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { DateField, TextField, NumberField, SelectField } from "./fields";
+import { DateField, TextField, NumberField, SelectField, RadioField } from "./fields";
 
 
 type AddTransactionModalProps = {
@@ -103,6 +102,11 @@ export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => 
     { key: "usd", value: "USD" },
   ]
 
+  const TRANSACTION_TYPES = [
+    { key: "expense", value: "Expense" },
+    { key: "income", value: "Income" },
+  ]
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
   
@@ -183,32 +187,14 @@ export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => 
             classNameLabel="w-full flex justify-center items-center"
           />
 
-
-          <div className="grid grid-cols-[3fr_5fr] gap-2">
-            <Label>
-              <span className="w-full flex justify-center items-center">Transaction Type</span>
-            </Label>
-            <div className="flex gap-2 items-center">
-              <Label className="flex gap-2 items-center">
-                <input
-                  type="radio"
-                  name="type"
-                  checked={transactionType === "expense"}
-                  onChange={() => setTransactionType("expense")}
-                />
-              </Label>
-              <span>Expense</span>
-              <Label className="flex gap-2 items-center">
-                <input
-                  type="radio"
-                  name="type"
-                  checked={transactionType === "income"}
-                  onChange={() => setTransactionType("income")}
-                />
-              </Label>
-              <span>Income</span>
-            </div>
-          </div>
+          <RadioField 
+            title="Transaction Type"
+            value={transactionType}
+            setValue={setTransactionType as (v: string) => void}
+            options={TRANSACTION_TYPES}
+            classNameMain="grid grid-cols-[3fr_5fr] gap-2"
+            classNameLabel="w-full flex justify-left items-center"
+          />
 
           <DialogFooter className="flex justify-end gap-2">
             <Button type="button" variant="ghost" onClick={() => setOpen(false)}>
