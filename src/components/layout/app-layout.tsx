@@ -3,9 +3,13 @@
 import { Sidebar } from "./sidebar"
 import { Topbar } from "./topbar"
 
+import { I18nextProvider } from "react-i18next";
+import i18n from "@/i18n";
+
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen">
+    <I18nextProvider i18n={i18n}>
+      <div className="flex h-screen">
       {/* Sidebar (fixed on the left) */}
       <Sidebar />
 
@@ -17,5 +21,6 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         </main>
       </div>
     </div>
+    </I18nextProvider>
   )
 }

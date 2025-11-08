@@ -8,6 +8,7 @@ import {
   Table,
   Settings,
 } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 // Centralized nav items config
 const navItems = [
@@ -22,12 +23,14 @@ const baseLinkClass =
 
 // Component
 export function Sidebar() {
+  const { t } = useTranslation("common");
+
   const pathname = usePathname()
 
   return (
     <aside className="flex flex-col w-64 h-screen border-r bg-background p-4">
       {/* App logo / name */}
-      <div className="text-xl font-semibold mb-8 px-2">Finance Tracker</div>
+      <div className="text-xl font-semibold mb-8 px-2">{t('title')}</div>
 
       {/* Navigation links */}
       <nav className="space-y-1">
