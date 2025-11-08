@@ -6,6 +6,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils"
 
 interface SelectFieldProps {
   title: string;
@@ -17,14 +18,17 @@ interface SelectFieldProps {
   classNameLabel?: string;
 }
 
+const mainClassName = cn("grid grid-cols-[3fr_5fr] gap-2");
+const labelClassName = cn("w-full flex justify-center items-center")
+
 export const SelectField = ({
   title,
   value,
   setValue,
   options,
   placeholder,
-  classNameMain,
-  classNameLabel
+  classNameMain = mainClassName,
+  classNameLabel = labelClassName,
 }: SelectFieldProps) => {
   return (
     <div className={classNameMain}>
