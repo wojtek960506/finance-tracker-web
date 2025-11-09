@@ -89,28 +89,28 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
         setValue={setAmount}
       />
       <SelectField
-        title="Currency"
+        title="currency"
         value={currency}
         setValue={setCurrency}
         options={CURRENCIES}
         placeholder="Select currency"
       />
       <SelectField
-        title="Category"
+        title="category"
         value={category}
         setValue={setCategory}
         options={CATEGORIES}
         placeholder="Select category"
       />
       <SelectField
-        title="Payment Method"
+        title="paymentMethod"
         value={paymentMethod}
         setValue={setPaymentMethod}
         options={PAYMENT_METHODS}
         placeholder="Select payment method"
       />
       <SelectField
-        title="Account"
+        title="account"
         value={account}
         setValue={setAccount}
         options={ACCOUNTS}

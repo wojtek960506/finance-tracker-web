@@ -1,4 +1,66 @@
 {
   "title": "Finance Tracker",
-  "transactions": "Transactions"
+  "transactions": "Transactions",
+
+  "paymentMethod": "Payment Method",
+  "currency": "Currency",
+  "account": "Account",
+  "category": "Category",
+
+  "paymentMethod_options": {
+    "atm": "ATM",
+    "bankTransfer": "Bank Transfer",
+    "cash": "Cash",
+    "blik": "BLIK",
+    "payment": "Payment",
+    "credit": "Credit",
+    "cashDepositMachine": "Cash Deposit Machine",
+    "card": "Card"
+  },
+
+  "currency_options": {
+    "PLN": "Polish Zloty",
+    "EUR": "Euro",
+    "CZK": "Czech Koruna",
+    "GBP": "British Pound",
+    "USD": "US Dollar",
+    "HUF": "Hungarian Forint",
+    "RON": "Romanian Leu"
+  },
+
+  "account_options": {
+    "pekao": "Pekao Bank",
+    "veloBank": "VeloBank",
+    "nestBank": "Nest Bank",
+    "aliorBank": "Alior Bank",
+    "revolut": "Revolut",
+    "mBank": "mBank",
+    "cardByCliq": "Card by Cliq",
+    "alior": "Alior",
+    "cash": "Cash"
+  },
+
+  "category_options": {
+    "food": "Food",
+    "investments": "Investments",
+    "exchange": "Exchange",
+    "myAccount": "My Account",
+    "transport": "Transport",
+    "refund": "Refund",
+    "clothing": "Clothing",
+    "cashDepositMachine": "Cash Deposit Machine",
+    "accommodation": "Accommodation",
+    "donation": "Donation",
+    "furniture": "Furniture",
+    "entertainment": "Entertainment",
+    "health": "Health",
+    "work": "Work",
+    "sport": "Sport",
+    "other": "Other",
+    "education": "Education",
+    "electronics": "Electronics",
+    "atm": "ATM",
+    "allegro": "Allegro",
+    "utilities": "Utilities"
+  }
 }

@@ -7,12 +7,13 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils"
+import { useTranslation } from "react-i18next";
 
 interface SelectFieldProps {
   title: string;
   value: string;
   setValue: (v: string) => void;
-  options: { key: string, value: string }[];
+  options: Set<string>;
   placeholder?: string; 
   classNameMain?: string;
   classNameLabel?: string;
@@ -30,18 +31,22 @@ export const SelectField = ({
   classNameMain = mainClassName,
   classNameLabel = labelClassName,
 }: SelectFieldProps) => {
+  const { t } = useTranslation("common");
+
   return (
     <div className={classNameMain}>
       <Label>
-        <span className={classNameLabel}>{title}</span>
+        <span className={classNameLabel}>{t(title)}</span>
       </Label>
       <Select value={value} onValueChange={(v) => setValue(v)}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder={placeholder}/>
         </SelectTrigger>
         <SelectContent>
-          {options.map(option => (
-            <SelectItem key={option.key} value={option.key}>{option.value}</SelectItem>
+          {[...options].map(option => (
+            <SelectItem key={option} value={option}>
+              {t(`${title}_options.${option}`)}
+            </SelectItem>
           ))}
         </SelectContent>
       </Select>

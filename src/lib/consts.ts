@@ -1,34 +1,67 @@
-export const PAYMENT_METHODS = [
-  { key:"Cash", value: "Cash" },
-  { key:"card", value: "Card" },
-  { key:"blik", value: "BLIK" },
-  { key:"transfer", value: "Transfer" },
-  { key:"atm", value: "ATM" },
-]
-
-export const ACCOUNTS = [
-  { key:"mbank", value: "mBank" },
-  { key:"velobank", value: "VeloBank" },
-  { key:"alior_bank", value: "Alior Bank" },
-  { key:"credit_argicole", value: "Credit Agricole" },
-  { key:"revolut", value: "Revolut" },
-]
-
-export const CATEGORIES = [
-  { key:"food", value: "Food" },
-  { key:"transport", value: "Transport" },
-  { key:"recreation", value: "Recreation" },
-  { key:"health", value: "Health" },
-  { key:"work", value: "Work" },
-]
-
-export const CURRENCIES = [
-  { key: "pln", value: "PLN" },
-  { key: "eur", value: "EUR" },
-  { key: "usd", value: "USD" },
-]
 
 export const TRANSACTION_TYPES = [
   { key: "expense", value: "Expense" },
   { key: "income", value: "Income" },
 ]
+
+export const PAYMENT_METHODS = new Set([
+  "atm",
+  "bankTransfer",
+  "cash",
+  "blik",
+  "payment",
+  "credit",
+  "cashDepositMachine",
+  "card",
+])
+
+export const CURRENCIES = new Set([
+  "PLN",
+  "EUR",
+  "CZK",
+  "GBP",
+  "USD",
+  "HUF",
+  "RON",
+])
+
+export const ACCOUNTS = new Set([
+  "pekao",
+  "veloBank",
+  "nestBank",
+  "aliorBank",
+  "revolut",
+  "mBank",
+  "cardByCliq",
+  "alior",
+  "cash",
+])
+
+export const CATEGORIES = new Set([
+  "food",
+  "investments",
+  "exchange",
+  "myAccount",
+  "transport",
+  "refund",
+  "clothing",
+  "cashDepositMachine",
+  "accommodation",
+  "donation",
+  "furniture",
+  "entertainment",
+  "health",
+  "work",
+  "sport",
+  "other",
+  "education",
+  "electronics",
+  "atm",
+  "allegro",
+  "utilities",
+])
+
+// export const TRANSACTION_TYPES = new Set([
+//   { key: "expense", value: "Expense" },
+//   { key: "income", value: "Income" },
+// ])

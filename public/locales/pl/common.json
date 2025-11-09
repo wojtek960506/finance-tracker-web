@@ -1,4 +1,66 @@
 {
   "title": "Śledzik Finansowy",
-  "transactions": "Transakcje"
+  "transactions": "Transakcje",
+
+  "paymentMethod": "Metoda płatności",
+  "currency": "Waluta",
+  "account": "Konto",
+  "category": "Kategoria",
+
+  "paymentMethod_options": {
+    "atm": "Bankomat",
+    "bankTransfer": "Przelew",
+    "cash": "Gotówka",
+    "blik": "BLIK",
+    "payment": "Opłata",
+    "credit": "Uznanie",
+    "cashDepositMachine": "Wpłatomat",
+    "card": "Karta"
+  },
+
+  "currency_options": {
+    "PLN": "Polski złoty",
+    "EUR": "Euro",
+    "CZK": "Korona czeska",
+    "GBP": "Funt brytyjski",
+    "USD": "Dolar amerykański",
+    "HUF": "Forint węgierski",
+    "RON": "Lej rumuński"
+  },
+
+  "account_options": {
+    "pekao": "Pekao",
+    "veloBank": "VeloBank",
+    "nestBank": "Nest Bank",
+    "aliorBank": "Alior Bank",
+    "revolut": "Revolut",
+    "mBank": "mBank",
+    "cardByCliq": "CardByCliq",
+    "alior": "Alior",
+    "cash": "Gotówka"
+  },
+
+  "category_options": {
+    "food": "Jedzenie",
+    "investments": "Inwestycje",
+    "exchange": "Wymiana",
+    "myAccount": "Moje konto",
+    "transport": "Transport",
+    "refund": "Zwrot",
+    "clothing": "Ubrania",
+    "cashDepositMachine": "Wpłatomat",
+    "accommodation": "Noclegi",
+    "donation": "Darowizna",
+    "furniture": "Meble",
+    "entertainment": "Rozrywka",
+    "health": "Zdrowie",
+    "work": "Praca",
+    "sport": "Sport",
+    "other": "Inne",
+    "education": "Edukacja",
+    "electronics": "Elektronika",
+    "atm": "Bankomat",
+    "allegro": "Allegro",
+    "utilities": "Media"
+  }
 }
