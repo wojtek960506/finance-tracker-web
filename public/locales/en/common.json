@@ -1,6 +1,13 @@
 {
   "title": "Finance Tracker",
   "transactions": "Transactions",
+  "recentTransactions": "Recent transactions",
+  "newTransaction": "New Transaction",
+
+  "date": "Date",
+  "description": "Description",
+  "amount": "Amount",
+  "transactionType": "Type",
 
   "paymentMethod": "Payment Method",
   "currency": "Currency",
@@ -62,5 +69,10 @@
     "atm": "ATM",
     "allegro": "Allegro",
     "utilities": "Utilities"
+  },
+
+  "transactionType_options": {
+    "income": "Income",
+    "expense": "Expense"
   }
 }

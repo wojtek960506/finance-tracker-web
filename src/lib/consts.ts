@@ -1,9 +1,3 @@
-
-export const TRANSACTION_TYPES = [
-  { key: "expense", value: "Expense" },
-  { key: "income", value: "Income" },
-]
-
 export const PAYMENT_METHODS = new Set([
   "atm",
   "bankTransfer",
@@ -61,7 +55,7 @@ export const CATEGORIES = new Set([
   "utilities",
 ])
 
-// export const TRANSACTION_TYPES = new Set([
-//   { key: "expense", value: "Expense" },
-//   { key: "income", value: "Income" },
-// ])
+export const TRANSACTION_TYPES = new Set([
+  "expense",
+  "income",
+])

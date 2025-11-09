@@ -74,17 +74,17 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
   return (
     <form onSubmit={handleSubmit} className="space-y-4 mt-2">  
       <DateField
-        title="Date"
+        title="date"
         value={date}
         setValue={setDate}
       />
       <TextField
-        title="Description"
+        title="description"
         value={description}
         setValue={setDescription}
       />
       <NumberField 
-        title="Amount"
+        title="amount"
         value={amount}
         setValue={setAmount}
       />
@@ -117,7 +117,7 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
         placeholder="Select account"
       />
       <RadioField 
-        title="Transaction Type"
+        title="transactionType"
         value={transactionType}
         setValue={setTransactionType as (v: string) => void}
         options={TRANSACTION_TYPES}
@@ -127,7 +127,7 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
           Cancel
         </Button>
         <Button type="submit" disabled={loading}>
-          {loading ? "Saving..." : "Create"}
+          {loading ? "Saving..." : "Save"}
         </Button>
       </DialogFooter>
     </form>

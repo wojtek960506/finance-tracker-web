@@ -12,9 +12,9 @@ import { useTranslation } from "react-i18next"
 
 // Centralized nav items config
 const navItems = [
-  { href: "/transactions", label: "Transactions", icon: Table },
-  { href: "/reports", label: "Reports", icon: LayoutDashboard },
-  { href: "/settings", label: "Settings", icon: Settings },
+  { href: "/transactions", label: "transactions", icon: Table },
+  { href: "/reports", label: "reports", icon: LayoutDashboard },
+  { href: "/settings", label: "settings", icon: Settings },
 ]
 
 // Base link class (clean + reusable)
@@ -49,7 +49,7 @@ export function Sidebar() {
               )}
             >
               <Icon className="w-4 h-4" />
-              {label}
+              {t(label)}
             </Link>
           )
         })}

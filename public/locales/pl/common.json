@@ -1,6 +1,13 @@
 {
   "title": "Śledzik Finansowy",
   "transactions": "Transakcje",
+  "recentTransactions": "Ostatnie transakcje",
+  "newTransaction": "Nowa transakcja",
+
+  "date": "Data",
+  "description": "Opis",
+  "amount": "Wartość",
+  "transactionType": "Typ",
 
   "paymentMethod": "Metoda płatności",
   "currency": "Waluta",
@@ -62,5 +69,10 @@
     "atm": "Bankomat",
     "allegro": "Allegro",
     "utilities": "Media"
+  },
+
+  "transactionType_options": {
+    "income": "Wpływ",
+    "expense": "Wydatek"
   }
 }

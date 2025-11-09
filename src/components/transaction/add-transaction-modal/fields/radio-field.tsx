@@ -1,11 +1,12 @@
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils"
+import { useTranslation } from "react-i18next";
 
 interface RadioFieldProps {
   title: string;
   value: string;
   setValue: (v: string) => void;
-  options: { key: string, value: string }[];
+  options: Set<string>;
   classNameMain?: string;
   classNameLabel?: string;
 }
@@ -21,21 +22,23 @@ export const RadioField = ({
   classNameMain = mainClassName,
   classNameLabel = labelClassName,
 }: RadioFieldProps) => {
+  const { t } = useTranslation("common");
+
   return (
     <div className={classNameMain}>
       <Label>
         <span className={classNameLabel}>{title}</span>
       </Label>
       <div className="flex flex-col gap-2">
-        {options.map(option => (
-          <Label key={option.key} className="flex gap-2 items-center">
+        {[...options].map(option => (
+          <Label key={option} className="flex gap-2 items-center">
             <input
               type="radio"
               name="type"
-              checked={value === option.key}
-              onChange={() => setValue(option.key)}
+              checked={value === option}
+              onChange={() => setValue(option)}
             />
-            <span>{option.value}</span>
+            <span>{t(`${title}_options.${option}`)}</span>
           </Label>
         ))}
       </div>
