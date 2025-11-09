@@ -2,10 +2,13 @@
 
 import { Button } from "@/components/ui/button"
 import { Menu } from "lucide-react"
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export function Topbar() {
   const { t, i18n } = useTranslation("common");
+
+  const [lang, setLang] = useState<"en" | "pl">("en")
 
   const switchLanguage = (lng: "en" | "pl") => i18n.changeLanguage(lng);
 
@@ -21,8 +24,24 @@ export function Topbar() {
 
       {/* Right side — placeholder for future features */}
       <div className="flex items-center gap-4">
-        <Button variant="secondary" onClick={() => switchLanguage("en")}>English</Button>
-        <Button variant="secondary" onClick={() => switchLanguage("pl")}>Polski</Button>        
+        <Button
+          variant={lang === "en" ? "default" : "secondary"}
+          onClick={() => {
+            switchLanguage("en")
+            setLang("en")
+          }}
+        >
+          {t('languageEnglish')}
+        </Button>
+        <Button
+          variant={lang === "pl" ? "default" : "secondary"}
+          onClick={() => {
+            switchLanguage("pl")
+            setLang("pl")
+          }}
+        >
+          {t('languagePolish')}
+        </Button>        
         <div className="text-sm text-muted-foreground">Hello, User</div>
       </div>
     </header>

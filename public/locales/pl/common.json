@@ -4,6 +4,9 @@
   "recentTransactions": "Ostatnie transakcje",
   "newTransaction": "Nowa transakcja",
 
+  "languageEnglish": "Angielski",
+  "languagePolish": "Polski",
+
   "date": "Data",
   "description": "Opis",
   "amount": "Wartość",

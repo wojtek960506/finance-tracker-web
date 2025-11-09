@@ -4,6 +4,9 @@
   "recentTransactions": "Recent transactions",
   "newTransaction": "New Transaction",
 
+  "languageEnglish": "English",
+  "languagePolish": "Polish",
+
   "date": "Date",
   "description": "Description",
   "amount": "Amount",
