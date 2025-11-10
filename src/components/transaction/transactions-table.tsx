@@ -1,7 +1,17 @@
 import { Transaction } from "@/types/transaction-types";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { 
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useTranslation } from "react-i18next";
+import { Button } from "../ui/button";
+import { MoreVertical } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 
 export const TransactionsTable = ({ transactions }: { transactions: Transaction[] }) => {
@@ -20,6 +30,7 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
           <TableHead>{t('paymentMethod')}</TableHead>
           <TableHead>{t('account')}</TableHead>
           <TableHead>{t('transactionType')}</TableHead>
+          <TableHead className="sticky right-0 bg-background">Actions</TableHead>
         </TableRow>
       </TableHeader>
 
@@ -29,6 +40,8 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
             key={txn._id}
             onClick={() => alert(`Open details for transaction with ID: ${txn._id}`)}
           >
+            
+            
             <TableCell>{new Date(txn.date).toLocaleDateString()}</TableCell>
             
             <TableCell>
@@ -50,6 +63,51 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
             <TableCell>{t(`paymentMethod_options.${txn.paymentMethod}`)}</TableCell>
             <TableCell>{t(`account_options.${txn.account}`)}</TableCell>
             <TableCell>{t(`transactionType_options.${txn.transactionType}`)}</TableCell>
+
+            <TableCell className="sticky right-0 bg-background flex justify-center">
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="hover:bg-gray-300">
+                    <MoreVertical />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-36">
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log('View');
+                    }}
+                  >
+                    View
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log('Edit');
+                    }}
+                  >
+                    Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="text-destructive"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log(`${txn._id} will be deleted`)
+                    }}
+                  >
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+
+
+                
+              
+              
+            </TableCell>
+
           </TableRow>
         ))}
       </TableBody>
