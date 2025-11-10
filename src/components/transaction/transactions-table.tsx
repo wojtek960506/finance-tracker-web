@@ -17,9 +17,14 @@ import { useState } from "react";
 
 
 export const TransactionsTable = ({ transactions }: { transactions: Transaction[] }) => {
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
 
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null);
+
+  const handleTransactionDelete = () => {
+    console.log('transaction to delete:', transactionToDelete)
+  }
   
   return (
     <Table className="text-xl">
@@ -44,9 +49,7 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
             key={txn._id}
             onClick={() => alert(`Open details for transaction with ID: ${txn._id}`)}
           >
-            
-            
-            <TableCell>{new Date(txn.date).toLocaleDateString()}</TableCell>
+            <TableCell>{new Date(txn.date).toLocaleDateString(i18n.language)}</TableCell>
             
             <TableCell>
               <TooltipProvider>
@@ -69,7 +72,6 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
             <TableCell>{t(`transactionType_options.${txn.transactionType}`)}</TableCell>
 
             <TableCell className="sticky right-0 bg-background flex justify-center">
-
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="hover:bg-gray-300 ml-5">
@@ -98,29 +100,22 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
                     onClick={(e) => {
                       e.stopPropagation();
                       setDeleteConfirmationOpen(true);
+                      setTransactionToDelete(txn);
                     }}
                   >
                     {t('delete')}
-                    
                   </DropdownMenuItem>
-
                 </DropdownMenuContent>
               </DropdownMenu>
-              
-              
-
             </TableCell>
-
           </TableRow>
         ))}
-
         <DeleteTransactionModal 
-                onDelete={() => console.log(`Transaction will be deleted`)}
-                // transaction={txn}
-                open={deleteConfirmationOpen}
-                onOpenChange={setDeleteConfirmationOpen}
-              />
-
+          onDelete={handleTransactionDelete}
+          transaction={transactionToDelete}
+          open={deleteConfirmationOpen}
+          onOpenChange={setDeleteConfirmationOpen}
+        />
       </TableBody>
     
     </Table>

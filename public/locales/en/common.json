@@ -4,6 +4,9 @@
   "recentTransactions": "Recent transactions",
   "newTransaction": "New Transaction",
 
+  "deleteTransaction": "Delete transaction",
+  "deleteTransactionQuestion": "Are you sure you want to delete transaction?",
+
   "details": "Details",
   "edit": "Edit",
   "delete": "Delete",
@@ -20,6 +23,9 @@
   "currency": "Currency",
   "account": "Account",
   "category": "Category",
+
+  "created_at": "Created",
+  "updated_at": "Edited",
 
   "paymentMethod_options": {
     "atm": "ATM",

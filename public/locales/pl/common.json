@@ -3,6 +3,9 @@
   "transactions": "Transakcje",
   "recentTransactions": "Ostatnie transakcje",
   "newTransaction": "Nowa transakcja",
+  
+  "deleteTransaction": "Usuń transakcję",
+  "deleteTransactionQuestion": "Czy na pewno chcesz usunąć transakcję?",
 
   "details": "Szczegóły",
   "edit": "Edytuj",
@@ -20,6 +23,9 @@
   "currency": "Waluta",
   "account": "Konto",
   "category": "Kategoria",
+
+  "created_at": "Utworzono",
+  "updated_at": "Edytowano",
 
   "paymentMethod_options": {
     "atm": "Bankomat",
