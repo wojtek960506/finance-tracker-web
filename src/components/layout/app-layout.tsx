@@ -14,7 +14,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       <Sidebar />
 
       {/* Main content area */}
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 overflow-hidden">
         <Topbar />
         <main className="flex-1 overflow-y-auto p-6 bg-muted/10">
           {children}

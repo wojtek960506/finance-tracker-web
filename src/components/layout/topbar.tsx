@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Menu } from "lucide-react"
+// import { Menu } from "lucide-react"
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -13,12 +13,13 @@ export function Topbar() {
   const switchLanguage = (lng: "en" | "pl") => i18n.changeLanguage(lng);
 
   return (
-    <header className="flex items-center justify-between h-14 border-b bg-background px-6">
+    <header className="flex items-center justify-between h-14 border-b bg-background px-6 gap-3">
       {/* Left side — app section title or menu */}
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" className="md:hidden">
+        {/* think about using this menu below but maybe later */}
+        {/* <Button variant="ghost" size="icon" className="md:hidden">
           <Menu className="w-5 h-5" />
-        </Button>
+        </Button> */}
         <h1 className="text-lg font-semibold tracking-tight">{t('transactions')}</h1>
       </div>
 
