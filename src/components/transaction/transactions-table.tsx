@@ -12,10 +12,14 @@ import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { MoreVertical } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DeleteTransactionModal } from "./delete-transaction-modal";
+import { useState } from "react";
 
 
 export const TransactionsTable = ({ transactions }: { transactions: Transaction[] }) => {
   const { t } = useTranslation("common");
+
+  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   
   return (
     <Table className="text-xl">
@@ -30,7 +34,7 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
           <TableHead>{t('paymentMethod')}</TableHead>
           <TableHead>{t('account')}</TableHead>
           <TableHead>{t('transactionType')}</TableHead>
-          <TableHead className="sticky right-0 bg-background">Actions</TableHead>
+          <TableHead className="sticky right-0 bg-background"></TableHead>
         </TableRow>
       </TableHeader>
 
@@ -68,7 +72,7 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="hover:bg-gray-300">
+                  <Button variant="outline" className="hover:bg-gray-300 ml-5">
                     <MoreVertical />
                   </Button>
                 </DropdownMenuTrigger>
@@ -76,10 +80,10 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
                   <DropdownMenuItem
                     onClick={(e) => {
                       e.stopPropagation();
-                      console.log('View');
+                      console.log('Details');
                     }}
                   >
-                    View
+                    {t('details')}
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={(e) => {
@@ -87,29 +91,36 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
                       console.log('Edit');
                     }}
                   >
-                    Edit
+                    {t('edit')}
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="text-destructive"
                     onClick={(e) => {
                       e.stopPropagation();
-                      console.log(`${txn._id} will be deleted`)
+                      setDeleteConfirmationOpen(true);
                     }}
                   >
-                    Delete
+                    {t('delete')}
+                    
                   </DropdownMenuItem>
+
                 </DropdownMenuContent>
               </DropdownMenu>
-
-
-
-                
               
               
+
             </TableCell>
 
           </TableRow>
         ))}
+
+        <DeleteTransactionModal 
+                onDelete={() => console.log(`Transaction will be deleted`)}
+                // transaction={txn}
+                open={deleteConfirmationOpen}
+                onOpenChange={setDeleteConfirmationOpen}
+              />
+
       </TableBody>
     
     </Table>
