@@ -16,7 +16,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       {/* Main content area */}
       <div className="flex flex-col flex-1 overflow-hidden">
         <Topbar />
-        <main className="flex-1 overflow-y-auto p-6 bg-muted/10">
+        <main className="flex-1 flex flex-col overflow-hidden p-6 bg-muted/10">
           {children}
         </main>
       </div>

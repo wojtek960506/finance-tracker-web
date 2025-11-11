@@ -29,8 +29,8 @@ export default function TransactionsPage() {
 
   return (
     <AppLayout>
-      <div className="space-y-4">
-        <Card>
+      <div className="flex flex-col h-full space-y-4">
+        <Card className="overflow-hidden">
           <CardHeader className="grid grid-cols-2 gap-0 items-center">
             <CardTitle className="text-2xl">
               {t('recentTransactions')}
@@ -39,15 +39,13 @@ export default function TransactionsPage() {
               onCreated={(created: TransactionCreateDTO) => createMutation.mutate(created)}
             />
           </CardHeader>
-          <CardContent>
-            
+          <CardContent className="flex flex-col overflow-auto">
             {isLoading && <p>Loading...</p>}
             {isError && <p className="text-red-500">{error?.message}</p>}
             {!isLoading && transactions?.length === 0 && <p>No transactions found.</p>}
             {!isLoading && (transactions ?? []).length > 0 && (
               <TransactionsTable transactions={transactions!}/>
             )}
-            
           </CardContent>
         </Card>
       </div>

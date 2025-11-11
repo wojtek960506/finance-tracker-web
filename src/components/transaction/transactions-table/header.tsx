@@ -7,7 +7,7 @@ export const TransactionsTableHeader = () => {
   const { t } = useTranslation("common");
 
   return (
-    <TableHeader>
+    <TableHeader className="sticky top-0 bg-background z-10">
       <TableRow>
         <TableHead>{t('date')}</TableHead>
         <TableHead>{t('description')}</TableHead>
