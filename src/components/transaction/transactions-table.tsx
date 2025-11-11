@@ -14,6 +14,8 @@ import { MoreVertical } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { DeleteTransactionModal } from "./delete-transaction-modal";
 import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteTransaction } from "@/api/transactions-api";
 
 
 export const TransactionsTable = ({ transactions }: { transactions: Transaction[] }) => {
@@ -22,8 +24,17 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null);
 
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => deleteTransaction(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["transactions"]})
+    }
+  })
+
   const handleTransactionDelete = () => {
-    console.log('transaction to delete:', transactionToDelete)
+    if (!transactionToDelete) return;
+    deleteMutation.mutate(transactionToDelete?._id)
   }
   
   return (

@@ -26,7 +26,9 @@ export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => 
     <Dialog open={open} onOpenChange={setOpen}>
   
       <DialogTrigger asChild>
-        <Button variant="default">{t('newTransaction')}</Button>
+        <Button variant="default" className="w-min justify-self-end text-lg">
+          {t('newTransaction')}
+        </Button>
       </DialogTrigger>
 
       <DialogContent>

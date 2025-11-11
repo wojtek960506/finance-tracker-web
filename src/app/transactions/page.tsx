@@ -7,8 +7,11 @@ import { TransactionsTable } from "@/components/transaction/transactions-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Transaction, TransactionCreateDTO } from "@/types/transaction-types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
 export default function TransactionsPage() {
+   const { t } = useTranslation("common")
+
 
   const { data: transactions, isLoading, isError, error } = useQuery<Transaction[], Error>({
     queryKey: ['transactions'],
@@ -28,13 +31,16 @@ export default function TransactionsPage() {
     <AppLayout>
       <div className="space-y-4">
         <Card>
-          <CardHeader>
-            <CardTitle>Recent Transactions</CardTitle>
-          </CardHeader>
-          <CardContent>
+          <CardHeader className="grid grid-cols-2 gap-0 items-center">
+            <CardTitle className="text-2xl">
+              {t('recentTransactions')}
+            </CardTitle>
             <AddTransactionModal
               onCreated={(created: TransactionCreateDTO) => createMutation.mutate(created)}
             />
+          </CardHeader>
+          <CardContent>
+            
             {isLoading && <p>Loading...</p>}
             {isError && <p className="text-red-500">{error?.message}</p>}
             {!isLoading && transactions?.length === 0 && <p>No transactions found.</p>}
