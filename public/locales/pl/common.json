@@ -3,7 +3,7 @@
   "transactions": "Transakcje",
   "recentTransactions": "Ostatnie transakcje",
   "newTransaction": "Nowa transakcja",
-  
+  "transactionDetails": "Szczegóły transakcji",
   "deleteTransaction": "Usuń transakcję",
   "deleteTransactionQuestion": "Czy na pewno chcesz usunąć transakcję?",
 
@@ -12,6 +12,10 @@
   "delete": "Usuń",
   
   "no": "Nie",
+  "close": "Zamknij",
+  "cancel": "Anuluj",
+  "save": "Zapisz",
+  "saving": "Zapisywanie...",
 
   "languageEnglish": "Angielski",
   "languagePolish": "Polski",
@@ -25,6 +29,11 @@
   "currency": "Waluta",
   "account": "Konto",
   "category": "Kategoria",
+
+  "paymentMethodPlaceholder": "Wybierz metodę płatności",
+  "currencyPlaceholder": "Wybierz walutę",
+  "accountPlaceholder": "Wybierz konto",
+  "categoryPlaceholder": "Wybierz kategorię",
 
   "created_at": "Utworzono",
   "updated_at": "Edytowano",

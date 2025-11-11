@@ -7,11 +7,14 @@ import { deleteTransaction } from "@/api/transactions-api";
 import { TransactionsTableHeader } from "./header";
 import { TransactionContextMenu } from "./context-menu";
 import { TransactionInfoCells } from "./info-cells";
+import { ShowTransactionModal } from "../show-transaction-modal";
 
 
 export const TransactionsTable = ({ transactions }: { transactions: Transaction[] }) => {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
   const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null);
+  const [transactionToShow, setTransactionToShow] = useState<Transaction | null>(null);
 
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
@@ -27,7 +30,8 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
   }
 
   const handleDetailsClick = (transaction: Transaction) => {
-    console.log('Details', transaction);
+    setTransactionToShow(transaction);
+    setDetailsOpen(true);
   }
 
   const handleEditClick = (transaction: Transaction) => {
@@ -46,7 +50,7 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
         {transactions.map(transaction => (
           <TableRow
             key={transaction._id}
-            onClick={() => alert(`Open details for transaction with ID: ${transaction._id}`)}
+            onClick={() => handleDetailsClick(transaction)}
           >
             <TransactionInfoCells transaction={transaction}/>
             <TableCell className="sticky right-0 bg-background flex justify-center">
@@ -63,6 +67,11 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
           transaction={transactionToDelete}
           open={deleteConfirmationOpen}
           onOpenChange={setDeleteConfirmationOpen}
+        />
+        <ShowTransactionModal
+          transaction={transactionToShow}
+          open={detailsOpen}
+          onOpenChange={setDetailsOpen}
         />
       </TableBody>
     </Table>

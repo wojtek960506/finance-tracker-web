@@ -27,7 +27,7 @@ export const RadioField = ({
   return (
     <div className={classNameMain}>
       <Label>
-        <span className={classNameLabel}>{title}</span>
+        <span className={classNameLabel}>{t(title)}</span>
       </Label>
       <div className="flex flex-col gap-2">
         {[...options].map(option => (

@@ -16,7 +16,11 @@ type TransactionContextMenuProps = {
   onDeleteClick: () => void;
 }
 
-export const TransactionContextMenu = ({ onDeleteClick }: TransactionContextMenuProps) => {
+export const TransactionContextMenu = ({
+  onDetailsClick,
+  onEditClick,
+  onDeleteClick,
+}: TransactionContextMenuProps) => {
   const { t } = useTranslation("common");
 
   return (
@@ -30,7 +34,7 @@ export const TransactionContextMenu = ({ onDeleteClick }: TransactionContextMenu
         <DropdownMenuItem
           onClick={(e) => {
             e.stopPropagation();
-            console.log('Details');
+            onDetailsClick();
           }}
         >
           {t('details')}
@@ -38,7 +42,7 @@ export const TransactionContextMenu = ({ onDeleteClick }: TransactionContextMenu
         <DropdownMenuItem
           onClick={(e) => {
             e.stopPropagation();
-            console.log('Edit');
+            onEditClick();
           }}
         >
           {t('edit')}

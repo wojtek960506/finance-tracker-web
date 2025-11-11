@@ -12,6 +12,8 @@ import {
   PAYMENT_METHODS,
   TRANSACTION_TYPES
 } from "@/lib/consts";
+import { useTranslation } from "react-i18next";
+import { sleep } from "@/lib/utils";
 
 type AddTransactionFormProps = {
   onCreated: (newTxn: TransactionCreateDTO) => void;
@@ -20,6 +22,7 @@ type AddTransactionFormProps = {
 
 export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormProps) => {
 
+  const { t } = useTranslation("common");
   const [loading, setLoading] = useState(false);
 
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
@@ -58,15 +61,15 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
     }
 
     try {
-      console.log('payload', payload)
+      await sleep(1000);
       onCreated(payload);
-      handleOpen(false);
       resetFields();
     } catch (err) {
       console.log(err)
       // show toast - TODO add some error handler (some modal or what is any other good way)
       alert((err as Error).message || "Failed");
     } finally {
+      handleOpen(false);
       setLoading(false);
     }
   }
@@ -74,17 +77,17 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
   return (
     <form onSubmit={handleSubmit} className="space-y-4 mt-2">  
       <DateField
-        title="date"
+        title={t("date")}
         value={date}
         setValue={setDate}
       />
       <TextField
-        title="description"
+        title={t("description")}
         value={description}
         setValue={setDescription}
       />
-      <NumberField 
-        title="amount"
+      <NumberField
+        title={t("amount")}
         value={amount}
         setValue={setAmount}
       />
@@ -93,28 +96,28 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
         value={currency}
         setValue={setCurrency}
         options={CURRENCIES}
-        placeholder="Select currency"
+        placeholder={t("currencyPlaceholder")}
       />
       <SelectField
         title="category"
         value={category}
         setValue={setCategory}
         options={CATEGORIES}
-        placeholder="Select category"
+        placeholder={t("categoryPlaceholder")}
       />
       <SelectField
         title="paymentMethod"
         value={paymentMethod}
         setValue={setPaymentMethod}
         options={PAYMENT_METHODS}
-        placeholder="Select payment method"
+        placeholder={t("paymentMethodPlaceholder")}
       />
       <SelectField
         title="account"
         value={account}
         setValue={setAccount}
         options={ACCOUNTS}
-        placeholder="Select account"
+        placeholder={t("accountPlaceholder")}
       />
       <RadioField 
         title="transactionType"
@@ -124,10 +127,10 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
       />
       <DialogFooter className="flex justify-end gap-2">
         <Button type="button" variant="ghost" onClick={() => handleOpen(false)}>
-          Cancel
+          {t('cancel')}
         </Button>
         <Button type="submit" disabled={loading}>
-          {loading ? "Saving..." : "Save"}
+          {loading ? t("saving") : t("save")}
         </Button>
       </DialogFooter>
     </form>

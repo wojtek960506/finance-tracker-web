@@ -3,7 +3,7 @@
   "transactions": "Transactions",
   "recentTransactions": "Recent transactions",
   "newTransaction": "New Transaction",
-
+  "transactionDetails": "Transaction details",
   "deleteTransaction": "Delete transaction",
   "deleteTransactionQuestion": "Are you sure you want to delete transaction?",
 
@@ -12,6 +12,10 @@
   "delete": "Delete",
   
   "no": "No",
+  "close": "Close",
+  "cancel": "Cancel",
+  "save": "Save",
+  "saving": "Saving...",
 
   "languageEnglish": "English",
   "languagePolish": "Polish",
@@ -25,6 +29,11 @@
   "currency": "Currency",
   "account": "Account",
   "category": "Category",
+
+  "paymentMethodPlaceholder": "Select payment method",
+  "currencyPlaceholder": "Select currency",
+  "accountPlaceholder": "Select account",
+  "categoryPlaceholder": "Select category",
 
   "created_at": "Created",
   "updated_at": "Edited",

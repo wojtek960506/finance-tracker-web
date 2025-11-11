@@ -9,7 +9,7 @@ export const TransactionDetails = ({ transaction }: { transaction: Transaction }
   const { t, i18n } = useTranslation("common")
 
   return (
-    <div className="grid grid-cols-[3fr_4fr] gap-x-5 gap-y-3 text-xl">
+    <div className="grid grid-cols-[3fr_4fr] gap-x-5 gap-y-3 text-lg">
       <CommonInfo
         label={t('date')}
         value={new Date(transaction.date).toLocaleDateString(i18n.language)}
