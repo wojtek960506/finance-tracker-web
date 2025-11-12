@@ -7,6 +7,8 @@
   "deleteTransaction": "Delete transaction",
   "deleteTransactionQuestion": "Are you sure you want to delete transaction?",
 
+  "descriptionRequired": "Description is required",
+
   "details": "Details",
   "edit": "Edit",
   "delete": "Delete",

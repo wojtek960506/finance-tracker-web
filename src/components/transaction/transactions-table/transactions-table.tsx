@@ -8,13 +8,17 @@ import { TransactionsTableHeader } from "./header";
 import { TransactionContextMenu } from "./context-menu";
 import { TransactionInfoCells } from "./info-cells";
 import { ShowTransactionModal } from "../show-transaction-modal";
+import { EditTransactionModal } from "../edit-transaction-modal";
 
 
 export const TransactionsTable = ({ transactions }: { transactions: Transaction[] }) => {
-  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
-  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);  
   const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null);
+  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [transactionToShow, setTransactionToShow] = useState<Transaction | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
+  const [transactionToEdit, setTransactionToEdit] = useState<Transaction | null>(null);
+
 
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
@@ -23,11 +27,30 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
       queryClient.invalidateQueries({ queryKey: ["transactions"]})
     }
   })
-
+  const editMutation = useMutation({
+    mutationFn: (payload: Transaction) => {
+      return Promise.resolve(console.log("Edit:", payload));
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["transactions"]})
+    }
+  })
+ 
   const handleTransactionDelete = () => {
     if (!transactionToDelete) return;
     deleteMutation.mutate(transactionToDelete?._id)
   }
+
+  const handleEditTransaction = (transaction: Transaction | null) => {
+    if (!transaction) {
+      console.log('no transaction provided to edit')
+      return;
+    }
+
+    console.log('Editing transaction', transaction)
+    editMutation.mutate(transaction!);
+  }
+  
 
   const handleDetailsClick = (transaction: Transaction) => {
     setTransactionToShow(transaction);
@@ -35,7 +58,8 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
   }
 
   const handleEditClick = (transaction: Transaction) => {
-    console.log('Edit', transaction);
+    setTransactionToEdit(transaction);
+    setEditOpen(true);
   }
 
   const handleDeleteClick = (transaction: Transaction) => {
@@ -72,6 +96,12 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
           transaction={transactionToShow}
           open={detailsOpen}
           onOpenChange={setDetailsOpen}
+        />
+        <EditTransactionModal
+          onEdit={handleEditTransaction}
+          transaction={transactionToEdit}
+          open={editOpen}
+          onOpenChange={setEditOpen}
         />
       </TableBody>
     </Table>

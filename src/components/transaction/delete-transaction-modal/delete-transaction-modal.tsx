@@ -33,7 +33,9 @@ export const DeleteTransactionModal = (
       <DialogContent className="bg-red-50">
         <DialogHeader>
           <DialogTitle className="text-destructive">{t('deleteTransaction')}</DialogTitle>
-          <DialogDescription className="text-destructive">{t('deleteTransactionQuestion')}</DialogDescription>
+          <DialogDescription className="text-destructive">
+            {t('deleteTransactionQuestion')}
+          </DialogDescription>
         </DialogHeader>
         <TransactionDetails transaction={transaction}/>
         <DialogFooter>
