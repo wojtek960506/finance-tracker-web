@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle
@@ -19,6 +20,8 @@ import { DateField } from "./fields/date-field";
 import { AmountField } from "./fields/amount-field";
 import { CurrencyField } from "./fields/currency-field";
 import { CategoryField } from "./fields/category-field";
+import { PaymentMethodField } from "./fields/payment-method-field";
+import { AccountField } from "./fields/account-field";
 
 type EdtiTransactionModalProps = {
   onEdit: (transaction: Transaction | null) => void;
@@ -78,6 +81,7 @@ export const EditTransactionModal = (
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('editTransaction')}</DialogTitle>
+          <DialogDescription>{t('editTransactionDescription')}</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -89,6 +93,8 @@ export const EditTransactionModal = (
             <AmountField />
             <CurrencyField />
             <CategoryField />
+            <PaymentMethodField />
+            <AccountField />
             <DialogFooter className="flex justify-end gap-2">
               <Button type="button" variant="ghost" onClick={() => handleOpenChange(false)}>
                 {t('cancel')}

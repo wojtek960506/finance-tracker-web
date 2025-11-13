@@ -6,6 +6,8 @@
   "transactionDetails": "Szczegóły transakcji",
   "deleteTransaction": "Usuń transakcję",
   "deleteTransactionQuestion": "Czy na pewno chcesz usunąć transakcję?",
+  "editTransaction": "Edytuj transakcję",
+  "editTransactionDescription": "Możesz edytować tylko niektóre pola",
 
   "descriptionRequired": "Opis jest wymagany",
 

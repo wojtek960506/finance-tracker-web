@@ -6,6 +6,8 @@
   "transactionDetails": "Transaction details",
   "deleteTransaction": "Delete transaction",
   "deleteTransactionQuestion": "Are you sure you want to delete transaction?",
+  "editTransaction": "Edit transaction",
+  "editTransactionDescription": "You can edit only some fields",
 
   "descriptionRequired": "Description is required",
 

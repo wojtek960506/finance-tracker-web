@@ -2,27 +2,27 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { TransactionUpdateDTO } from "@/schemas/transaction"
 import { useFormContext } from "react-hook-form"
 import { useTranslation } from "react-i18next";
-import { CATEGORIES } from "@/lib/consts";
+import { PAYMENT_METHODS } from "@/lib/consts";
 import { CommonSelect } from "@/components/common/common-select";
 
-export const CategoryField = () => {
+export const PaymentMethodField = () => {
   const { t } = useTranslation("common");
   const { control } = useFormContext<TransactionUpdateDTO>();
 
   return (
     <FormField
       control={control}
-      name="category"
+      name="paymentMethod"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{t('category')}</FormLabel>
+          <FormLabel>{t('paymentMethod')}</FormLabel>
           <FormControl>
             <CommonSelect
-              titleKey="category"
+              titleKey="paymentMethod"
               value={field.value}
               setValue={field.onChange}
-              placeholderKey="categoryPlaceholder"
-              optionsKeys={CATEGORIES}
+              placeholderKey="paymentMethodPlaceholder"
+              optionsKeys={PAYMENT_METHODS}
             />
           </FormControl>
           <FormMessage/>

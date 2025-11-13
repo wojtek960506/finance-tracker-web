@@ -1,9 +1,9 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { TransactionUpdateDTO } from "@/schemas/transaction"
 import { useFormContext } from "react-hook-form"
 import { useTranslation } from "react-i18next";
 import { CURRENCIES } from "@/lib/consts";
+import { CommonSelect } from "@/components/common/common-select";
 
 export const CurrencyField = () => {
   const { t } = useTranslation("common");
@@ -17,18 +17,13 @@ export const CurrencyField = () => {
         <FormItem>
           <FormLabel>{t('currency')}</FormLabel>
           <FormControl>
-            <Select value={field.value} onValueChange={v => field.onChange(v)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder={t('currencyPlaceholder')} />
-              </SelectTrigger>
-              <SelectContent>
-                {[...CURRENCIES].map(option => (
-                  <SelectItem key={option} value={option}>
-                    {t(`currency_options.${option}`)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <CommonSelect
+              titleKey="currency"
+              value={field.value}
+              setValue={field.onChange}
+              placeholderKey="currencyPlaceholder"
+              optionsKeys={CURRENCIES}
+            />
           </FormControl>
           <FormMessage/>
         </FormItem>
