@@ -15,6 +15,10 @@ import { Form } from "@/components/ui/form";
 import { DescriptionField } from "./fields/description-field";
 import { sleep } from "@/lib/utils";
 import { useEffect } from "react";
+import { DateField } from "./fields/date-field";
+import { AmountField } from "./fields/amount-field";
+import { CurrencyField } from "./fields/currency-field";
+import { CategoryField } from "./fields/category-field";
 
 type EdtiTransactionModalProps = {
   onEdit: (transaction: Transaction | null) => void;
@@ -24,7 +28,7 @@ type EdtiTransactionModalProps = {
 }
 
 const getDefaultTransaction = (transaction: Transaction | null) => ({
-  date: transaction?.date ? new Date(transaction?.date).toLocaleString(): "",
+  date: transaction?.date ? new Date(transaction?.date).toISOString().slice(0, 10) : "",
   description: transaction?.description,
   amount: transaction?.amount,
   currency: transaction?.currency,
@@ -38,7 +42,6 @@ export const EditTransactionModal = (
   { onEdit, transaction, open, onOpenChange }: EdtiTransactionModalProps
 ) => {
   const { t } = useTranslation("common");
-
   const form = useForm<TransactionUpdateDTO>({
     resolver: zodResolver(TransactionUpdateSchema),
     defaultValues: getDefaultTransaction(transaction)
@@ -76,13 +79,16 @@ export const EditTransactionModal = (
         <DialogHeader>
           <DialogTitle>{t('editTransaction')}</DialogTitle>
         </DialogHeader>
-
         <Form {...form}>
           <form
             className="space-y-4 max-w-md"
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <DescriptionField />
+            <DateField />
+            <AmountField />
+            <CurrencyField />
+            <CategoryField />
             <DialogFooter className="flex justify-end gap-2">
               <Button type="button" variant="ghost" onClick={() => handleOpenChange(false)}>
                 {t('cancel')}
