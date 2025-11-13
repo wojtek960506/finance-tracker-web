@@ -3,12 +3,13 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { DeleteTransactionModal } from "../delete-transaction-modal";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteTransaction } from "@/api/transactions-api";
+import { deleteTransaction, editTransaction } from "@/api/transactions-api";
 import { TransactionsTableHeader } from "./header";
 import { TransactionContextMenu } from "./context-menu";
 import { TransactionInfoCells } from "./info-cells";
 import { ShowTransactionModal } from "../show-transaction-modal";
 import { EditTransactionModal } from "../edit-transaction-modal";
+import { TransactionUpdateDTO } from "@/schemas/transaction";
 
 
 export const TransactionsTable = ({ transactions }: { transactions: Transaction[] }) => {
@@ -28,9 +29,9 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
     }
   })
   const editMutation = useMutation({
-    mutationFn: (payload: Transaction) => {
-      return Promise.resolve(console.log("Edit:", payload));
-    },
+    mutationFn: (
+      payload: { id: string, updatedTransaction: TransactionUpdateDTO}
+    ) => editTransaction(payload.id, payload.updatedTransaction),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"]})
     }
@@ -41,14 +42,17 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
     deleteMutation.mutate(transactionToDelete?._id)
   }
 
-  const handleEditTransaction = (transaction: Transaction | null) => {
-    if (!transaction) {
+  const handleEditTransaction = (id: string, updatedTransaction: TransactionUpdateDTO | null) => {
+    if (!updatedTransaction) {
       console.log('no transaction provided to edit')
       return;
     }
 
-    console.log('Editing transaction', transaction)
-    editMutation.mutate(transaction!);
+    console.log('Editing transaction', updatedTransaction)
+    editMutation.mutate({
+      id,
+      updatedTransaction: updatedTransaction!
+    });
   }
   
 

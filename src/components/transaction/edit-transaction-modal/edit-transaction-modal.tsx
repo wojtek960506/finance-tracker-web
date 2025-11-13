@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form } from "@/components/ui/form";
 import { DescriptionField } from "./fields/description-field";
 import { sleep } from "@/lib/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { DateField } from "./fields/date-field";
 import { AmountField } from "./fields/amount-field";
 import { CurrencyField } from "./fields/currency-field";
@@ -25,7 +25,7 @@ import { AccountField } from "./fields/account-field";
 import { TransactionTypeField } from "./fields/transaction-type-field";
 
 type EdtiTransactionModalProps = {
-  onEdit: (transaction: Transaction | null) => void;
+  onEdit: (id: string, updatedTransaction: TransactionUpdateDTO | null) => void;
   transaction: Transaction | null;
   open: boolean;
   onOpenChange: (value: boolean) => void;
@@ -50,6 +50,7 @@ export const EditTransactionModal = (
     resolver: zodResolver(TransactionUpdateSchema),
     defaultValues: getDefaultTransaction(transaction)
   })
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (transaction)
@@ -68,13 +69,20 @@ export const EditTransactionModal = (
   }
 
   const onSubmit = async (values: TransactionUpdateDTO) => {
-    console.log("Validated", values);
-
-    await Promise.resolve(console.log("amma"))
+    setLoading(true);
+    
     await sleep(2000);
 
-    onEdit(null)
-    handleOpenChange(false);
+    try {
+      onEdit(transaction._id, values)
+    } catch (err) {
+      console.log(err)
+      // show toast - TODO add some error handler (some modal or what is any other good way)
+      alert((err as Error).message || "Failed");
+    } finally {
+      handleOpenChange(false);
+      setLoading(false);
+    }
   }
 
   return (
@@ -89,7 +97,7 @@ export const EditTransactionModal = (
             className="max-w-md flex flex-col overflow-hidden "
             onSubmit={form.handleSubmit(onSubmit)}
           >
-            <div className="space-y-4 overflow-y-auto">
+            <div className="space-y-4 overflow-y-auto pr-1 pl-1">
               <DescriptionField />
               <DateField />
               <AmountField />
@@ -103,10 +111,9 @@ export const EditTransactionModal = (
               <Button type="button" variant="ghost" onClick={() => handleOpenChange(false)}>
                 {t('cancel')}
               </Button>
-              {/* <Button type="submit" disabled={loading}>
+              <Button type="submit" disabled={loading}>
                 {loading ? t("saving") : t("save")}
-              </Button> */}
-              <Button type="submit">{t("save")}</Button>
+              </Button>
             </DialogFooter>
           </form>
         </Form>
