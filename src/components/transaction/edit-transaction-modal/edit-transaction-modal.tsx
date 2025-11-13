@@ -22,6 +22,7 @@ import { CurrencyField } from "./fields/currency-field";
 import { CategoryField } from "./fields/category-field";
 import { PaymentMethodField } from "./fields/payment-method-field";
 import { AccountField } from "./fields/account-field";
+import { TransactionTypeField } from "./fields/transaction-type-field";
 
 type EdtiTransactionModalProps = {
   onEdit: (transaction: Transaction | null) => void;
@@ -78,24 +79,27 @@ export const EditTransactionModal = (
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent>
+      <DialogContent className="flex flex-col max-h-[90vh] overflow-hidden">
         <DialogHeader>
           <DialogTitle>{t('editTransaction')}</DialogTitle>
           <DialogDescription>{t('editTransactionDescription')}</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
-            className="space-y-4 max-w-md"
+            className="max-w-md flex flex-col overflow-hidden "
             onSubmit={form.handleSubmit(onSubmit)}
           >
-            <DescriptionField />
-            <DateField />
-            <AmountField />
-            <CurrencyField />
-            <CategoryField />
-            <PaymentMethodField />
-            <AccountField />
-            <DialogFooter className="flex justify-end gap-2">
+            <div className="space-y-4 overflow-y-auto">
+              <DescriptionField />
+              <DateField />
+              <AmountField />
+              <CurrencyField />
+              <CategoryField />
+              <PaymentMethodField />
+              <AccountField />
+              <TransactionTypeField />
+            </div>
+            <DialogFooter className="pt-4 flex justify-end gap-2">
               <Button type="button" variant="ghost" onClick={() => handleOpenChange(false)}>
                 {t('cancel')}
               </Button>
