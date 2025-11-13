@@ -9,10 +9,10 @@ import { CommonError } from "@/types/api-types";
 import { Transaction, TransactionCreateDTO } from "@/types/transaction-types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 export default function TransactionsPage() {
-   const { t } = useTranslation("common")
-
+  const { t } = useTranslation("common")
 
   const { data: transactions, isLoading, isError, error } = useQuery<Transaction[], Error>({
     queryKey: ['transactions'],
@@ -25,13 +25,11 @@ export default function TransactionsPage() {
     mutationFn: (payload: TransactionCreateDTO) => createTransaction(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"]})
+      toast.success("Transaction created!");
     },
     onError: (err: unknown) => {
-      console.log(err)
-      console.log((err as CommonError).message)
-      console.log((err as CommonError).details)
-      console.log((err as CommonError).status)
-      alert((err as { message: string}).message)
+      console.log('Creating transaction error:', err)
+      toast.error((err as CommonError).message)
     }
   })
 

@@ -10,7 +10,6 @@ export const getTransactions = async (): Promise<Transaction[]> => {
 export const createTransaction = async (payload: TransactionCreateDTO): Promise<Transaction> => {
   const { data } = await api.post('/transactions', payload)
   return data
-  
 }
 
 export const deleteTransaction = async (id: string): Promise<Transaction> => {
