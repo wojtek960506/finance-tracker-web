@@ -2,14 +2,14 @@ import { Transaction } from "@/types/transaction-types";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { DeleteTransactionModal } from "../delete-transaction-modal";
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteTransaction, editTransaction } from "@/api/transactions-api";
 import { TransactionsTableHeader } from "./header";
 import { TransactionContextMenu } from "./context-menu";
 import { TransactionInfoCells } from "./info-cells";
 import { ShowTransactionModal } from "../show-transaction-modal";
 import { EditTransactionModal } from "../edit-transaction-modal";
 import { TransactionUpdateDTO } from "@/schemas/transaction";
+import { useEditTransaction } from "@/hooks/use-edit-transaction";
+import { useDeleteTransaction } from "@/hooks/use-delete-transaction";
 
 
 export const TransactionsTable = ({ transactions }: { transactions: Transaction[] }) => {
@@ -20,22 +20,8 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
   const [editOpen, setEditOpen] = useState(false);
   const [transactionToEdit, setTransactionToEdit] = useState<Transaction | null>(null);
 
-
-  const queryClient = useQueryClient();
-  const deleteMutation = useMutation({
-    mutationFn: (id: string) => deleteTransaction(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["transactions"]})
-    }
-  })
-  const editMutation = useMutation({
-    mutationFn: (
-      payload: { id: string, updatedTransaction: TransactionUpdateDTO}
-    ) => editTransaction(payload.id, payload.updatedTransaction),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["transactions"]})
-    }
-  })
+  const { deleteMutation } = useDeleteTransaction();
+  const { editMutation } = useEditTransaction();
  
   const handleTransactionDelete = () => {
     if (!transactionToDelete) return;
@@ -43,19 +29,13 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
   }
 
   const handleEditTransaction = (id: string, updatedTransaction: TransactionUpdateDTO | null) => {
-    if (!updatedTransaction) {
-      console.log('no transaction provided to edit')
-      return;
-    }
-
-    console.log('Editing transaction', updatedTransaction)
+    if (!updatedTransaction) return;
     editMutation.mutate({
       id,
       updatedTransaction: updatedTransaction!
     });
   }
   
-
   const handleDetailsClick = (transaction: Transaction) => {
     setTransactionToShow(transaction);
     setDetailsOpen(true);

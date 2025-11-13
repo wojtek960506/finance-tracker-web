@@ -11,13 +11,13 @@ export const useCreateTransaction = () => {
     mutationFn: (payload: TransactionCreateDTO) => createTransaction(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"]})
-      toast.success("Transaction created!");
+      toast.success("Transaction created successfully!");
     },
     onError: (err: unknown) => {
-      console.log('Creating transaction error:', err)
-      toast.error((err as CommonError).message)
+      console.log('Creating transaction error:', err);
+      toast.error((err as CommonError).message);
     }
-  })
+  });
 
   return { createMutation }
 }
