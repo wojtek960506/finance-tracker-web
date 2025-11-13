@@ -1,37 +1,18 @@
 "use client"
 
-import { createTransaction, getTransactions } from "@/api/transactions-api";
 import { AppLayout } from "@/components/layout/app-layout"
 import { AddTransactionModal } from "@/components/transaction/add-transaction-modal";
 import { TransactionsTable } from "@/components/transaction/transactions-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { CommonError } from "@/types/api-types";
-import { Transaction, TransactionCreateDTO } from "@/types/transaction-types"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useCreateTransaction } from "@/hooks/use-create-transaction";
+import { useGetTransactions } from "@/hooks/use-get-transactions";
+import { TransactionCreateDTO } from "@/types/transaction-types"
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 
 export default function TransactionsPage() {
-  const { t } = useTranslation("common")
-
-  const { data: transactions, isLoading, isError, error } = useQuery<Transaction[], Error>({
-    queryKey: ['transactions'],
-    queryFn: getTransactions
-  })
-
-  const queryClient = useQueryClient();
-
-  const createMutation = useMutation({
-    mutationFn: (payload: TransactionCreateDTO) => createTransaction(payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["transactions"]})
-      toast.success("Transaction created!");
-    },
-    onError: (err: unknown) => {
-      console.log('Creating transaction error:', err)
-      toast.error((err as CommonError).message)
-    }
-  })
+  const { t } = useTranslation("common");
+  const { transactions, isLoading, isError, error } = useGetTransactions();
+  const { createMutation } = useCreateTransaction();
 
   return (
     <AppLayout>
