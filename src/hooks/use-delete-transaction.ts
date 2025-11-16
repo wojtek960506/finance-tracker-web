@@ -18,5 +18,5 @@ export const useDeleteTransaction = () => {
     }
   });
 
-  return { deleteMutation }
+  return deleteMutation;
 }

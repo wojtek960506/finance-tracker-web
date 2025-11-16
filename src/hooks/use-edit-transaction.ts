@@ -21,5 +21,5 @@ export const useEditTransaction = () => {
     }
   });
 
-  return { editMutation }
+  return editMutation;
 }

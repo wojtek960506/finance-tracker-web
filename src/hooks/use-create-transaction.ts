@@ -19,5 +19,5 @@ export const useCreateTransaction = () => {
     }
   });
 
-  return { createMutation }
+  return createMutation;
 }

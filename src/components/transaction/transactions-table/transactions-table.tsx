@@ -9,7 +9,7 @@ import { ShowTransactionModal } from "../show-transaction-modal";
 import { EditTransactionModal } from "../edit-transaction-modal";
 import { TransactionUpdateDTO } from "@/schemas/transaction";
 import { useEditTransaction } from "@/hooks/use-edit-transaction";
-import { useDeleteTransaction } from "@/hooks/use-delete-transaction";
+import { useUndoableDelete } from "@/hooks/useUndoableDelete";
 
 
 export const TransactionsTable = ({ transactions }: { transactions: Transaction[] }) => {
@@ -20,12 +20,12 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
   const [editOpen, setEditOpen] = useState(false);
   const [transactionToEdit, setTransactionToEdit] = useState<Transaction | null>(null);
 
-  const { deleteMutation } = useDeleteTransaction();
-  const { editMutation } = useEditTransaction();
+  const deleteMutation = useUndoableDelete();
+  const editMutation = useEditTransaction();
  
   const handleTransactionDelete = () => {
     if (!transactionToDelete) return;
-    deleteMutation.mutate(transactionToDelete?._id)
+    deleteMutation(transactionToDelete._id);
   }
 
   const handleEditTransaction = (id: string, updatedTransaction: TransactionUpdateDTO | null) => {

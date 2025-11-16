@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 export default function TransactionsPage() {
   const { t } = useTranslation("common");
   const { transactions, isLoading, isError, error } = useGetTransactions();
-  const { createMutation } = useCreateTransaction();
+  const createMutation = useCreateTransaction();
 
   return (
     <AppLayout>
