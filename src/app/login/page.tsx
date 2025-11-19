@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useGeneralStore } from "@/store/general-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -27,6 +28,7 @@ export default function LoginPage() {
     defaultValues: { email: "", password: "" }
   });
   const router = useRouter();
+  const setAccessToken = useGeneralStore(state => state.setAccessToken);
 
   useEffect(() => {
     form.reset({ email: "", password: "" })
@@ -36,6 +38,8 @@ export default function LoginPage() {
     console.log('onSubmit', values);
     const { accessToken } = await login(values);
     console.log('accessToken', accessToken);
+
+    setAccessToken(accessToken)
     localStorage.setItem("accessToken", accessToken);
     
     router.push('/transactions');

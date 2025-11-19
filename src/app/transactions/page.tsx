@@ -1,4 +1,3 @@
-import { refreshAccessToken } from "@/api/auth-api";
 import { AppLayout } from "@/components/layout/app-layout"
 import { TransactionsMain } from "@/components/transaction/main";
 import { cookies } from "next/headers";
@@ -13,7 +12,6 @@ export default async function TransactionsPage() {
   console.log('refreshToken', refreshToken);
 
   if (!refreshToken) redirect('/login');
-
 
   return (
     <AppLayout>

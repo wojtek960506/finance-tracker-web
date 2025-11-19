@@ -1,41 +1,26 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react";
+import { useGeneralStore } from "@/store/general-store";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 export function Topbar() {
   const { t, i18n } = useTranslation("common");
-
-  const [lang, setLang] = useState<"en" | "pl">("en");
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-
+  const { accessToken, language, setLanguage } = useGeneralStore();
 
   useEffect(() => {
-    const token = localStorage.getItem("access-token");
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setAccessToken(token);
+    i18n.changeLanguage(language);
+  }, [i18n, language])
 
-    const tmpLanguage = localStorage.getItem("language");
-    const language = ["pl", "en"].includes(tmpLanguage || "")
-      ? (tmpLanguage as "pl" | "en")
-      : "en";
-    setLang(language);
-
-  }, [setAccessToken, setLang]);
-
-
-  console.log("lang", lang);
-
-  const switchLanguage = (lng: "en" | "pl") => {
-    localStorage.setItem("language", lng);
-    setLang(lng);
-    i18n.changeLanguage(lng);
+  const switchLanguage = (lang: "en" | "pl") => {
+    localStorage.setItem("language", lang);
+    setLanguage(lang);
+    i18n.changeLanguage(lang);
   }
 
   return (
     <header className="flex items-center h-14 border-b bg-background ">
-      {/* App logo / name */}
       <div
         className="flex h-full w-64 flex-shrink-0 text-xl font-semibold px-4 items-center border-r"
       >
@@ -56,19 +41,19 @@ export function Topbar() {
         {/* Right side — placeholder for future features */}
         <div className="flex items-center gap-4">
           <Button
-            variant={lang === "en" ? "default" : "secondary"}
+            variant={language === "en" ? "default" : "secondary"}
             onClick={() => {
               switchLanguage("en")
-              setLang("en")
+              setLanguage("en")
             }}
           >
             {t('languageEnglish')}
           </Button>
           <Button
-            variant={lang === "pl" ? "default" : "secondary"}
+            variant={language === "pl" ? "default" : "secondary"}
             onClick={() => {
               switchLanguage("pl")
-              setLang("pl")
+              setLanguage("pl")
             }}
           >
             {t('languagePolish')}

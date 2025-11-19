@@ -5,29 +5,25 @@ import { Topbar } from "./topbar"
 
 import { I18nextProvider } from "react-i18next";
 import i18n from "@/i18n";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useGeneralStore } from "@/store/general-store";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
 
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  
-  console.log('accessToken', accessToken);
+  const { accessToken, setAccessToken, setLanguage } = useGeneralStore();
   
   useEffect(() => {
-    const token = localStorage.getItem("access-token");
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setAccessToken(token);
-  }, [setAccessToken]);
+    const accessToken = localStorage.getItem("accessToken");
+    const language = localStorage.getItem("language") || "en";
+    setAccessToken(accessToken);
+    setLanguage(language);
+  }, [setAccessToken, setLanguage]);
 
   return (
     <I18nextProvider i18n={i18n}>
       <div className="flex flex-col h-screen">
-        {/* Sidebar (fixed on the left) */}
         <Topbar />
-
-        {/* Main content area */}
         <div className="flex flex-row flex-1 overflow-hidden">
-          
           {accessToken && <Sidebar />}
           <main className="flex-1 flex flex-col overflow-hidden bg-muted/10">
             {children}
