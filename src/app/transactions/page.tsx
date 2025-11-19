@@ -6,17 +6,13 @@ import { redirect } from "next/navigation";
 
 
 export default async function TransactionsPage() {
-  
-  
-  
   const cookieStore = await cookies();
+  console.log('cookieStore', cookieStore);
   const refreshToken = cookieStore.get("refreshToken")
 
+  console.log('refreshToken', refreshToken);
+
   if (!refreshToken) redirect('/login');
-
-  const { accessToken } = await refreshAccessToken(refreshToken.value);
-
-  console.log('accessToken', accessToken);
 
 
   return (
