@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from "zustand/middleware";
 
 type GeneralState = {
   accessToken: string | null;
@@ -18,11 +19,23 @@ const initialGeneralState: Omit<
   language: "en", 
 }
 
-export const useGeneralStore = create<GeneralState>((set) => ({
-  ...initialGeneralState,
+export const useGeneralStore = create<GeneralState>()(
+  persist(
+    (set) => ({
+      ...initialGeneralState,
 
-  setAccessToken: (accessToken: string | null) => set({ accessToken }),
-  setLanguage: (language: string) => set({language}),
-}));
+      setAccessToken: (accessToken: string | null) => set({ accessToken }),
+      setLanguage: (language: string) => set({language}),
+    }),
+    {
+      name: "general-store",
+      partialize: (state) => ({
+        accessToken: state.accessToken,
+        language: state.language,
+      })
+    }
+  )  
+  
+);
 
 export const resetGeneralStore = () => useGeneralStore.setState(initialGeneralState);

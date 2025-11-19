@@ -14,7 +14,6 @@ export function Topbar() {
   }, [i18n, language])
 
   const switchLanguage = (lang: "en" | "pl") => {
-    localStorage.setItem("language", lang);
     setLanguage(lang);
     i18n.changeLanguage(lang);
   }

@@ -5,19 +5,11 @@ import { Topbar } from "./topbar"
 
 import { I18nextProvider } from "react-i18next";
 import i18n from "@/i18n";
-import { useEffect } from "react";
 import { useGeneralStore } from "@/store/general-store";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
 
-  const { accessToken, setAccessToken, setLanguage } = useGeneralStore();
-  
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    const language = localStorage.getItem("language") || "en";
-    setAccessToken(accessToken);
-    setLanguage(language);
-  }, [setAccessToken, setLanguage]);
+  const { accessToken } = useGeneralStore();
 
   return (
     <I18nextProvider i18n={i18n}>
