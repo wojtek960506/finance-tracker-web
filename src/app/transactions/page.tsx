@@ -1,41 +1,27 @@
-"use client"
-
+import { refreshAccessToken } from "@/api/auth-api";
 import { AppLayout } from "@/components/layout/app-layout"
-import { AddTransactionModal } from "@/components/transaction/add-transaction-modal";
-import { TransactionsTable } from "@/components/transaction/transactions-table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { useCreateTransaction } from "@/hooks/use-create-transaction";
-import { useGetTransactions } from "@/hooks/use-get-transactions";
-import { TransactionCreateDTO } from "@/types/transaction-types"
-import { useTranslation } from "react-i18next";
+import { TransactionsMain } from "@/components/transaction/main";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function TransactionsPage() {
-  const { t } = useTranslation("common");
-  const { transactions, isLoading, isError, error } = useGetTransactions();
-  const createMutation = useCreateTransaction();
+
+export default async function TransactionsPage() {
+  
+  
+  
+  const cookieStore = await cookies();
+  const refreshToken = cookieStore.get("refreshToken")
+
+  if (!refreshToken) redirect('/login');
+
+  const { accessToken } = await refreshAccessToken(refreshToken.value);
+
+  console.log('accessToken', accessToken);
+
 
   return (
     <AppLayout>
-      <div className="flex flex-col h-full space-y-4">
-        <Card className="overflow-hidden">
-          <CardHeader className="grid grid-cols-2 gap-0 items-center">
-            <CardTitle className="text-2xl">
-              {t('recentTransactions')}
-            </CardTitle>
-            <AddTransactionModal
-              onCreated={(created: TransactionCreateDTO) => createMutation.mutate(created)}
-            />
-          </CardHeader>
-          <CardContent className="flex flex-col overflow-auto">
-            {isLoading && <p>Loading...</p>}
-            {isError && <p className="text-red-500">{error?.message}</p>}
-            {!isLoading && transactions?.length === 0 && <p>No transactions found.</p>}
-            {!isLoading && (transactions ?? []).length > 0 && (
-              <TransactionsTable transactions={transactions!}/>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+      <TransactionsMain />
     </AppLayout>
   )
 }

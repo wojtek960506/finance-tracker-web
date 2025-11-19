@@ -1,4 +1,10 @@
 {
+
+  "login": "Logowanie",
+  "email": "Adres e-mail",
+  "password": "Hasło",
+  "logIn": "Zaloguj się",
+
   "title": "Śledzik Finansowy",
   "transactions": "Transakcje",
   "recentTransactions": "Ostatnie transakcje",

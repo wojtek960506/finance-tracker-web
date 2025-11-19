@@ -1,4 +1,9 @@
 {
+  "login": "Login",
+  "email": "Email address",
+  "password": "Password",
+  "logIn": "Log in",
+  
   "title": "Finance Tracker",
   "transactions": "Transactions",
   "recentTransactions": "Recent transactions",
