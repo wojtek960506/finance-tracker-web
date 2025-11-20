@@ -6,10 +6,21 @@ import { Topbar } from "./topbar"
 import { I18nextProvider } from "react-i18next";
 import i18n from "@/i18n";
 import { useGeneralStore } from "@/store/general-store";
+import { Spinner } from "@/components/ui/spinner";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
 
-  const { accessToken } = useGeneralStore();
+  const hasHydrated = useGeneralStore(s => s._hasHydrated);
+  const accessToken = useGeneralStore(s => s.accessToken);
+
+  if (!hasHydrated) {
+    return (
+      <div className="flex h-screen justify-center items-center gap-2 text-4xl">
+        <span>Loading</span>
+        <Spinner className="w-[1em] h-[1em] inline-block"/>
+      </div>
+    )
+  }
 
   return (
     <I18nextProvider i18n={i18n}>
