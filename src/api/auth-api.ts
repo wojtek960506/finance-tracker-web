@@ -1,5 +1,6 @@
 import { LoginDTO } from "@/app/login/page";
 import { api } from "./axios"
+import { User } from "@/types/user-types";
 
 export const refreshAccessToken = async (
   refreshToken: string
@@ -20,6 +21,18 @@ export const login = async (payload: LoginDTO): Promise<{accessToken: string}> =
     'auth/login',
     payload,
     { withCredentials: true }
+  );
+  return data
+}
+
+export const getMe = async (accessToken: string): Promise<User> => {
+  const { data } = await api.get(
+    `/auth/me`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
   );
   return data
 }
