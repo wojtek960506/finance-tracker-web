@@ -5,10 +5,15 @@ import { useGeneralStore } from "@/store/general-store";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { UserContextMenu } from "@/components/user/user-context-menu";
+import { logout } from "@/api/auth-api";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export function Topbar() {
   const { t, i18n } = useTranslation("common");
-  const { accessToken, language, setLanguage } = useGeneralStore();
+  const { accessToken, setAccessToken, language, setLanguage } = useGeneralStore();
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   useEffect(() => {
     i18n.changeLanguage(language);
@@ -58,7 +63,23 @@ export function Topbar() {
           >
             {t('languagePolish')}
           </Button>
-          <UserContextMenu onLogout={() => console.log('logout')} />
+          <UserContextMenu
+            onLogout={async () => {
+              console.log('logout');
+              const { success } = await logout(accessToken);
+
+              if (success) {
+                console.log('logged out');
+                setAccessToken(null);
+                queryClient.removeQueries({ queryKey: ['user']});
+                queryClient.removeQueries({ queryKey: ['transactions']});
+                router.push('/login');
+              } else {
+                console.log('not logged out');
+              }
+              
+            }}
+          />
         </div>
       </div>
     </header>

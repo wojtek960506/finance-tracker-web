@@ -39,3 +39,21 @@ export const getMe = async (accessToken: string | null): Promise<User> => {
   );
   return data
 }
+
+export const logout = async (accessToken: string | null): Promise<{ success: boolean }> => {
+  if (!accessToken)
+    throw new Error('No access token');
+
+  const { data } = await api.post(
+    '/auth/logout',
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      },
+      withCredentials: true,
+    },
+  );
+  console.log('data');
+  return data;
+}
