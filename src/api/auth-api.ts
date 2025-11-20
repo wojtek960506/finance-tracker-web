@@ -25,7 +25,10 @@ export const login = async (payload: LoginDTO): Promise<{accessToken: string}> =
   return data
 }
 
-export const getMe = async (accessToken: string): Promise<User> => {
+export const getMe = async (accessToken: string | null): Promise<User> => {
+  if (!accessToken)
+    throw new Error('No access token')
+  
   const { data } = await api.get(
     `/auth/me`,
     {

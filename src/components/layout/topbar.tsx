@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useGeneralStore } from "@/store/general-store";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { UserContextMenu } from "@/components/user/user-context-menu";
 
 export function Topbar() {
   const { t, i18n } = useTranslation("common");
@@ -56,8 +57,8 @@ export function Topbar() {
             }}
           >
             {t('languagePolish')}
-          </Button>     
-          { accessToken && <div className="text-sm text-muted-foreground">WZ</div>}
+          </Button>
+          <UserContextMenu onLogout={() => console.log('logout')} />
         </div>
       </div>
     </header>

@@ -1,5 +1,6 @@
 {
   "login": "Login",
+  "logout": "Logout",
   "email": "Email address",
   "password": "Password",
   "logIn": "Log in",
