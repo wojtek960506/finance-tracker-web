@@ -45,39 +45,15 @@ export function Topbar() {
 
         {/* Right side — placeholder for future features */}
         <div className="flex items-center gap-4">
-          <Button
-            variant={language === "en" ? "default" : "secondary"}
-            onClick={() => {
-              switchLanguage("en")
-              setLanguage("en")
-            }}
-          >
-            {t('languageEnglish')}
-          </Button>
-          <Button
-            variant={language === "pl" ? "default" : "secondary"}
-            onClick={() => {
-              switchLanguage("pl")
-              setLanguage("pl")
-            }}
-          >
-            {t('languagePolish')}
-          </Button>
           <UserContextMenu
             onLogout={async () => {
-              console.log('logout');
               const { success } = await logout(accessToken);
-
               if (success) {
-                console.log('logged out');
                 setAccessToken(null);
                 queryClient.removeQueries({ queryKey: ['user']});
                 queryClient.removeQueries({ queryKey: ['transactions']});
                 router.push('/login');
-              } else {
-                console.log('not logged out');
               }
-              
             }}
           />
         </div>
