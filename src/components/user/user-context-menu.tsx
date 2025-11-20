@@ -30,7 +30,7 @@ export const UserContextMenu = ({ onLogout }: UserContextMenuProps) => {
       <DropdownMenuTrigger asChild>
         <Button 
           variant="outline"
-          className="hover:bg-gray-300 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+          className="h-10 w-10 rounded-full hover:bg-gray-300 bg-gray-200 text-lg">
             { user ? `${user.firstName[0]}${user.lastName[0]}` : null }
         </Button>
       </DropdownMenuTrigger>
