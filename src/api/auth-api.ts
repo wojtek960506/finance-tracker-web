@@ -3,6 +3,25 @@ import { api } from "./axios"
 import { User } from "@/types/user-types";
 import { AxiosError } from "axios";
 
+const withRefresh = async <T>(
+  fn: (accessToken: string | null, ...rest: unknown[]) => Promise<T>,
+  accessToken: string | null,
+  ...rest: unknown[]
+): Promise<T> => {
+  try {
+    const data = await fn(accessToken, ...rest);
+    return data;
+  } catch (err: unknown) {
+    const error = err as AxiosError;
+    if (error.status !== 401)
+      throw err;
+    const { accessToken: newAccessToken } = await refreshAccessToken();
+    const data = await fn(newAccessToken, ...rest);
+    return data
+  }
+}
+
+
 export const refreshAccessToken = async (): Promise<{ accessToken: string }> => {
   const { data } = await api.get('/auth/refresh', { withCredentials: true });
   return data;
@@ -13,7 +32,7 @@ export const login = async (payload: LoginDTO): Promise<{accessToken: string}> =
   return data
 }
 
-export const getMe = async (accessToken: string | null): Promise<User> => {
+const getMeNoRefresh = async (accessToken: string | null): Promise<User> => {
   if (!accessToken)
     throw new Error('No access token')
   
@@ -25,55 +44,10 @@ export const getMe = async (accessToken: string | null): Promise<User> => {
       }
     }
   );
-  return data
+  return data;
 }
 
-export const logoutOld = async (accessToken: string | null): Promise<{ success: boolean }> => {
-  if (!accessToken) 
-    throw new Error('No access token');
-
-  const tmp = async (accessToken: string) => {
-    const { data } = await api.post(
-      '/auth/logout',
-      {},
-      { 
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        },
-        withCredentials: true,
-      },
-    );
-    return data;
-  }
-  
-  try {
-    const data = await tmp(accessToken);
-    return data;
-  } catch {
-    const { accessToken: newAccessToken } = await refreshAccessToken();
-    const data = await tmp(newAccessToken);
-    return data;
-  }
-}
-
-const withRefresh = async (
-  fn: (accessToken: string | null) => Promise<{ success: boolean }>,
-  accessToken: string | null
-): Promise<{ success: boolean }> => {
-  try {
-    const data = await fn(accessToken);
-    return data;
-  } catch (err: unknown) {
-    const error = err as AxiosError;
-    if (error.status !== 401)
-      throw err;
-    const { accessToken: newAccessToken } = await refreshAccessToken();
-    const data = await fn(newAccessToken);
-    return data
-  }
-}
-
-export const logoutNoRefresh = async (
+const logoutNoRefresh = async (
   accessToken: string | null
 ): Promise<{ success: boolean }> => {  
   if (!accessToken) 
@@ -94,6 +68,8 @@ export const logoutNoRefresh = async (
 
 export const logout = async (
   accessToken: string | null
-): Promise<{ success: boolean }> => withRefresh(logoutNoRefresh, accessToken)
+): Promise<{ success: boolean }> => withRefresh(logoutNoRefresh, accessToken);
   
- 
+export const getMe = async (
+  accessToken: string | null
+): Promise<User> => withRefresh(getMeNoRefresh, accessToken);

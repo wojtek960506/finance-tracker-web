@@ -9,14 +9,17 @@ import { useEffect } from "react";
 
 
 export default function TransactionsPage() {
-  const accessToken = useGeneralStore(s => s.accessToken)
+  const accessToken = useGeneralStore(s => s.accessToken);
+  const hasHydrated = useGeneralStore(s => s._hasHydrated);
   const router = useRouter();
 
   useEffect(() => {
-    if (!accessToken) {
-      router.replace("/login");
-    }
-  }, [accessToken, router]);
+    // store values has to be hydrated from localStorage because at the refresh
+    // of the page they are rendered like for the first time with default values
+    if (!hasHydrated) return;
+    
+    if (!accessToken) router.replace("/login");
+  }, [accessToken, router, hasHydrated]);
 
   if (!accessToken) {
     return (

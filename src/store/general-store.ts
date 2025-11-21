@@ -42,8 +42,8 @@ export const useGeneralStore = create<GeneralState>()(
       }),
 
       // called when hydration completes
-      onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated(true);
+      onRehydrateStorage: () => (persistedState) => {
+        persistedState?.setHasHydrated(true);
       }
     }
   )  
