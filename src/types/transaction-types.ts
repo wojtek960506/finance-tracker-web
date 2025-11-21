@@ -16,5 +16,5 @@ export type TransactionCreateDTO = {
 export type Transaction = TransactionCreateDTO & {
   createdAt: Date;
   updatedAt: Date;
-  _id: string;
+  id: string;
 }

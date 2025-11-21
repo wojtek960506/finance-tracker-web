@@ -25,7 +25,7 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
  
   const handleTransactionDelete = () => {
     if (!transactionToDelete) return;
-    deleteMutation(transactionToDelete._id);
+    deleteMutation(transactionToDelete.id);
   }
 
   const handleEditTransaction = (id: string, updatedTransaction: TransactionUpdateDTO | null) => {
@@ -57,7 +57,7 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
       <TableBody>
         {transactions.map(transaction => (
           <TableRow
-            key={transaction._id}
+            key={transaction.id}
             onClick={() => handleDetailsClick(transaction)}
           >
             <TransactionInfoCells transaction={transaction}/>

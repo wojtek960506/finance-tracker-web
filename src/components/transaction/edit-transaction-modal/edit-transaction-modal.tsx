@@ -74,7 +74,7 @@ export const EditTransactionModal = (
     await sleep(2000);
 
     try {
-      onEdit(transaction._id, values)
+      onEdit(transaction.id, values)
     } catch (err) {
       console.log(err)
       // show toast - TODO add some error handler (some modal or what is any other good way)

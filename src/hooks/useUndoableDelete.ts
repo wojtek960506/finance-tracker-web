@@ -15,7 +15,7 @@ export const useUndoableDelete = () => {
     const previousTransactions = queryClient.getQueryData<Transaction[]>(["transactions"]);
     queryClient.setQueryData<Transaction[]>(
       ["transactions"],
-      old => old?.filter(txn => txn._id !== id)
+      old => old?.filter(txn => txn.id !== id)
     );
   
     let undone = false;

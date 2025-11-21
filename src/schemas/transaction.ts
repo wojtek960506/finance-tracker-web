@@ -21,7 +21,7 @@ export const TransactionCreateSchema = z.object({
 export const TransactionUpdateSchema = TransactionCreateSchema;
 
 export const TransactionSchema = TransactionCreateSchema.extend({
-  _id: z.string(),
+  id: z.string(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
 })
