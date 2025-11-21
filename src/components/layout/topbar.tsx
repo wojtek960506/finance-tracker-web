@@ -17,13 +17,13 @@ export function Topbar() {
 
   const handleLogout = async () => {
     try {
+      setAccessToken(null);
+      queryClient.removeQueries({ queryKey: ['user']});
+      queryClient.removeQueries({ queryKey: ['transactions']});
       await logout(accessToken);
     } catch (err) {
       toast.error((err as CommonError).message);
     } finally {
-      setAccessToken(null);
-      queryClient.removeQueries({ queryKey: ['user']});
-      queryClient.removeQueries({ queryKey: ['transactions']});
       router.push('/login');
     }
   }
