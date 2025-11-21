@@ -6,6 +6,8 @@ import { UserContextMenu } from "@/components/user/user-context-menu";
 import { logout } from "@/api/auth-api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { CommonError } from "@/types/api-types";
 
 export function Topbar() {
   const { t } = useTranslation("common");
@@ -14,8 +16,11 @@ export function Topbar() {
   const router = useRouter();
 
   const handleLogout = async () => {
-    const { success } = await logout(accessToken);
-    if (success) {
+    try {
+      await logout(accessToken);
+    } catch (err) {
+      toast.error((err as CommonError).message);
+    } finally {
       setAccessToken(null);
       queryClient.removeQueries({ queryKey: ['user']});
       queryClient.removeQueries({ queryKey: ['transactions']});
