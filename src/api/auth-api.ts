@@ -2,12 +2,14 @@ import { LoginDTO } from "@/app/login/page";
 import { api } from "./axios"
 import { User } from "@/types/user-types";
 import { AxiosError } from "axios";
+import { useGeneralStore } from "@/store/general-store";
 
-const withRefresh = async <T>(
+export const withRefresh = async <T>(
   fn: (accessToken: string | null, ...rest: unknown[]) => Promise<T>,
   accessToken: string | null,
   ...rest: unknown[]
 ): Promise<T> => {
+  const setAccessToken = useGeneralStore.getState().setAccessToken;
   try {
     const data = await fn(accessToken, ...rest);
     return data;
@@ -16,14 +18,28 @@ const withRefresh = async <T>(
     if (error.status !== 401)
       throw err;
     const { accessToken: newAccessToken } = await refreshAccessToken();
+    setAccessToken(newAccessToken);
     const data = await fn(newAccessToken, ...rest);
     return data
   }
 }
 
+let refreshPromise: Promise<{ accessToken: string }> | null = null;
 
 export const refreshAccessToken = async (): Promise<{ accessToken: string }> => {
-  const { data } = await api.get('/auth/refresh', { withCredentials: true });
+  if (!refreshPromise) {
+    refreshPromise = (async () => {
+      try {
+        const { data } = await api.get('/auth/refresh', { withCredentials: true });
+        return data;
+      } catch {
+        console.log('there should be logoug here')
+      } finally {
+        refreshPromise = null;
+      }
+    })();
+  }
+  const data = await refreshPromise;
   return data;
 }
 

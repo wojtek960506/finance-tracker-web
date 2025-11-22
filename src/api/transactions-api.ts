@@ -1,11 +1,21 @@
 import { Transaction, TransactionCreateDTO } from "@/types/transaction-types";
 import { api } from "./axios";
 import { TransactionUpdateDTO } from "@/schemas/transaction";
+import { withRefresh } from "./auth-api";
 
-export const getTransactions = async (): Promise<Transaction[]> => {
-  const { data } = await api.get('/transactions');
+const getTransactionsNoRefresh = async (
+  accessToken: string | null
+): Promise<Transaction[]> => {
+  const { data } = await api.get(
+    '/transactions',
+    { headers: { Authorization: `Bearer ${accessToken}`} }
+  );
   return data
 }
+
+export const getTransactions = async (
+  accessToken: string | null
+): Promise<Transaction[]> => withRefresh(getTransactionsNoRefresh, accessToken);
 
 export const createTransaction = async (payload: TransactionCreateDTO): Promise<Transaction> => {
   const { data } = await api.post('/transactions', payload)
