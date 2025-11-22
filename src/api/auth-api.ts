@@ -6,6 +6,7 @@ import { useGeneralStore } from "@/store/general-store";
 
 export const withRefresh = async <T>(
   fn: (accessToken: string | null, ...rest: unknown[]) => Promise<T>,
+  isLogout: boolean,
   accessToken: string | null,
   ...rest: unknown[]
 ): Promise<T> => {
@@ -18,7 +19,7 @@ export const withRefresh = async <T>(
     if (error.status !== 401)
       throw err;
     const { accessToken: newAccessToken } = await refreshAccessToken();
-    setAccessToken(newAccessToken);
+    if (!isLogout) setAccessToken(newAccessToken);
     const data = await fn(newAccessToken, ...rest);
     return data
   }
@@ -45,7 +46,7 @@ export const refreshAccessToken = async (): Promise<{ accessToken: string }> => 
 
 export const login = async (payload: LoginDTO): Promise<{accessToken: string}> => {
   const { data } = await api.post('auth/login', payload, { withCredentials: true });
-  return data
+  return data;
 }
 
 const getMeNoRefresh = async (accessToken: string | null): Promise<User> => {
@@ -84,8 +85,8 @@ const logoutNoRefresh = async (
 
 export const logout = async (
   accessToken: string | null
-): Promise<{ success: boolean }> => withRefresh(logoutNoRefresh, accessToken);
+): Promise<{ success: boolean }> => withRefresh(logoutNoRefresh, true, accessToken);
   
 export const getMe = async (
   accessToken: string | null
-): Promise<User> => withRefresh(getMeNoRefresh, accessToken);
+): Promise<User> => withRefresh(getMeNoRefresh, false, accessToken);

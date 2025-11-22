@@ -15,7 +15,7 @@ const getTransactionsNoRefresh = async (
 
 export const getTransactions = async (
   accessToken: string | null
-): Promise<Transaction[]> => withRefresh(getTransactionsNoRefresh, accessToken);
+): Promise<Transaction[]> => withRefresh(getTransactionsNoRefresh, false, accessToken);
 
 export const createTransaction = async (payload: TransactionCreateDTO): Promise<Transaction> => {
   const { data } = await api.post('/transactions', payload)

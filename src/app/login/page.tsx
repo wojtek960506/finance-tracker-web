@@ -36,7 +36,7 @@ export default function LoginPage() {
 
   const onSubmit = async (values: LoginDTO) => {
     const { accessToken } = await login(values);
-    setAccessToken(accessToken)
+    setAccessToken(accessToken);
     router.push('/transactions');
   }
   
