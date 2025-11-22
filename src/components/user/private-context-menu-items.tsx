@@ -12,23 +12,6 @@ import { useLogout } from "@/hooks/use-logout";
 
 export const PrivateContextMenuItems = () => {
   const { t } = useTranslation("common");
-  // const { setAccessToken } = useGeneralStore();
-  // const queryClient = useQueryClient();
-  // const router = useRouter();
-  
-  // const handleLogout = async () => {
-  //   try {
-  //     router.push('/login');
-  //     queryClient.removeQueries({ queryKey: ['user']});
-  //     queryClient.removeQueries({ queryKey: ['transactions']});
-  //     await logout();
-  //   } catch (err) {
-  //     toast.error((err as CommonError).message);
-  //   } finally {
-  //     setAccessToken(null);
-  //   }
-  // }
-
   const handleLogout = useLogout();
 
   return (

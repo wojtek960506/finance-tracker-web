@@ -4,8 +4,10 @@ import { User } from "@/types/user-types";
 import { AxiosError } from "axios";
 import { useGeneralStore } from "@/store/general-store";
 import { toast } from "sonner";
+import { CommonError } from "@/types/api-types";
 
 let refreshPromise: Promise<{ accessToken: string }> | null = null;
+let isInsideLogout: boolean = false;
 
 const refreshAccessToken = async (): Promise<{ accessToken: string }> => {
   if (!refreshPromise) {
@@ -14,10 +16,12 @@ const refreshAccessToken = async (): Promise<{ accessToken: string }> => {
         const { data } = await api.get('/auth/refresh', { withCredentials: true });
         return data;
       } catch {
-        console.log('there should be logoug here')
-        window.dispatchEvent(new CustomEvent("app:logout"))
-      } finally {
-        refreshPromise = null;
+        if (!isInsideLogout)
+          window.dispatchEvent(new CustomEvent("app:logout"));
+        else 
+          isInsideLogout = false;
+      }  finally {
+          refreshPromise = null;
       }
     })();
   }
@@ -37,15 +41,17 @@ export const withRefresh = async <T>(
     const error = err as AxiosError;
     if (error.status !== 401)
       throw err;
+    let newAccessToken: string | null = null;
     try {
-      const { accessToken: newAccessToken } = await refreshAccessToken();
-      setAccessToken(newAccessToken);
-      const data = await fn(...rest);
-      return data
+      const { accessToken } = await refreshAccessToken();
+      newAccessToken = accessToken;
     } catch {
       toast.error("Error during refreshing access - user logged out")
-      window.dispatchEvent(new CustomEvent("app:logout"))
+      return;
     }
+    setAccessToken(newAccessToken);
+    const data = await fn(...rest);
+    return data;
   }
 }
 
@@ -67,3 +73,17 @@ const logoutNoRefresh = async (): Promise<{ success: boolean }> => {
 export const logout = async (): Promise<{ success: boolean } | undefined> => withRefresh(logoutNoRefresh);
   
 export const getMe = async (): Promise<User | undefined> => withRefresh(getMeNoRefresh);
+
+
+export const logoutCore = async (): Promise<undefined> => {
+  try {
+    isInsideLogout = true;
+    await logout();
+  } catch (err: unknown) {
+      toast.error((err as CommonError).message);
+  } finally {
+    isInsideLogout = false;
+    const setAccessToken = useGeneralStore.getState().setAccessToken;
+    setAccessToken(null);
+  }
+}

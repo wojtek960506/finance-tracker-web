@@ -1,31 +1,17 @@
 "use client"
 
 import { useEffect } from "react";
-import { useGeneralStore } from "@/store/general-store";
-import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useLogout } from "@/hooks/use-logout";
 
 export function LogoutListener() {
-  // const handleLogout = useLogout();
-  const { setAccessToken } = useGeneralStore();
-  const queryClient = useQueryClient();
-  const router = useRouter();
+  const handleLogout = useLogout();
 
   useEffect(() => {    
-
-    const handleLogout = () => {
-      router.push('/login');
-      setAccessToken(null);
-      queryClient.removeQueries({ queryKey: ['user']});
-      queryClient.removeQueries({ queryKey: ['transactions']});
-    }
-
     window.addEventListener("app:logout", handleLogout);
-
     return () => {
       window.removeEventListener("app:logout", handleLogout);
     }
-  }, [queryClient, router, setAccessToken]);
+  }, [handleLogout]);
 
   return null;
 }
