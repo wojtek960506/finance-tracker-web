@@ -5,22 +5,20 @@ import { AxiosError } from "axios";
 import { useGeneralStore } from "@/store/general-store";
 
 export const withRefresh = async <T>(
-  fn: (accessToken: string | null, ...rest: unknown[]) => Promise<T>,
-  isLogout: boolean,
-  accessToken: string | null,
+  fn: (...rest: unknown[]) => Promise<T>,
   ...rest: unknown[]
 ): Promise<T> => {
   const setAccessToken = useGeneralStore.getState().setAccessToken;
   try {
-    const data = await fn(accessToken, ...rest);
+    const data = await fn(...rest);
     return data;
   } catch (err: unknown) {
     const error = err as AxiosError;
     if (error.status !== 401)
       throw err;
     const { accessToken: newAccessToken } = await refreshAccessToken();
-    if (!isLogout) setAccessToken(newAccessToken);
-    const data = await fn(newAccessToken, ...rest);
+    setAccessToken(newAccessToken);
+    const data = await fn(...rest);
     return data
   }
 }
@@ -49,44 +47,16 @@ export const login = async (payload: LoginDTO): Promise<{accessToken: string}> =
   return data;
 }
 
-const getMeNoRefresh = async (accessToken: string | null): Promise<User> => {
-  if (!accessToken)
-    throw new Error('No access token')
-  
-  const { data } = await api.get(
-    `/auth/me`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    }
-  );
+const getMeNoRefresh = async (): Promise<User> => {
+  const { data } = await api.get(`/auth/me`);
   return data;
 }
 
-const logoutNoRefresh = async (
-  accessToken: string | null
-): Promise<{ success: boolean }> => {  
-  if (!accessToken) 
-    throw new Error('No access token');
-
-  const { data } = await api.post(
-    '/auth/logout',
-    {},
-    { 
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      },
-      withCredentials: true,
-    },
-  );
+const logoutNoRefresh = async (): Promise<{ success: boolean }> => {
+  const { data } = await api.post('/auth/logout', {}, { withCredentials: true });
   return data;
 }
 
-export const logout = async (
-  accessToken: string | null
-): Promise<{ success: boolean }> => withRefresh(logoutNoRefresh, true, accessToken);
+export const logout = async (): Promise<{ success: boolean }> => withRefresh(logoutNoRefresh);
   
-export const getMe = async (
-  accessToken: string | null
-): Promise<User> => withRefresh(getMeNoRefresh, false, accessToken);
+export const getMe = async (): Promise<User> => withRefresh(getMeNoRefresh);

@@ -1,3 +1,4 @@
+import { useGeneralStore } from "@/store/general-store";
 import { CommonError } from "@/types/api-types";
 import axios from "axios"
 
@@ -32,3 +33,12 @@ api.interceptors.response.use(
     return Promise.reject(commonError); 
   }
 );
+
+// attach accessToken to every request if exists
+api.interceptors.request.use(config => {
+  const accessToken = useGeneralStore.getState().accessToken;
+  if (accessToken) {
+    config.headers["Authorization"] = `Bearer ${accessToken}`
+  }
+  return config;
+})

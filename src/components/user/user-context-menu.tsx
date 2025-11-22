@@ -1,19 +1,19 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { useGetUser } from "@/hooks/use-get-user";
+
 import { useEffect } from "react";
 import { useGeneralStore } from "@/store/general-store";
+import { usePathname } from "next/navigation";
+import { UserInitials } from "./user-initials";
+import { PrivateContextMenuItems } from "./private-context-menu-items";
 
-type UserContextMenuProps = {
-  onLogout: () => void;
-}
 
-export const UserContextMenu = ({ onLogout }: UserContextMenuProps) => {
+export const UserContextMenu = () => {
   const { t, i18n } = useTranslation("common");
-  const { language, setLanguage } = useGeneralStore();
-  const { user } = useGetUser();
-
+  const { language, setLanguage, accessToken } = useGeneralStore();
+  const pathname = usePathname();
+   
   useEffect(() => {
     i18n.changeLanguage(language);
   }, [i18n, language])
@@ -24,14 +24,16 @@ export const UserContextMenu = ({ onLogout }: UserContextMenuProps) => {
   }
 
   const chosenCn = "bg-blue-300 data-[highlighted]:bg-blue-400 data-[highlighted]:text-white"
+  const showPrivateData = accessToken && pathname !== '/login'
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button 
           variant="outline"
-          className="h-10 w-10 rounded-full hover:bg-gray-300 bg-gray-200 text-lg">
-            { user ? `${user.firstName[0]}${user.lastName[0]}` : null }
+          className="h-10 w-10 rounded-full hover:bg-gray-300 bg-gray-200 text-lg"
+        >
+          {showPrivateData ? <UserInitials /> : null}  
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="bottom" align="end">
@@ -58,19 +60,7 @@ export const UserContextMenu = ({ onLogout }: UserContextMenuProps) => {
             </DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuSub>
-
-
-        { user && (
-          <DropdownMenuItem
-          className="justify-end"
-            onClick={(e) => {
-              e.stopPropagation();
-              onLogout();
-            }}
-          >
-            {t('logout')}
-          </DropdownMenuItem>
-        )}
+        { showPrivateData && <PrivateContextMenuItems />}
       </DropdownMenuContent>
     </DropdownMenu>
   )

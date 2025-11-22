@@ -3,32 +3,12 @@
 import { useGeneralStore } from "@/store/general-store";
 import { useTranslation } from "react-i18next";
 import { UserContextMenu } from "@/components/user/user-context-menu";
-import { logout } from "@/api/auth-api";
-import { useQueryClient } from "@tanstack/react-query";
-import { usePathname, useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { CommonError } from "@/types/api-types";
+import { usePathname } from "next/navigation";
 
 export function Topbar() {
   const { t } = useTranslation("common");
-  const { accessToken, setAccessToken } = useGeneralStore();
-  const queryClient = useQueryClient();
-  const router = useRouter();
+  const { accessToken } = useGeneralStore();
   const pathname = usePathname();
-
-  const handleLogout = async () => {
-    try {
-      setAccessToken(null);
-      queryClient.removeQueries({ queryKey: ['user']});
-      queryClient.removeQueries({ queryKey: ['transactions']});
-      await logout(accessToken);
-    } catch (err) {
-      toast.error((err as CommonError).message);
-    } finally {
-      setAccessToken(null);
-      router.push('/login');
-    }
-  }
   const showPageName = accessToken && pathname !== '/login'
 
   return (
@@ -47,7 +27,7 @@ export function Topbar() {
         </div>
         {/* Right side — placeholder for future features */}
         <div className="flex items-center gap-4">
-          <UserContextMenu onLogout={handleLogout}/>
+          <UserContextMenu />
         </div>
       </div>
     </header>

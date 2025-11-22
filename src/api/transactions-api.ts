@@ -3,19 +3,14 @@ import { api } from "./axios";
 import { TransactionUpdateDTO } from "@/schemas/transaction";
 import { withRefresh } from "./auth-api";
 
-const getTransactionsNoRefresh = async (
-  accessToken: string | null
-): Promise<Transaction[]> => {
-  const { data } = await api.get(
-    '/transactions',
-    { headers: { Authorization: `Bearer ${accessToken}`} }
-  );
+const getTransactionsNoRefresh = async (): Promise<Transaction[]> => {
+  const { data } = await api.get('/transactions');
   return data
 }
 
-export const getTransactions = async (
-  accessToken: string | null
-): Promise<Transaction[]> => withRefresh(getTransactionsNoRefresh, false, accessToken);
+export const getTransactions = async (): Promise<Transaction[]> => {
+  return withRefresh(getTransactionsNoRefresh, false);
+}
 
 export const createTransaction = async (payload: TransactionCreateDTO): Promise<Transaction> => {
   const { data } = await api.post('/transactions', payload)
