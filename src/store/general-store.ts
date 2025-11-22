@@ -5,22 +5,26 @@ type GeneralState = {
   accessToken: string | null;
   language: string;
   _hasHydrated: boolean;
+  isLoggingOut: boolean;
 
   // actions
   setAccessToken: (accessToken: string | null) => void;
   setLanguage: (language: string) => void;
   setHasHydrated: (v: boolean) => void;
+  setIsLoggingOut: (isLoggingOut: boolean) => void;
 }
 
 const initialGeneralState: Omit<
   GeneralState,
   "setAccessToken" |
   "setLanguage" |
-  "setHasHydrated"
+  "setHasHydrated" |
+  "setIsLoggingOut"
 > = {
   accessToken: null,
   language: "en",
   _hasHydrated: false,
+  isLoggingOut: false,
 }
 
 export const useGeneralStore = create<GeneralState>()(
@@ -30,9 +34,9 @@ export const useGeneralStore = create<GeneralState>()(
 
       setAccessToken: (accessToken: string | null) => set({ accessToken }),
       setLanguage: (language: string) => set({language}),
-
       // hydration tracking
       setHasHydrated: (v: boolean) => set({ _hasHydrated: v}),
+      setIsLoggingOut: (isLoggingOut: boolean) => set({ isLoggingOut }),
     }),
     {
       name: "general-store",

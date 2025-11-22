@@ -28,7 +28,7 @@ export default function LoginPage() {
     defaultValues: { email: "", password: "" }
   });
   const router = useRouter();
-  const { accessToken, setAccessToken, _hasHydrated } = useGeneralStore();
+  const { accessToken, setAccessToken, isLoggingOut, _hasHydrated } = useGeneralStore();
 
   useEffect(() => {
     // store values has to be hydrated from localStorage because at the refresh
@@ -36,8 +36,8 @@ export default function LoginPage() {
     if (!_hasHydrated) return;
     
     // TODO - add value to store to check whether logging out is taking place
-    if (accessToken) router.replace("/transactions");
-  }, [accessToken, router, _hasHydrated]);
+    if (accessToken && !isLoggingOut) router.replace("/transactions");
+  }, [accessToken, router, _hasHydrated, isLoggingOut]);
 
   useEffect(() => {
     form.reset({ email: "", password: "" })

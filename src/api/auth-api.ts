@@ -83,7 +83,8 @@ export const logoutCore = async (): Promise<undefined> => {
       toast.error((err as CommonError).message);
   } finally {
     isInsideLogout = false;
-    const setAccessToken = useGeneralStore.getState().setAccessToken;
-    setAccessToken(null);
+    const generalStore = useGeneralStore.getState();
+    generalStore.setAccessToken(null);
+    generalStore.setIsLoggingOut(false);
   }
 }
