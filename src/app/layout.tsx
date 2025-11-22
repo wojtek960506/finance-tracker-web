@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ReactQueryProvider } from "@/providers/react-query-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { LogoutListener } from "@/components/listeners/logout-listener";
 
 
 const geistSans = Geist({
@@ -37,6 +38,7 @@ export default function RootLayout({
               duration: 5000
             }}  
           />
+          <LogoutListener />
         </ReactQueryProvider>
       </body>
     </html>

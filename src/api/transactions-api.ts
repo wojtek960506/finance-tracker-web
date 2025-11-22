@@ -8,7 +8,7 @@ const getTransactionsNoRefresh = async (): Promise<Transaction[]> => {
   return data
 }
 
-export const getTransactions = async (): Promise<Transaction[]> => {
+export const getTransactions = async (): Promise<Transaction[] | undefined> => {
   return withRefresh(getTransactionsNoRefresh, false);
 }
 

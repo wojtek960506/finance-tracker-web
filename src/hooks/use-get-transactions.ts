@@ -3,7 +3,7 @@ import { Transaction } from "@/types/transaction-types"
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetTransactions = () => {
-  const { data, isLoading, isError, error } = useQuery<Transaction[], Error>({
+  const { data, isLoading, isError, error } = useQuery<Transaction[] | undefined, Error>({
     queryKey: ['transactions'],
     queryFn: getTransactions
   })
