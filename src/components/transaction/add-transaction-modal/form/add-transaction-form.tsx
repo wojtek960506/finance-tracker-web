@@ -4,19 +4,23 @@ import { TransactionCreateAPI } from "@/types/transaction-types";
 import { useEffect, useState } from "react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { 
-  TRANSACTION_TYPES
-} from "@/lib/consts";
 import { useTranslation } from "react-i18next";
 import { TransactionCreateDTO } from "@/schemas/transaction";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TransactionCreateSchema } from "@/schemas/transaction";
 import { Form } from "@/components/ui/form";
-import { CommonFormField } from "@/components/common/common-form-field";
-import { AccountField, AmountField, CategoryField, CurrencyField, DateField, DescriptionField, PaymentMethodField } from "./fields";
+import {
+  AccountField,
+  AmountField,
+  CategoryField,
+  CurrencyField,
+  DateField,
+  DescriptionField,
+  PaymentMethodField,
+  TransactionTypeField,
+} from "./fields";
 import { toast } from "sonner";
-import { CommonRadio } from "@/components/common/common-radio";
 
 type AddTransactionFormProps = {
   onCreated: (newTxn: TransactionCreateAPI) => Promise<void>;
@@ -32,7 +36,7 @@ const defaultValues = {
   paymentMethod: "",
   account: "",
   transactionType: "expense" as "expense" | "income",
-  }
+}
 
 export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormProps) => {
 
@@ -79,22 +83,7 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
         <CategoryField />
         <PaymentMethodField />
         <AccountField />
-        
-
-        
-
-        <CommonFormField name="transactionType" label={t("transactionType")}>
-          {(field) => (
-            <CommonRadio
-              titleKey="transactionType"
-              name="type"
-              value={field.value}
-              setValue={field.onChange}
-              optionsKeys={[...TRANSACTION_TYPES]}
-            />
-          )}
-        </CommonFormField>
-
+        <TransactionTypeField />
         <DialogFooter className="col-start-2 flex justify-end gap-2">
           <Button type="button" variant="ghost" onClick={() => handleOpen(false)}>
             {t('cancel')}
