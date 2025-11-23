@@ -1,6 +1,5 @@
 import { createTransaction } from "@/api/transactions-api";
 import { TransactionCreateDTO } from "@/schemas/transaction";
-import { CommonError } from "@/types/api-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -13,10 +12,6 @@ export const useCreateTransaction = () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"]})
       toast.success("Transaction created successfully!");
     },
-    onError: (err: unknown) => {
-      console.log('Creating transaction error:', err);
-      toast.error((err as CommonError).message);
-    }
   });
 
   return createMutation;

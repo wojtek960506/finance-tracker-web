@@ -18,6 +18,7 @@ import {
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { CommonError } from "@/types/api-types";
 
 
 const getDefaultTransaction = (transaction: TransactionAPI | null) => ({
@@ -62,8 +63,9 @@ export const EditTransactionForm = ({
     
     try {
       await onEdit(transaction.id, values);
-    } catch (err) {
-      toast.error((err as Error).message || "Updating transaction failed");
+    } catch (err: unknown) {  
+      console.log('Updating transaction error:', err);
+      toast.error((err as CommonError).message || "Updating transaction failed");
     } finally {
       onOpenChange(false);
       setLoading(false);

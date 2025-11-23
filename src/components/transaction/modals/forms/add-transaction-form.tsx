@@ -20,6 +20,7 @@ import {
   TransactionTypeField,
 } from "./fields";
 import { toast } from "sonner";
+import { CommonError } from "@/types/api-types";
 
 type AddTransactionFormProps = {
   onOpenChange: (value: boolean) => void;
@@ -54,8 +55,9 @@ export const AddTransactionForm = ({ onCreated, onOpenChange }: AddTransactionFo
     setLoading(true);
     try {
       await onCreated(values);
-    } catch (err) {
-      toast.error((err as Error).message || "Creating transaction failed");
+    } catch (err: unknown) {
+      console.log('Creating transaction error:', err);
+      toast.error((err as CommonError).message || "Creating transaction failed");
     } finally {
       onOpenChange(false);
       setLoading(false);
