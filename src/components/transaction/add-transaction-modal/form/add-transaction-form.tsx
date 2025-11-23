@@ -1,6 +1,6 @@
 "use client"
 
-import { TransactionCreateDTO } from "@/types/transaction-types";
+import { TransactionCreateAPI } from "@/types/transaction-types";
 import React, { useState } from "react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -14,14 +14,34 @@ import {
 } from "@/lib/consts";
 import { useTranslation } from "react-i18next";
 import { sleep } from "@/lib/utils";
+// import { useForm } from "react-hook-form";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { TransactionCreateSchema } from "@/schemas/transaction";
 
 type AddTransactionFormProps = {
-  onCreated: (newTxn: TransactionCreateDTO) => void;
+  onCreated: (newTxn: TransactionCreateAPI) => void;
   handleOpen: (value: boolean) => void;
 };
 
 export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormProps) => {
 
+  // const defaultValues = {
+  //   date: new Date().toISOString().slice(0, 10),
+  //   description: "",
+  //   amount: "",
+  //   currency: "",
+  //   category: "",
+  //   paymentMethod: "",
+  //   account: "",
+  //   transactionType: "expense",
+  // }
+
+ 
+  // const form = useForm<TransactionCreateAPI>({
+  //   resolver: zodResolver(TransactionCreateSchema),
+  //   defaultValues
+  // })
+  
   const { t } = useTranslation("common");
   const [loading, setLoading] = useState(false);
 
@@ -49,7 +69,7 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
     e.preventDefault();
     setLoading(true);
 
-    const payload: TransactionCreateDTO = {
+    const payload: TransactionCreateAPI = {
       date: new Date(date),
       description,
       amount: Number(amount),

@@ -1,4 +1,4 @@
-export type TransactionCreateDTO = {
+export type TransactionCreateAPI = {
   date: Date;
   description: string;
   amount: number;
@@ -13,7 +13,7 @@ export type TransactionCreateDTO = {
   calcRefIdx?: number;
 }
 
-export type Transaction = TransactionCreateDTO & {
+export type TransactionAPI = TransactionCreateAPI & {
   createdAt: Date;
   updatedAt: Date;
   id: string;

@@ -1,6 +1,6 @@
 import { createTransaction } from "@/api/transactions-api";
 import { CommonError } from "@/types/api-types";
-import { TransactionCreateDTO } from "@/types/transaction-types";
+import { TransactionCreateAPI } from "@/types/transaction-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -8,7 +8,7 @@ export const useCreateTransaction = () => {
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({
-    mutationFn: (payload: TransactionCreateDTO) => createTransaction(payload),
+    mutationFn: (payload: TransactionCreateAPI) => createTransaction(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"]})
       toast.success("Transaction created successfully!");

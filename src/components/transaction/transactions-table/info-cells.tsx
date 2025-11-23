@@ -2,10 +2,10 @@
 
 import { CommonTooltip } from "@/components/common/CommonTooltip";
 import { TableCell } from "@/components/ui/table";
-import { Transaction } from "@/types/transaction-types";
+import { TransactionAPI } from "@/types/transaction-types";
 import { useTranslation } from "react-i18next";
 
-export const TransactionInfoCells = ({ transaction }: { transaction: Transaction}) => {
+export const TransactionInfoCells = ({ transaction }: { transaction: TransactionAPI}) => {
   const { t, i18n } = useTranslation("common");
   
   return (

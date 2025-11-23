@@ -8,7 +8,7 @@ import {
   DialogTitle
 } from "@/components/ui/dialog";
 import { TransactionUpdateDTO, TransactionUpdateSchema } from "@/schemas/transaction";
-import { Transaction } from "@/types/transaction-types";
+import { TransactionAPI } from "@/types/transaction-types";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -26,12 +26,12 @@ import { TransactionTypeField } from "./fields/transaction-type-field";
 
 type EdtiTransactionModalProps = {
   onEdit: (id: string, updatedTransaction: TransactionUpdateDTO | null) => void;
-  transaction: Transaction | null;
+  transaction: TransactionAPI | null;
   open: boolean;
   onOpenChange: (value: boolean) => void;
 }
 
-const getDefaultTransaction = (transaction: Transaction | null) => ({
+const getDefaultTransaction = (transaction: TransactionAPI | null) => ({
   date: transaction?.date ? new Date(transaction?.date).toISOString().slice(0, 10) : "",
   description: transaction?.description,
   amount: transaction?.amount,

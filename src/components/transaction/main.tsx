@@ -5,7 +5,7 @@ import { TransactionsTable } from "@/components/transaction/transactions-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useCreateTransaction } from "@/hooks/use-create-transaction";
 import { useGetTransactions } from "@/hooks/use-get-transactions";
-import { TransactionCreateDTO } from "@/types/transaction-types"
+import { TransactionCreateAPI } from "@/types/transaction-types"
 import { useTranslation } from "react-i18next";
 
 export const TransactionsMain = () => {
@@ -21,7 +21,7 @@ export const TransactionsMain = () => {
             {t('recentTransactions')}
           </CardTitle>
           <AddTransactionModal
-            onCreated={(created: TransactionCreateDTO) => createMutation.mutate(created)}
+            onCreated={(created: TransactionCreateAPI) => createMutation.mutate(created)}
           />
         </CardHeader>
         <CardContent className="flex flex-col overflow-auto">

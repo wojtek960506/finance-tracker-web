@@ -1,9 +1,9 @@
 import { getTransactions } from "@/api/transactions-api"
-import { Transaction } from "@/types/transaction-types"
+import { TransactionAPI } from "@/types/transaction-types"
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetTransactions = () => {
-  const { data, isLoading, isError, error } = useQuery<Transaction[] | undefined, Error>({
+  const { data, isLoading, isError, error } = useQuery<TransactionAPI[] | undefined, Error>({
     queryKey: ['transactions'],
     queryFn: getTransactions
   })

@@ -1,6 +1,6 @@
 "use client"
 
-import { TransactionCreateDTO } from "@/types/transaction-types";
+import { TransactionCreateAPI } from "@/types/transaction-types";
 import { useState } from "react";
 import {
   Dialog,
@@ -15,7 +15,7 @@ import { AddTransactionForm } from "./form";
 import { useTranslation } from "react-i18next";
 
 type AddTransactionModalProps = {
-  onCreated: (newTxn: TransactionCreateDTO) => void;
+  onCreated: (newTxn: TransactionCreateAPI) => void;
 };
 
 export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => {
@@ -30,7 +30,6 @@ export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => 
           {t('newTransaction')}
         </Button>
       </DialogTrigger>
-
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('newTransaction')}</DialogTitle>

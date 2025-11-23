@@ -1,29 +1,29 @@
-import { Transaction, TransactionCreateDTO } from "@/types/transaction-types";
+import { TransactionAPI, TransactionCreateAPI } from "@/types/transaction-types";
 import { api } from "./axios";
 import { TransactionUpdateDTO } from "@/schemas/transaction";
 import { withRefresh } from "./auth-api";
 
-const getTransactionsNoRefresh = async (): Promise<Transaction[]> => {
+const getTransactionsNoRefresh = async (): Promise<TransactionAPI[]> => {
   const { data } = await api.get('/transactions');
   return data
 }
 
-export const getTransactions = async (): Promise<Transaction[] | undefined> => {
+export const getTransactions = async (): Promise<TransactionAPI[] | undefined> => {
   return withRefresh(getTransactionsNoRefresh);
 }
 
 const createTransactionNoRefresh = async (
-  payload: TransactionCreateDTO
-): Promise<Transaction> => {
+  payload: TransactionCreateAPI
+): Promise<TransactionAPI> => {
   const { data } = await api.post('/transactions', payload)
   return data
 }
 
 export const createTransaction = async (
-  payload: TransactionCreateDTO
-): Promise<Transaction | undefined> => withRefresh(createTransactionNoRefresh, payload);
+  payload: TransactionCreateAPI
+): Promise<TransactionAPI | undefined> => withRefresh(createTransactionNoRefresh, payload);
 
-export const deleteTransaction = async (id: string): Promise<Transaction> => {
+export const deleteTransaction = async (id: string): Promise<TransactionAPI> => {
   try {
     const { data } = await api.delete(`/transactions/${id}`);
     return data;
@@ -34,7 +34,7 @@ export const deleteTransaction = async (id: string): Promise<Transaction> => {
   }
 }
 
-export const editTransaction = async (id: string, payload: TransactionUpdateDTO): Promise<Transaction> => {
+export const editTransaction = async (id: string, payload: TransactionUpdateDTO): Promise<TransactionAPI> => {
   try {
     const { data } = await api.put(`/transactions/${id}`, payload)
     return data

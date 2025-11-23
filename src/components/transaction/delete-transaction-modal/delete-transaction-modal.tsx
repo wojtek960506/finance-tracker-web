@@ -9,13 +9,13 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/ui/dialog";
-import { Transaction } from "@/types/transaction-types";
+import { TransactionAPI } from "@/types/transaction-types";
 import { useTranslation } from "react-i18next";
 import { TransactionDetails } from "../details/transaction-details";
 
 type DeleteTransactionModalProps = {
   onDelete: () => void;
-  transaction: Transaction | null;
+  transaction: TransactionAPI | null;
   open: boolean;
   onOpenChange: (value: boolean) => void;
 }

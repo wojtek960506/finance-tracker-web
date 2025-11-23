@@ -2,10 +2,10 @@
 
 import { CommonInfo } from "@/components/common/CommonInfo";
 import { Separator } from "@/components/ui/separator";
-import { Transaction } from "@/types/transaction-types";
+import { TransactionAPI } from "@/types/transaction-types";
 import { useTranslation } from "react-i18next";
 
-export const TransactionDetails = ({ transaction }: { transaction: Transaction }) => {
+export const TransactionDetails = ({ transaction }: { transaction: TransactionAPI }) => {
   const { t, i18n } = useTranslation("common")
 
   return (

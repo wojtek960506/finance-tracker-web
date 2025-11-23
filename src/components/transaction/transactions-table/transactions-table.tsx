@@ -1,4 +1,4 @@
-import { Transaction } from "@/types/transaction-types";
+import { TransactionAPI } from "@/types/transaction-types";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { DeleteTransactionModal } from "../delete-transaction-modal";
 import { useState } from "react";
@@ -12,13 +12,13 @@ import { useEditTransaction } from "@/hooks/use-edit-transaction";
 import { useUndoableDelete } from "@/hooks/useUndoableDelete";
 
 
-export const TransactionsTable = ({ transactions }: { transactions: Transaction[] }) => {
+export const TransactionsTable = ({ transactions }: { transactions: TransactionAPI[] }) => {
   const [detailsOpen, setDetailsOpen] = useState(false);  
-  const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null);
+  const [transactionToDelete, setTransactionToDelete] = useState<TransactionAPI | null>(null);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
-  const [transactionToShow, setTransactionToShow] = useState<Transaction | null>(null);
+  const [transactionToShow, setTransactionToShow] = useState<TransactionAPI | null>(null);
   const [editOpen, setEditOpen] = useState(false);
-  const [transactionToEdit, setTransactionToEdit] = useState<Transaction | null>(null);
+  const [transactionToEdit, setTransactionToEdit] = useState<TransactionAPI | null>(null);
 
   const deleteMutation = useUndoableDelete();
   const editMutation = useEditTransaction();
@@ -36,17 +36,17 @@ export const TransactionsTable = ({ transactions }: { transactions: Transaction[
     });
   }
   
-  const handleDetailsClick = (transaction: Transaction) => {
+  const handleDetailsClick = (transaction: TransactionAPI) => {
     setTransactionToShow(transaction);
     setDetailsOpen(true);
   }
 
-  const handleEditClick = (transaction: Transaction) => {
+  const handleEditClick = (transaction: TransactionAPI) => {
     setTransactionToEdit(transaction);
     setEditOpen(true);
   }
 
-  const handleDeleteClick = (transaction: Transaction) => {
+  const handleDeleteClick = (transaction: TransactionAPI) => {
     setTransactionToDelete(transaction);
     setDeleteConfirmationOpen(true);
   }

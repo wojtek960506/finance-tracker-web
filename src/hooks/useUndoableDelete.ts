@@ -1,6 +1,6 @@
 import { deleteTransaction } from "@/api/transactions-api";
 import { CommonError } from "@/types/api-types";
-import { Transaction } from "@/types/transaction-types";
+import { TransactionAPI } from "@/types/transaction-types";
 import { useQueryClient } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -12,8 +12,8 @@ export const useUndoableDelete = () => {
   const handleDelete = (id: string) => {
     const waitingTime = 10 * 1000;
 
-    const previousTransactions = queryClient.getQueryData<Transaction[]>(["transactions"]);
-    queryClient.setQueryData<Transaction[]>(
+    const previousTransactions = queryClient.getQueryData<TransactionAPI[]>(["transactions"]);
+    queryClient.setQueryData<TransactionAPI[]>(
       ["transactions"],
       old => old?.filter(txn => txn.id !== id)
     );
@@ -27,7 +27,7 @@ export const useUndoableDelete = () => {
         label: t('undo'),
         onClick: () => {
           undone = true;
-          queryClient.setQueryData<Transaction[]>(["transactions"], previousTransactions);
+          queryClient.setQueryData<TransactionAPI[]>(["transactions"], previousTransactions);
           toast.success(t('transactionRestored'))
         }
       },
