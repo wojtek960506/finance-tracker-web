@@ -26,7 +26,7 @@ type AddTransactionFormProps = {
   onCreated: (newTxn: TransactionCreateDTO) => Promise<void>;
 };
 
-const defaultValues = {
+const getEmptyTransaction = () => ({
   date: new Date().toISOString().slice(0, 10),
   description: "",
   amount: 0,
@@ -35,26 +35,25 @@ const defaultValues = {
   paymentMethod: "",
   account: "",
   transactionType: "expense",
-}
+});
 
 export const AddTransactionForm = ({ onCreated, onOpenChange }: AddTransactionFormProps) => {
 
   const { t } = useTranslation("common");
   const form = useForm<TransactionCreateDTO>({
     resolver: zodResolver(TransactionCreateSchema),
-    defaultValues
+    defaultValues: getEmptyTransaction()
   })
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    form.reset(defaultValues);
+    form.reset(getEmptyTransaction());
   }, [form]);
 
   const onSubmit = async (values: TransactionCreateDTO) => {
     setLoading(true);
     try {
       await onCreated(values);
-      form.reset(defaultValues);
     } catch (err) {
       toast.error((err as Error).message || "Creating transaction failed");
     } finally {

@@ -61,7 +61,7 @@ export const EditTransactionForm = ({
     setLoading(true);
     
     try {
-      await onEdit(transaction.id, values)
+      await onEdit(transaction.id, values);
     } catch (err) {
       toast.error((err as Error).message || "Updating transaction failed");
     } finally {
