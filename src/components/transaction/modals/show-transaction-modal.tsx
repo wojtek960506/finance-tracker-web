@@ -1,17 +1,11 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription
-} from "@/components/ui/dialog";
+import { DialogFooter } from "@/components/ui/dialog";
 import { TransactionAPI } from "@/types/transaction-types";
 import { useTranslation } from "react-i18next";
 import { TransactionDetails } from "../details/transaction-details";
+import { CommonModal } from "@/components/common/common-modal";
 
 type ShowTransactionModalProps = {
   transaction: TransactionAPI | null;
@@ -19,26 +13,28 @@ type ShowTransactionModalProps = {
   onOpenChange: (value: boolean) => void;
 }
 
-export const ShowTransactionModal = (
-  { transaction, open, onOpenChange }: ShowTransactionModalProps
-) => {
+export const ShowTransactionModal = ({
+  transaction,
+  open,
+  onOpenChange
+}: ShowTransactionModalProps) => {
   const { t } = useTranslation("common");
 
   if (!transaction) return null;
-    
+  
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t('transactionDetails')}</DialogTitle>
-          <DialogDescription></DialogDescription>
-        </DialogHeader>
+    <CommonModal
+      open={open}
+      onOpenChange={onOpenChange}
+      title={t('transactionDetails')}
+      description={t('transactionDetailsDescription')}
+    >
+      <>
         <TransactionDetails transaction={transaction}/>
         <DialogFooter>
           <Button onClick={() => onOpenChange(false)}>{t('close')}</Button>
         </DialogFooter>
-        
-      </DialogContent>
-    </Dialog>
+      </>
+    </CommonModal>
   )
 }
