@@ -76,8 +76,8 @@ export const EditTransactionForm = ({
         className="grid grid-cols-[auto_1fr] gap-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <DescriptionField />
         <DateField />
+        <DescriptionField />
         <AmountField />
         <CurrencyField />
         <CategoryField />
