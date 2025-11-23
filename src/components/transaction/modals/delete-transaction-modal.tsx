@@ -1,17 +1,11 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle
-} from "@/components/ui/dialog";
+import { DialogFooter } from "@/components/ui/dialog";
 import { TransactionAPI } from "@/types/transaction-types";
 import { useTranslation } from "react-i18next";
 import { TransactionDetails } from "../details/transaction-details";
+import { CommonModal } from "@/components/common/common-modal";
 
 type DeleteTransactionModalProps = {
   onDelete: () => void;
@@ -20,22 +14,27 @@ type DeleteTransactionModalProps = {
   onOpenChange: (value: boolean) => void;
 }
 
-export const DeleteTransactionModal = (
-  { onDelete, transaction, open, onOpenChange }: DeleteTransactionModalProps
-) => {
+export const DeleteTransactionModal = ({
+  onDelete,
+  transaction,
+  open,
+  onOpenChange
+}: DeleteTransactionModalProps) => {
   const { t } = useTranslation("common");
 
   if (!transaction) return null;
-    
+  
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-red-50">
-        <DialogHeader>
-          <DialogTitle className="text-destructive">{t('deleteTransaction')}</DialogTitle>
-          <DialogDescription className="text-destructive">
-            {t('deleteTransactionQuestion')}
-          </DialogDescription>
-        </DialogHeader>
+    <CommonModal
+      open={open}
+      onOpenChange={onOpenChange}
+      contentClassName="bg-red-50"
+      title={t('newTransaction')}
+      titleClassName="text-destructive"
+      description={t('newTransactionDescription')}
+      descriptionClassName="text-destructive"
+    >
+      <>
         <TransactionDetails transaction={transaction}/>
         <DialogFooter>
           <Button onClick={() => onOpenChange(false)}>{t('no')}</Button>
@@ -48,8 +47,7 @@ export const DeleteTransactionModal = (
             }}
           >{t('delete')}</Button>
         </DialogFooter>
-        
-      </DialogContent>
-    </Dialog>
+      </>
+    </CommonModal>
   )
 }
