@@ -29,12 +29,15 @@ export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => 
           {t('newTransaction')}
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="flex flex-col max-h-[90vh] overflow-auto">
         <DialogHeader>
           <DialogTitle>{t('newTransaction')}</DialogTitle>
-          <DialogDescription>Quickly add a transaction to your ledger.</DialogDescription>
+          <DialogDescription>{t('newTransactionDescription')}</DialogDescription>
         </DialogHeader>
-        <AddTransactionForm onCreated={onCreated} handleOpen={setOpen} />
+        <AddTransactionForm
+          onOpenChange={setOpen}
+          onCreated={onCreated}
+        />
       </DialogContent>
     </Dialog>
   )

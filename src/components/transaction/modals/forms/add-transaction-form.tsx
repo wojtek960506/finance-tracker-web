@@ -23,8 +23,8 @@ import {
 import { toast } from "sonner";
 
 type AddTransactionFormProps = {
+  onOpenChange: (value: boolean) => void;
   onCreated: (newTxn: TransactionCreateAPI) => Promise<void>;
-  handleOpen: (value: boolean) => void;
 };
 
 const defaultValues = {
@@ -38,7 +38,7 @@ const defaultValues = {
   transactionType: "expense" as "expense" | "income",
 }
 
-export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormProps) => {
+export const AddTransactionForm = ({ onCreated, onOpenChange }: AddTransactionFormProps) => {
 
   const { t } = useTranslation("common");
   const form = useForm<TransactionCreateDTO>({
@@ -65,7 +65,7 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
     } catch (err) {
       toast.error((err as Error).message || "Creating transaction failed");
     } finally {
-      handleOpen(false);
+      onOpenChange(false);
       setLoading(false);
     }
   }
@@ -85,7 +85,7 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
         <AccountField />
         <TransactionTypeField />
         <DialogFooter className="col-start-2 flex justify-end gap-2">
-          <Button type="button" variant="ghost" onClick={() => handleOpen(false)}>
+          <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
             {t('cancel')}
           </Button>
           <Button type="submit" disabled={loading}>

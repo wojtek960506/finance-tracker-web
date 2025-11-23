@@ -1,15 +1,17 @@
 import { TransactionAPI } from "@/types/transaction-types";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { DeleteTransactionModal } from "../delete-transaction-modal";
 import { useState } from "react";
 import { TransactionsTableHeader } from "./header";
 import { TransactionContextMenu } from "./context-menu";
 import { TransactionInfoCells } from "./info-cells";
-import { ShowTransactionModal } from "../show-transaction-modal";
 import { TransactionUpdateDTO } from "@/schemas/transaction";
 import { useEditTransaction } from "@/hooks/use-edit-transaction";
 import { useUndoableDelete } from "@/hooks/useUndoableDelete";
-import { EditTransactionModal } from "../modals";
+import { 
+  DeleteTransactionModal,
+  EditTransactionModal,
+  ShowTransactionModal
+} from "../modals";
 
 
 export const TransactionsTable = ({ transactions }: { transactions: TransactionAPI[] }) => {
@@ -28,9 +30,12 @@ export const TransactionsTable = ({ transactions }: { transactions: TransactionA
     deleteMutation(transactionToDelete.id);
   }
 
-  const handleEditTransaction = (id: string, updatedTransaction: TransactionUpdateDTO | null) => {
+  const handleEditTransaction = async (
+    id: string,
+    updatedTransaction: TransactionUpdateDTO | null
+  ) => {
     if (!updatedTransaction) return;
-    editMutation.mutate({
+    await editMutation.mutateAsync({
       id,
       updatedTransaction: updatedTransaction!
     });

@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { EditTransactionForm } from "./forms";
 
 type EdtiTransactionModalProps = {
-  onEdit: (id: string, updatedTransaction: TransactionUpdateDTO | null) => void;
+  onEdit: (id: string, updatedTransaction: TransactionUpdateDTO | null) => Promise<void>;
   transaction: TransactionAPI | null;
   open: boolean;
   onOpenChange: (value: boolean) => void;
@@ -28,15 +28,15 @@ export const EditTransactionModal = (
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="flex flex-col max-h-[90vh] overflow-hidden">
+      <DialogContent className="flex flex-col max-h-[90vh] overflow-auto">
         <DialogHeader>
           <DialogTitle>{t('editTransaction')}</DialogTitle>
           <DialogDescription>{t('editTransactionDescription')}</DialogDescription>
         </DialogHeader>
         <EditTransactionForm
           onOpenChange={onOpenChange}
-          transaction={transaction}
           onEdit={onEdit}
+          transaction={transaction}
         />
       </DialogContent>
     </Dialog>
