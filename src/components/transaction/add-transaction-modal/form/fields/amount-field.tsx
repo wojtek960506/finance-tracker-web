@@ -1,4 +1,4 @@
-import { CommonFormField } from "@/components/common/common-form/form-field";
+import { CommonFormField } from "@/components/common/common-form-field";
 import { Input } from "@/components/ui/input"
 import { useTranslation } from "react-i18next";
 

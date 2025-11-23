@@ -5,10 +5,6 @@ import { useEffect, useState } from "react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { 
-  ACCOUNTS,
-  CATEGORIES,
-  CURRENCIES,
-  PAYMENT_METHODS,
   TRANSACTION_TYPES
 } from "@/lib/consts";
 import { useTranslation } from "react-i18next";
@@ -17,10 +13,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TransactionCreateSchema } from "@/schemas/transaction";
 import { Form } from "@/components/ui/form";
-import { CommonFormField } from "@/components/common/common-form/form-field";
-import { CommonSelect } from "@/components/common/common-select";
+import { CommonFormField } from "@/components/common/common-form-field";
 import { Label } from "@/components/ui/label";
-import { AmountField, DateField, DescriptionField } from "./fields";
+import { AccountField, AmountField, CategoryField, CurrencyField, DateField, DescriptionField, PaymentMethodField } from "./fields";
 import { toast } from "sonner";
 
 type AddTransactionFormProps = {
@@ -80,55 +75,13 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
         <DateField />
         <DescriptionField />
         <AmountField />
+        <CurrencyField />
+        <CategoryField />
+        <PaymentMethodField />
+        <AccountField />
+        
 
- 
-        <CommonFormField name="currency" label={t("currency")}>
-          {(field) => (
-            <CommonSelect 
-              titleKey="currency"
-              value={field.value}
-              setValue={field.onChange}
-              placeholderKey="currencyPlaceholder"
-              optionsKeys={CURRENCIES}  
-            />
-          )}
-        </CommonFormField>
-
-        <CommonFormField name="category" label={t("category")}>
-          {(field) => (
-            <CommonSelect 
-              titleKey="category"
-              value={field.value}
-              setValue={field.onChange}
-              placeholderKey="categoryPlaceholder"
-              optionsKeys={CATEGORIES}  
-            />
-          )}
-        </CommonFormField>
-
-        <CommonFormField name="paymentMethod" label={t("paymentMethod")}>
-          {(field) => (
-            <CommonSelect 
-              titleKey="paymentMethod"
-              value={field.value}
-              setValue={field.onChange}
-              placeholderKey="paymentMethodPlaceholder"
-              optionsKeys={PAYMENT_METHODS}  
-            />
-          )}
-        </CommonFormField>
-
-        <CommonFormField name="account" label={t("account")}>
-          {(field) => (
-            <CommonSelect 
-              titleKey="account"
-              value={field.value}
-              setValue={field.onChange}
-              placeholderKey="accountPlaceholder"
-              optionsKeys={ACCOUNTS}  
-            />
-          )}
-        </CommonFormField>
+        
 
         <CommonFormField name="transactionType" label={t("transactionType")}>
           {(field) => (

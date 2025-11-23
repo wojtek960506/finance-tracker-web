@@ -1,7 +1,7 @@
 "use client"
 
 import { login } from "@/api/auth-api";
-import { CommonFormField } from "@/components/common/common-form/form-field";
+import { CommonFormField } from "@/components/common/common-form-field";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
