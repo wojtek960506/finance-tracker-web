@@ -1,16 +1,10 @@
 "use client"
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle
-} from "@/components/ui/dialog";
 import { TransactionUpdateDTO } from "@/schemas/transaction";
 import { TransactionAPI } from "@/types/transaction-types";
 import { useTranslation } from "react-i18next";
 import { EditTransactionForm } from "./forms";
+import { CommonModal } from "@/components/common/common-modal";
 
 type EdtiTransactionModalProps = {
   onEdit: (id: string, updatedTransaction: TransactionUpdateDTO | null) => Promise<void>;
@@ -27,18 +21,17 @@ export const EditTransactionModal = (
   if (!transaction) return null;
   
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="flex flex-col max-h-[90vh] overflow-auto">
-        <DialogHeader>
-          <DialogTitle>{t('editTransaction')}</DialogTitle>
-          <DialogDescription>{t('editTransactionDescription')}</DialogDescription>
-        </DialogHeader>
+      <CommonModal
+        open={open}
+        onOpenChange={onOpenChange}
+        title={t('editTransaction')}
+        description={t('editTransactionDescription')}
+      >
         <EditTransactionForm
           onOpenChange={onOpenChange}
           onEdit={onEdit}
           transaction={transaction}
         />
-      </DialogContent>
-    </Dialog>
-  )
+      </CommonModal>
+    )
 }
