@@ -1,1 +1,1 @@
-export * from './edit-transaction-modal';
+export * from '../modals/edit-transaction-modal';

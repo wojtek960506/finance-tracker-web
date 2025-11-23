@@ -6,10 +6,10 @@ import { TransactionsTableHeader } from "./header";
 import { TransactionContextMenu } from "./context-menu";
 import { TransactionInfoCells } from "./info-cells";
 import { ShowTransactionModal } from "../show-transaction-modal";
-import { EditTransactionModal } from "../edit-transaction-modal";
 import { TransactionUpdateDTO } from "@/schemas/transaction";
 import { useEditTransaction } from "@/hooks/use-edit-transaction";
 import { useUndoableDelete } from "@/hooks/useUndoableDelete";
+import { EditTransactionModal } from "../modals";
 
 
 export const TransactionsTable = ({ transactions }: { transactions: TransactionAPI[] }) => {
