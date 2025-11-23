@@ -1,12 +1,12 @@
 "use client"
 
-import { AddTransactionModal } from "@/components/transaction/add-transaction-modal";
 import { TransactionsTable } from "@/components/transaction/transactions-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useCreateTransaction } from "@/hooks/use-create-transaction";
 import { useGetTransactions } from "@/hooks/use-get-transactions";
 import { TransactionCreateAPI } from "@/types/transaction-types"
 import { useTranslation } from "react-i18next";
+import { AddTransactionModal } from "./modals";
 
 export const TransactionsMain = () => {
   const { t } = useTranslation("common");

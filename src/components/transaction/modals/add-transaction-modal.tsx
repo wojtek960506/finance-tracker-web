@@ -11,7 +11,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { AddTransactionForm } from "./form";
+import { AddTransactionForm } from "./forms";
 import { useTranslation } from "react-i18next";
 
 type AddTransactionModalProps = {
@@ -24,7 +24,6 @@ export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => 
   
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-  
       <DialogTrigger asChild>
         <Button variant="default" className="w-min justify-self-end text-lg">
           {t('newTransaction')}
