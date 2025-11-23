@@ -1,6 +1,5 @@
 "use client"
 
-import { TransactionCreateAPI } from "@/types/transaction-types";
 import { useEffect, useState } from "react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -24,7 +23,7 @@ import { toast } from "sonner";
 
 type AddTransactionFormProps = {
   onOpenChange: (value: boolean) => void;
-  onCreated: (newTxn: TransactionCreateAPI) => Promise<void>;
+  onCreated: (newTxn: TransactionCreateDTO) => Promise<void>;
 };
 
 const defaultValues = {
@@ -35,7 +34,7 @@ const defaultValues = {
   category: "",
   paymentMethod: "",
   account: "",
-  transactionType: "expense" as "expense" | "income",
+  transactionType: "expense",
 }
 
 export const AddTransactionForm = ({ onCreated, onOpenChange }: AddTransactionFormProps) => {
@@ -54,13 +53,7 @@ export const AddTransactionForm = ({ onCreated, onOpenChange }: AddTransactionFo
   const onSubmit = async (values: TransactionCreateDTO) => {
     setLoading(true);
     try {
-      const { date, transactionType, amount, ...rest } = values;
-      await onCreated({
-        ...rest,
-        date: new Date(date),
-        amount: Number(amount),
-        transactionType: transactionType as "expense" | "income"
-      });
+      await onCreated(values);
       form.reset(defaultValues);
     } catch (err) {
       toast.error((err as Error).message || "Creating transaction failed");

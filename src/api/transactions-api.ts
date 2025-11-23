@@ -1,6 +1,6 @@
-import { TransactionAPI, TransactionCreateAPI } from "@/types/transaction-types";
+import { TransactionAPI } from "@/types/transaction-types";
 import { api } from "./axios";
-import { TransactionUpdateDTO } from "@/schemas/transaction";
+import { TransactionCreateDTO, TransactionUpdateDTO } from "@/schemas/transaction";
 import { withRefresh } from "./auth-api";
 
 const getTransactionsNoRefresh = async (): Promise<TransactionAPI[]> => {
@@ -13,14 +13,14 @@ export const getTransactions = async (): Promise<TransactionAPI[] | undefined> =
 }
 
 const createTransactionNoRefresh = async (
-  payload: TransactionCreateAPI
+  payload: TransactionCreateDTO
 ): Promise<TransactionAPI> => {
   const { data } = await api.post('/transactions', payload)
   return data
 }
 
 export const createTransaction = async (
-  payload: TransactionCreateAPI
+  payload: TransactionCreateDTO
 ): Promise<TransactionAPI | undefined> => withRefresh(createTransactionNoRefresh, payload);
 
 export const deleteTransaction = async (id: string): Promise<TransactionAPI> => {

@@ -1,14 +1,14 @@
 "use client"
 
-import { TransactionCreateAPI } from "@/types/transaction-types";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AddTransactionForm } from "./forms";
 import { useTranslation } from "react-i18next";
 import { CommonModal } from "@/components/common/common-modal";
+import { TransactionCreateDTO } from "@/schemas/transaction";
 
 type AddTransactionModalProps = {
-  onCreated: (newTxn: TransactionCreateAPI) => Promise<void>;
+  onCreated: (newTxn: TransactionCreateDTO) => Promise<void>;
 };
 
 export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => {
