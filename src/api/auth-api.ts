@@ -29,9 +29,9 @@ const refreshAccessToken = async (): Promise<{ accessToken: string }> => {
   return data;
 }
 
-export const withRefresh = async <T>(
-  fn: (...rest: unknown[]) => Promise<T>,
-  ...rest: unknown[]
+export const withRefresh = async <T, U extends unknown[]>(
+  fn: (...rest: U) => Promise<T>,
+  ...rest: U
 ): Promise<T | undefined> => {
   const setAccessToken = useGeneralStore.getState().setAccessToken;
   try {

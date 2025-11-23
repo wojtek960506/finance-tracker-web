@@ -9,13 +9,19 @@ const getTransactionsNoRefresh = async (): Promise<Transaction[]> => {
 }
 
 export const getTransactions = async (): Promise<Transaction[] | undefined> => {
-  return withRefresh(getTransactionsNoRefresh, false);
+  return withRefresh(getTransactionsNoRefresh);
 }
 
-export const createTransaction = async (payload: TransactionCreateDTO): Promise<Transaction> => {
+const createTransactionNoRefresh = async (
+  payload: TransactionCreateDTO
+): Promise<Transaction> => {
   const { data } = await api.post('/transactions', payload)
   return data
 }
+
+export const createTransaction = async (
+  payload: TransactionCreateDTO
+): Promise<Transaction | undefined> => withRefresh(createTransactionNoRefresh, payload);
 
 export const deleteTransaction = async (id: string): Promise<Transaction> => {
   try {
