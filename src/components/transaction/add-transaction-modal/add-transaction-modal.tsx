@@ -15,7 +15,7 @@ import { AddTransactionForm } from "./form";
 import { useTranslation } from "react-i18next";
 
 type AddTransactionModalProps = {
-  onCreated: (newTxn: TransactionCreateAPI) => void;
+  onCreated: (newTxn: TransactionCreateAPI) => Promise<void>;
 };
 
 export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => {

@@ -1,10 +1,9 @@
 "use client"
 
 import { TransactionCreateAPI } from "@/types/transaction-types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { DateField, TextField, NumberField, SelectField, RadioField } from "../fields";
 import { 
   ACCOUNTS,
   CATEGORIES,
@@ -13,77 +12,56 @@ import {
   TRANSACTION_TYPES
 } from "@/lib/consts";
 import { useTranslation } from "react-i18next";
-import { sleep } from "@/lib/utils";
-// import { useForm } from "react-hook-form";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { TransactionCreateSchema } from "@/schemas/transaction";
+import { TransactionCreateDTO } from "@/schemas/transaction";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TransactionCreateSchema } from "@/schemas/transaction";
+import { Form } from "@/components/ui/form";
+import { CommonFormField } from "@/components/common/common-form/form-field";
+import { Input } from "@/components/ui/input";
+import { CommonSelect } from "@/components/common/common-select";
+import { Label } from "@/components/ui/label";
 
 type AddTransactionFormProps = {
-  onCreated: (newTxn: TransactionCreateAPI) => void;
+  onCreated: (newTxn: TransactionCreateAPI) => Promise<void>;
   handleOpen: (value: boolean) => void;
 };
 
-export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormProps) => {
-
-  // const defaultValues = {
-  //   date: new Date().toISOString().slice(0, 10),
-  //   description: "",
-  //   amount: "",
-  //   currency: "",
-  //   category: "",
-  //   paymentMethod: "",
-  //   account: "",
-  //   transactionType: "expense",
-  // }
-
- 
-  // const form = useForm<TransactionCreateAPI>({
-  //   resolver: zodResolver(TransactionCreateSchema),
-  //   defaultValues
-  // })
-  
-  const { t } = useTranslation("common");
-  const [loading, setLoading] = useState(false);
-
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
-  const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState("");
-  const [currency, setCurrency] = useState("");
-  const [category, setCategory] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
-  const [account, setAccount] = useState("");
-  const [transactionType, setTransactionType] = useState<"income" | "expense">("expense");
-
-  const resetFields = () => {
-    setDate(new Date().toISOString().slice(0, 10));
-    setDescription("");
-    setAmount("")
-    setCurrency("")
-    setCategory("")
-    setPaymentMethod("")
-    setAccount("")
-    setTransactionType("expense")
+const defaultValues = {
+  date: new Date().toISOString().slice(0, 10),
+  description: "",
+  amount: 0,
+  currency: "",
+  category: "",
+  paymentMethod: "",
+  account: "",
+  transactionType: "expense" as "expense" | "income",
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormProps) => {
+
+  const { t } = useTranslation("common");
+  const form = useForm<TransactionCreateDTO>({
+    resolver: zodResolver(TransactionCreateSchema),
+    defaultValues
+  })
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    form.reset(defaultValues);
+  }, [form]);
+
+  const onSubmit = async (values: TransactionCreateDTO) => {
     setLoading(true);
-
-    const payload: TransactionCreateAPI = {
-      date: new Date(date),
-      description,
-      amount: Number(amount),
-      currency,
-      category,
-      transactionType,
-      paymentMethod,
-      account,
-    }
-
     try {
-      await sleep(1000);
-      onCreated(payload);
-      resetFields();
+      const { date, transactionType, amount, ...rest } = values;
+      await onCreated({
+        ...rest,
+        date: new Date(date),
+        amount: Number(amount),
+        transactionType: transactionType as "expense" | "income"
+      });
+      form.reset(defaultValues);
     } catch (err) {
       console.log(err)
       // show toast - TODO add some error handler (some modal or what is any other good way)
@@ -95,64 +73,102 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 mt-2">  
-      <DateField
-        title={t("date")}
-        value={date}
-        setValue={setDate}
-      />
-      <TextField
-        title={t("description")}
-        value={description}
-        setValue={setDescription}
-      />
-      <NumberField
-        title={t("amount")}
-        value={amount}
-        setValue={setAmount}
-      />
-      <SelectField
-        title="currency"
-        value={currency}
-        setValue={setCurrency}
-        options={CURRENCIES}
-        placeholder={t("currencyPlaceholder")}
-      />
-      <SelectField
-        title="category"
-        value={category}
-        setValue={setCategory}
-        options={CATEGORIES}
-        placeholder={t("categoryPlaceholder")}
-      />
-      <SelectField
-        title="paymentMethod"
-        value={paymentMethod}
-        setValue={setPaymentMethod}
-        options={PAYMENT_METHODS}
-        placeholder={t("paymentMethodPlaceholder")}
-      />
-      <SelectField
-        title="account"
-        value={account}
-        setValue={setAccount}
-        options={ACCOUNTS}
-        placeholder={t("accountPlaceholder")}
-      />
-      <RadioField 
-        title="transactionType"
-        value={transactionType}
-        setValue={setTransactionType as (v: string) => void}
-        options={TRANSACTION_TYPES}
-      />
-      <DialogFooter className="flex justify-end gap-2">
-        <Button type="button" variant="ghost" onClick={() => handleOpen(false)}>
-          {t('cancel')}
-        </Button>
-        <Button type="submit" disabled={loading}>
-          {loading ? t("saving") : t("save")}
-        </Button>
-      </DialogFooter>
-    </form>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid grid-cols-[auto_1fr] gap-4"
+      >
+        <CommonFormField name="date" label={t("date")}>
+          {(field) => <Input type="date" {...field} required/>}
+        </CommonFormField>
+
+        <CommonFormField name="description" label={t("description")}>
+          {(field) => <Input type="text" {...field} required/>}
+        </CommonFormField>
+
+        <CommonFormField name="amount" label={t("amount")}>
+          {(field) => <Input type="number" {...field} step="0.01" required onChange={(e) => {
+            const val = parseFloat(e.target.value);
+            field.onChange(Number.isNaN(val) ? "" : Math.floor(val * 100) / 100);
+          }} 
+        />}
+        </CommonFormField>
+
+        <CommonFormField name="currency" label={t("currency")}>
+          {(field) => (
+            <CommonSelect 
+              titleKey="currency"
+              value={field.value}
+              setValue={field.onChange}
+              placeholderKey="currencyPlaceholder"
+              optionsKeys={CURRENCIES}  
+            />
+          )}
+        </CommonFormField>
+
+        <CommonFormField name="category" label={t("category")}>
+          {(field) => (
+            <CommonSelect 
+              titleKey="category"
+              value={field.value}
+              setValue={field.onChange}
+              placeholderKey="categoryPlaceholder"
+              optionsKeys={CATEGORIES}  
+            />
+          )}
+        </CommonFormField>
+
+        <CommonFormField name="paymentMethod" label={t("paymentMethod")}>
+          {(field) => (
+            <CommonSelect 
+              titleKey="paymentMethod"
+              value={field.value}
+              setValue={field.onChange}
+              placeholderKey="paymentMethodPlaceholder"
+              optionsKeys={PAYMENT_METHODS}  
+            />
+          )}
+        </CommonFormField>
+
+        <CommonFormField name="account" label={t("account")}>
+          {(field) => (
+            <CommonSelect 
+              titleKey="account"
+              value={field.value}
+              setValue={field.onChange}
+              placeholderKey="accountPlaceholder"
+              optionsKeys={ACCOUNTS}  
+            />
+          )}
+        </CommonFormField>
+
+        <CommonFormField name="transactionType" label={t("transactionType")}>
+          {(field) => (
+            <div className="flex flex-row gap-2">
+              {[...TRANSACTION_TYPES].map(option => (
+                <Label key={option}>
+                  <input
+                    type="radio"
+                    name="type"
+                    checked={field.value === option}
+                    onChange={() => field.onChange(option)}
+                  />
+                  <span>{t(`transactionType_options.${option}`)}</span>
+                </Label>
+              ))}
+            </div>
+          )}
+        </CommonFormField>
+
+        <DialogFooter className="col-start-2 flex justify-end gap-2">
+          <Button type="button" variant="ghost" onClick={() => handleOpen(false)}>
+            {t('cancel')}
+          </Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? t("saving") : t("save")}
+          </Button>
+        </DialogFooter>
+      </form>
+    </Form>
   )
 }

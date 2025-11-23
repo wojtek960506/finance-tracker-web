@@ -21,7 +21,9 @@ export const TransactionsMain = () => {
             {t('recentTransactions')}
           </CardTitle>
           <AddTransactionModal
-            onCreated={(created: TransactionCreateAPI) => createMutation.mutate(created)}
+            onCreated={async (created: TransactionCreateAPI) => {
+              await createMutation.mutateAsync(created);
+            }}
           />
         </CardHeader>
         <CardContent className="flex flex-col overflow-auto">

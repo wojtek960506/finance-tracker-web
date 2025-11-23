@@ -1,6 +1,6 @@
-import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import React from "react";
-import { ControllerRenderProps, useFormContext } from "react-hook-form"
+import { ControllerRenderProps, useFormContext } from "react-hook-form";
 
 type CommonFormFieldProps = {
   name: string,
@@ -21,7 +21,8 @@ export const CommonFormField = ({
       render={({ field }) => (
         <FormItem className="contents">
           <FormLabel>{label}</FormLabel>
-          <FormControl>{children(field)}</FormControl>  
+          <FormControl>{children(field)}</FormControl>
+          <FormMessage className="col-start-2"/>
         </FormItem>
       )}
     />
