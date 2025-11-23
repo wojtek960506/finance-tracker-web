@@ -1,10 +1,11 @@
 "use client"
 
 import { login } from "@/api/auth-api";
+import { CommonFormField } from "@/components/common/common-form/form-field";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useGeneralStore } from "@/store/general-store";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,7 +36,6 @@ export default function LoginPage() {
     // of the page they are rendered like for the first time with default values
     if (!_hasHydrated) return;
     
-    // TODO - add value to store to check whether logging out is taking place
     if (accessToken && !isLoggingOut) router.replace("/transactions");
   }, [accessToken, router, _hasHydrated, isLoggingOut]);
 
@@ -51,41 +51,24 @@ export default function LoginPage() {
   
   return (
     <AppLayout>
-      <div className="flex h-screen justify-center items-center bg-blue-100">
+      <div className="flex h-screen justify-center items-center bg-blue-50">
         <Card>
           <CardHeader>
             <CardTitle>{t('login')}</CardTitle>
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t('email')}</FormLabel>
-                      <FormControl>
-                        <Input type="text" {...field} />              
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem className="mt-4">
-                      <FormLabel>{t('password')}</FormLabel>
-                      <FormControl>
-                        <Input type="password" {...field} />              
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                {/* <CardFooter className="flex justify-start "> */}
-                  <Button className="mt-4" type="submit">{t('logIn')}</Button>
-                {/* </CardFooter> */}
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="grid grid-cols-[auto_1fr] gap-4"
+              >
+                <CommonFormField name="email" label={t("email")}>
+                  {(field) => <Input type="text" {...field} />}
+                </CommonFormField>
+                <CommonFormField name="password" label={t("password")}>
+                  {(field) => <Input type="password" {...field} />}
+                </CommonFormField>
+                <Button className="mt-4 col-start-2" type="submit">{t('logIn')}</Button>
               </form>
             </Form>
           </CardContent>

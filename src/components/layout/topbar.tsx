@@ -9,7 +9,7 @@ export function Topbar() {
   const { t } = useTranslation("common");
   const { accessToken } = useGeneralStore();
   const pathname = usePathname();
-  const showPageName = accessToken && pathname !== '/login'
+  const showPageName = accessToken && !["/login", "/register"].includes(pathname)
 
   return (
     <header className="flex items-center h-14 border-b bg-background ">

@@ -24,7 +24,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     )
   }
 
-  const showSidebard = accessToken && pathname !== '/login';
+  const showSidebard = accessToken && !["/login", "/register"].includes(pathname);
 
   return (
     <I18nextProvider i18n={i18n}>
