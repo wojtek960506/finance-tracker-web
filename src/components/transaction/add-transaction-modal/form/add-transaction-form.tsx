@@ -14,9 +14,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TransactionCreateSchema } from "@/schemas/transaction";
 import { Form } from "@/components/ui/form";
 import { CommonFormField } from "@/components/common/common-form-field";
-import { Label } from "@/components/ui/label";
 import { AccountField, AmountField, CategoryField, CurrencyField, DateField, DescriptionField, PaymentMethodField } from "./fields";
 import { toast } from "sonner";
+import { CommonRadio } from "@/components/common/common-radio";
 
 type AddTransactionFormProps = {
   onCreated: (newTxn: TransactionCreateAPI) => Promise<void>;
@@ -85,19 +85,13 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
 
         <CommonFormField name="transactionType" label={t("transactionType")}>
           {(field) => (
-            <div className="flex flex-row gap-2">
-              {[...TRANSACTION_TYPES].map(option => (
-                <Label key={option}>
-                  <input
-                    type="radio"
-                    name="type"
-                    checked={field.value === option}
-                    onChange={() => field.onChange(option)}
-                  />
-                  <span>{t(`transactionType_options.${option}`)}</span>
-                </Label>
-              ))}
-            </div>
+            <CommonRadio
+              titleKey="transactionType"
+              name="type"
+              value={field.value}
+              setValue={field.onChange}
+              optionsKeys={[...TRANSACTION_TYPES]}
+            />
           )}
         </CommonFormField>
 
