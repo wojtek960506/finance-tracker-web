@@ -1,7 +1,7 @@
 "use client"
 
 import { TransactionCreateAPI } from "@/types/transaction-types";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { 
@@ -18,9 +18,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TransactionCreateSchema } from "@/schemas/transaction";
 import { Form } from "@/components/ui/form";
 import { CommonFormField } from "@/components/common/common-form/form-field";
-import { Input } from "@/components/ui/input";
 import { CommonSelect } from "@/components/common/common-select";
 import { Label } from "@/components/ui/label";
+import { AmountField, DateField, DescriptionField } from "./fields";
+import { toast } from "sonner";
 
 type AddTransactionFormProps = {
   onCreated: (newTxn: TransactionCreateAPI) => Promise<void>;
@@ -63,9 +64,7 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
       });
       form.reset(defaultValues);
     } catch (err) {
-      console.log(err)
-      // show toast - TODO add some error handler (some modal or what is any other good way)
-      alert((err as Error).message || "Failed");
+      toast.error((err as Error).message || "Creating transaction failed");
     } finally {
       handleOpen(false);
       setLoading(false);
@@ -78,22 +77,11 @@ export const AddTransactionForm = ({ onCreated, handleOpen}: AddTransactionFormP
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-[auto_1fr] gap-4"
       >
-        <CommonFormField name="date" label={t("date")}>
-          {(field) => <Input type="date" {...field} required/>}
-        </CommonFormField>
+        <DateField />
+        <DescriptionField />
+        <AmountField />
 
-        <CommonFormField name="description" label={t("description")}>
-          {(field) => <Input type="text" {...field} required/>}
-        </CommonFormField>
-
-        <CommonFormField name="amount" label={t("amount")}>
-          {(field) => <Input type="number" {...field} step="0.01" required onChange={(e) => {
-            const val = parseFloat(e.target.value);
-            field.onChange(Number.isNaN(val) ? "" : Math.floor(val * 100) / 100);
-          }} 
-        />}
-        </CommonFormField>
-
+ 
         <CommonFormField name="currency" label={t("currency")}>
           {(field) => (
             <CommonSelect 
