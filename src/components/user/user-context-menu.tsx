@@ -24,7 +24,7 @@ export const UserContextMenu = () => {
   }
 
   const chosenCn = "bg-blue-300 data-[highlighted]:bg-blue-400 data-[highlighted]:text-white"
-  const showPrivateData = accessToken && pathname !== '/login'
+  const showPrivateData = accessToken && !["/login", "/register"].includes(pathname)
 
   return (
     <DropdownMenu>

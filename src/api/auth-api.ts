@@ -1,6 +1,6 @@
 import { LoginDTO } from "@/app/login/page";
 import { api } from "./axios"
-import { User } from "@/types/user-types";
+import { UserAPI } from "@/types/user-types";
 import { AxiosError } from "axios";
 import { useGeneralStore } from "@/store/general-store";
 import { toast } from "sonner";
@@ -60,7 +60,7 @@ export const login = async (payload: LoginDTO): Promise<{accessToken: string}> =
   return data;
 }
 
-const getMeNoRefresh = async (): Promise<User> => {
+const getMeNoRefresh = async (): Promise<UserAPI> => {
   const { data } = await api.get(`/auth/me`);
   return data;
 }
@@ -72,7 +72,7 @@ const logoutNoRefresh = async (): Promise<{ success: boolean }> => {
 
 export const logout = async (): Promise<{ success: boolean } | undefined> => withRefresh(logoutNoRefresh);
   
-export const getMe = async (): Promise<User | undefined> => withRefresh(getMeNoRefresh);
+export const getMe = async (): Promise<UserAPI | undefined> => withRefresh(getMeNoRefresh);
 
 
 export const logoutCore = async (): Promise<undefined> => {

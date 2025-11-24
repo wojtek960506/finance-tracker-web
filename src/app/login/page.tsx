@@ -4,7 +4,7 @@ import { login } from "@/api/auth-api";
 import { CommonFormField } from "@/components/common/common-form-field";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useGeneralStore } from "@/store/general-store";
@@ -68,10 +68,18 @@ export default function LoginPage() {
                 <CommonFormField name="password" label={t("password")}>
                   {(field) => <Input type="password" {...field} />}
                 </CommonFormField>
-                <Button className="mt-4 col-start-2" type="submit">{t('logIn')}</Button>
+                <Button className="mt-1 col-start-2" type="submit">{t('logIn')}</Button>
               </form>
             </Form>
           </CardContent>
+
+          <CardFooter>
+            <Button
+              className="w-full"
+              variant="outline"
+              onClick={() => router.push('/register')}
+            >{t('createNewAccount')}</Button>
+          </CardFooter>
         </Card>
       </div>
     </AppLayout>
