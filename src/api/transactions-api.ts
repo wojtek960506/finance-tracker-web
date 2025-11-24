@@ -23,16 +23,14 @@ export const createTransaction = async (
   payload: TransactionCreateDTO
 ): Promise<TransactionAPI | undefined> => withRefresh(createTransactionNoRefresh, payload);
 
-export const deleteTransaction = async (id: string): Promise<TransactionAPI> => {
-  try {
-    const { data } = await api.delete(`/transactions/${id}`);
-    return data;
-  } catch (err) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    console.log((err as any).response.data)
-    throw new Error((err as Error).message)
-  }
+export const deleteTransactionNoRefresh = async (id: string): Promise<TransactionAPI> => {
+  const { data } = await api.delete(`/transactions/${id}`);
+  return data;
 }
+
+export const deleteTransaction = async (
+  id: string
+): Promise<TransactionAPI | undefined> => withRefresh(deleteTransactionNoRefresh, id);
 
 const editTransactionNoRefresh = async (
   id: string,

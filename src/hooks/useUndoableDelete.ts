@@ -43,6 +43,7 @@ export const useUndoableDelete = () => {
             { description: t('actionCannotBeUndone')}
           )
         } catch (err: unknown) {
+          queryClient.setQueryData<TransactionAPI[]>(["transactions"], previousTransactions);
           console.log("Deleting transaction error:", err);
           toast.error((err as CommonError).message);
         }
