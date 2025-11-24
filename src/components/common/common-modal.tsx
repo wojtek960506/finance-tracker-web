@@ -6,6 +6,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import React from "react";
 
 type CommonModalProps = {
@@ -36,7 +37,7 @@ export const CommonModal = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-      <DialogContent className={contentClassName}>
+      <DialogContent className={cn(contentClassName, "max-h-[90%] overflow-y-auto")}>
         <DialogHeader>
           <DialogTitle className={titleClassName}>{title}</DialogTitle>
           <DialogDescription className={descriptionClassName}>
