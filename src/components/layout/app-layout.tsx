@@ -30,9 +30,9 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     <I18nextProvider i18n={i18n}>
       <div className="flex flex-col h-screen">
         <Topbar />
-        <div className="flex flex-row h-full flex-1 overflow-hidden">
+        <div className="flex flex-row flex-1 overflow-hidden h-[calc(100vh-56px)]">
           {showSidebard && <Sidebar />}
-          <main className="flex-1 flex flex-col overflow-hidden bg-muted/10">
+          <main className="flex-1 flex flex-col overflow-auto bg-muted/10 min-h-[300px]">
             {children}
           </main>
         </div>

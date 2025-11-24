@@ -14,7 +14,7 @@ export const TransactionsMain = () => {
   const createMutation = useCreateTransaction();
 
   return (
-    <div className="flex flex-col h-full space-y-4 p-6">
+    <div className="flex-1 flex flex-col h-full space-y-4 p-6">
       <Card className="overflow-hidden">
         <CardHeader className="grid grid-cols-2 gap-0 items-center">
           <CardTitle className="text-2xl">

@@ -65,46 +65,50 @@ export default function RegisterPage() {
 
   return (
     <AppLayout>
-      <div className="flex h-full justify-center items-center bg-blue-50">
-        <Card className="max-h-[90%] overflow-hidden">
+      <div className="flex h-full justify-center items-center bg-blue-50 overflow-auto">
+        <Card className="max-h-[90%] overflow-y-auto min-h-[200px]">
           <CardHeader>
             <CardTitle>{t('createNewAccount')}</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col overflow-y-auto">
+          <CardContent className="flex flex-col overflow-y-auto min-h-[200px]">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="grid grid-cols-[auto_200px] gap-4"
+                className="flex flex-col overflow-y-auto min-h-[100px]"
               >
-                <CommonFormField name="firstName" label={t("firstName")}>
-                  {(field) => <Input type="text" {...field} />}
-                </CommonFormField>
-                <CommonFormField name="lastName" label={t("lastName")}>
-                  {(field) => <Input type="text" {...field} />}
-                </CommonFormField>
+                <div className="grid grid-cols-[auto_1fr] gap-4 overflow-x-hidden overflow-y-auto">
+                  <CommonFormField name="firstName" label={t("firstName")}>
+                    {(field) => <Input type="text" {...field} />}
+                  </CommonFormField>
+                  <CommonFormField name="lastName" label={t("lastName")}>
+                    {(field) => <Input type="text" {...field} />}
+                  </CommonFormField>
 
 
-                <CommonFormField name="email" label={t("email")}>
-                  {(field) => <Input type="text" {...field} />}
-                </CommonFormField>
-                <CommonFormField name="confirmEmail" label={t("confirmEmail")}>
-                  {(field) => <Input type="text" {...field} />}
-                </CommonFormField>
-                
-                <CommonFormField name="password" label={t("password")}>
-                  {(field) => <Input type="password" {...field} />}
-                </CommonFormField>
-                <CommonFormField name="confirmPassword" label={t("confirmPassword")}>
-                  {(field) => <Input type="password" {...field} />}
-                </CommonFormField>
+                  <CommonFormField name="email" label={t("email")}>
+                    {(field) => <Input type="text" {...field} />}
+                  </CommonFormField>
+                  <CommonFormField name="confirmEmail" label={t("confirmEmail")}>
+                    {(field) => <Input type="text" {...field} />}
+                  </CommonFormField>
+                  
+                  <CommonFormField name="password" label={t("password")}>
+                    {(field) => <Input type="password" {...field} />}
+                  </CommonFormField>
+                  <CommonFormField name="confirmPassword" label={t("confirmPassword")}>
+                    {(field) => <Input type="password" {...field} />}
+                  </CommonFormField>
+
+                  
+                </div>
 
                 {errorMsg && (
-                  <span
-                    className="text-destructive col-start-2 w-full justify-self-end break-words whitespace-normal"
-                  >{errorMsg}</span>
-                )}
+                    <span
+                      className="mt-4 text-destructive w-full justify-self-end break-words whitespace-normal"
+                    >{errorMsg}</span>
+                  )}
 
-                <Button className="mt-2 col-start-2" type="submit">
+                <Button className="mt-4 col-start-2" type="submit">
                   {isLoading ? <>{t('saving')} <Spinner /></> : t('signUp')}
                 </Button>
               </form>
