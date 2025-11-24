@@ -27,14 +27,13 @@ export function Sidebar() {
 
   const pathname = usePathname()
 
+  const acn = "flex flex-col w-64 flex-shrink-0 h-full border-r bg-background p-4 overflow-y-auto"
   return (
-    <aside className="flex flex-col w-64 flex-shrink-0 h-full border-r bg-background p-4">
-
+    <aside className={acn}>
       {/* Navigation links */}
       <nav className="space-y-1">
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive = pathname.startsWith(href)
-
           return (
             <Link
               key={href}

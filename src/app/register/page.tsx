@@ -65,8 +65,13 @@ export default function RegisterPage() {
 
   return (
     <AppLayout>
-      <div className="flex h-full justify-center items-center bg-blue-50 overflow-auto">
-        <Card className="max-h-[90%] overflow-y-auto min-h-[200px]">
+      {/* <div className="flex h-full justify-center items-center bg-blue-50 overflow-auto"> */}
+      {/* <div className="flex flex-1 h-full bg-blue-50 "> */}
+      {/* <div className="p-6 h-full flex justify-center"> */}
+      <div className="flex min-h-full justify-center">
+        {/* <Card className="max-h-[calc(100vh-56px)] overflow-y-auto min-h-[200px]"> */}
+        {/* <Card className="w-full max-w-lg mx-auto"> */}
+        <Card className="my-auto">
           <CardHeader>
             <CardTitle>{t('createNewAccount')}</CardTitle>
           </CardHeader>
@@ -76,7 +81,8 @@ export default function RegisterPage() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="flex flex-col overflow-y-auto min-h-[100px]"
               >
-                <div className="grid grid-cols-[auto_1fr] gap-4 overflow-x-hidden overflow-y-auto">
+                {/* <div className="grid grid-cols-[auto_1fr] gap-4 overflow-x-hidden overflow-y-auto"> */}
+                <div className="grid grid-cols-[auto_1fr] gap-4">
                   <CommonFormField name="firstName" label={t("firstName")}>
                     {(field) => <Input type="text" {...field} />}
                   </CommonFormField>
