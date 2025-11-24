@@ -9,7 +9,7 @@ type InputFieldProps = {
   type: "text" | "password"
 }
 
-export const InputField = ({ name, type }: InputFieldProps) => {
+export const CommonInputField = ({ name, type }: InputFieldProps) => {
   const { t } = useTranslation("common");
   return (
     <CommonFormField name={name} label={t(name)}>
