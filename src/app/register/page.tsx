@@ -65,62 +65,48 @@ export default function RegisterPage() {
 
   return (
     <AppLayout>
-      {/* <div className="flex h-full justify-center items-center bg-blue-50 overflow-auto"> */}
-      {/* <div className="flex flex-1 h-full bg-blue-50 "> */}
-      {/* <div className="p-6 h-full flex justify-center"> */}
       <div className="flex min-h-full justify-center">
-        {/* <Card className="max-h-[calc(100vh-56px)] overflow-y-auto min-h-[200px]"> */}
-        {/* <Card className="w-full max-w-lg mx-auto"> */}
         <Card className="my-auto">
           <CardHeader>
             <CardTitle>{t('createNewAccount')}</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col overflow-y-auto min-h-[200px]">
+          <CardContent className="flex flex-col">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col overflow-y-auto min-h-[100px]"
+                className="grid grid-cols-[auto_300px] gap-3"
               >
-                {/* <div className="grid grid-cols-[auto_1fr] gap-4 overflow-x-hidden overflow-y-auto"> */}
-                <div className="grid grid-cols-[auto_1fr] gap-4">
-                  <CommonFormField name="firstName" label={t("firstName")}>
-                    {(field) => <Input type="text" {...field} />}
-                  </CommonFormField>
-                  <CommonFormField name="lastName" label={t("lastName")}>
-                    {(field) => <Input type="text" {...field} />}
-                  </CommonFormField>
+                
+                <CommonFormField name="firstName" label={t("firstName")}>
+                  {(field) => <Input type="text" {...field} />}
+                </CommonFormField>
+                <CommonFormField name="lastName" label={t("lastName")}>
+                  {(field) => <Input type="text" {...field} />}
+                </CommonFormField>
 
-
-                  <CommonFormField name="email" label={t("email")}>
-                    {(field) => <Input type="text" {...field} />}
-                  </CommonFormField>
-                  <CommonFormField name="confirmEmail" label={t("confirmEmail")}>
-                    {(field) => <Input type="text" {...field} />}
-                  </CommonFormField>
-                  
-                  <CommonFormField name="password" label={t("password")}>
-                    {(field) => <Input type="password" {...field} />}
-                  </CommonFormField>
-                  <CommonFormField name="confirmPassword" label={t("confirmPassword")}>
-                    {(field) => <Input type="password" {...field} />}
-                  </CommonFormField>
-
-                  
-                </div>
+                <CommonFormField name="email" label={t("email")}>
+                  {(field) => <Input type="text" {...field} />}
+                </CommonFormField>
+                <CommonFormField name="confirmEmail" label={t("confirmEmail")}>
+                  {(field) => <Input type="text" {...field} />}
+                </CommonFormField>
+                
+                <CommonFormField name="password" label={t("password")}>
+                  {(field) => <Input type="password" {...field} />}
+                </CommonFormField>
+                <CommonFormField name="confirmPassword" label={t("confirmPassword")}>
+                  {(field) => <Input type="password" {...field} />}
+                </CommonFormField>
 
                 {errorMsg && (
-                    <span
-                      className="mt-4 text-destructive w-full justify-self-end break-words whitespace-normal"
-                    >{errorMsg}</span>
-                  )}
+                  <span className="text-destructive col-start-2 w-full">{errorMsg}</span>
+                )}                
 
-                <Button className="mt-4 col-start-2" type="submit">
+                <Button className=" mt-2 col-span-2" type="submit">
                   {isLoading ? <>{t('saving')} <Spinner /></> : t('signUp')}
                 </Button>
               </form>
             </Form>
-
-            
           </CardContent>
           <CardFooter>
             <Button
