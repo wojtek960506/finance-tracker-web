@@ -1,4 +1,4 @@
-import { LoginDTO } from "@/app/login/page";
+import { LoginDTO } from "@/schemas/user-schema";
 import { api } from "./axios"
 import { UserAPI } from "@/types/user-types";
 import { AxiosError } from "axios";

@@ -1,13 +1,12 @@
 "use client"
 
 import { createUser } from "@/api/users-api";
-import { CommonFormField } from "@/components/common/common-form-field";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
+import { InputField } from "@/components/user/forms/fields/input-field";
 import { UserCreateDTO, UserCreateSchema } from "@/schemas/user-schema";
 import { useGeneralStore } from "@/store/general-store";
 import { CommonError } from "@/types/api-types";
@@ -18,8 +17,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
-
-const emptyUserValues = {
+const defaultNewUserValues = {
   firstName: "",
   lastName: "",
   email: "",
@@ -34,11 +32,10 @@ export default function RegisterPage() {
   const { accessToken, isLoggingOut, _hasHydrated } = useGeneralStore();
   const form = useForm<UserCreateDTO>({
     resolver: zodResolver(UserCreateSchema),
-    defaultValues: emptyUserValues,
+    defaultValues: defaultNewUserValues,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
 
   useEffect(() => {
     if (!_hasHydrated) return;
@@ -68,41 +65,24 @@ export default function RegisterPage() {
       <div className="flex min-h-full justify-center">
         <Card className="my-auto">
           <CardHeader>
-            <CardTitle>{t('createNewAccount')}</CardTitle>
+            <CardTitle>{t('createAccount')}</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col">
+          <CardContent>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="grid grid-cols-[auto_300px] gap-3"
               >
-                
-                <CommonFormField name="firstName" label={t("firstName")}>
-                  {(field) => <Input type="text" {...field} />}
-                </CommonFormField>
-                <CommonFormField name="lastName" label={t("lastName")}>
-                  {(field) => <Input type="text" {...field} />}
-                </CommonFormField>
-
-                <CommonFormField name="email" label={t("email")}>
-                  {(field) => <Input type="text" {...field} />}
-                </CommonFormField>
-                <CommonFormField name="confirmEmail" label={t("confirmEmail")}>
-                  {(field) => <Input type="text" {...field} />}
-                </CommonFormField>
-                
-                <CommonFormField name="password" label={t("password")}>
-                  {(field) => <Input type="password" {...field} />}
-                </CommonFormField>
-                <CommonFormField name="confirmPassword" label={t("confirmPassword")}>
-                  {(field) => <Input type="password" {...field} />}
-                </CommonFormField>
-
+                <InputField name="firstName" type="text" />
+                <InputField name="lastName" type="text" />
+                <InputField name="email" type="text" />
+                <InputField name="confirmEmail" type="text" />
+                <InputField name="password" type="text" />
+                <InputField name="confirmPassword" type="password" />
                 {errorMsg && (
                   <span className="text-destructive col-start-2 w-full">{errorMsg}</span>
-                )}                
-
-                <Button className=" mt-2 col-span-2" type="submit">
+                )}              
+                <Button className=" mt-2 col-span-2" type="submit" disabled={isLoading}>
                   {isLoading ? <>{t('saving')} <Spinner /></> : t('signUp')}
                 </Button>
               </form>

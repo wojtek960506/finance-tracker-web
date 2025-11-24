@@ -1,9 +1,17 @@
 {
+  "createAccount": "Utwórz konto",
   "login": "Logowanie",
   "logout": "Wyloguj",
+  "firstName": "Imię",
+  "lastName": "Nazwisko",
   "email": "Adres e-mail",
+  "confirmEmail": "Potwierdź e-mail",
   "password": "Hasło",
+  "confirmPassword": "Potwierdź hasło",
   "logIn": "Zaloguj się",
+  "loggingIn": "Logowanie...",
+  "signUp": "Zarejesetruj się",
+  "doYouHaveAccount": "Czy masz już konto ?",
 
   "title": "Śledzik Finansowy",
   "transactions": "Transakcje",

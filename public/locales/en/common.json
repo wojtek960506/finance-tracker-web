@@ -1,9 +1,17 @@
 {
+  "createAccount": "Create account",
   "login": "Login",
   "logout": "Logout",
+  "firstName": "First name",
+  "lastName": "Last name",
   "email": "Email address",
+  "confirmEmail": "Confirm email",
   "password": "Password",
+  "confirmPassword": "Confirm password",
   "logIn": "Log in",
+  "loggingIn": "Loggin in...",
+  "signUp": "Sign up",
+  "doYouHaveAccount": "Do you already have an account ?",
   
   "title": "Finance Tracker",
   "transactions": "Transactions",
