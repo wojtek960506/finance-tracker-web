@@ -2,13 +2,17 @@ import { TransactionAPI } from "@/types/transaction-types";
 import { api } from "./axios";
 import { TransactionCreateDTO, TransactionUpdateDTO } from "@/schemas/transaction";
 import { withRefresh } from "./auth-api";
+import { FilteredResponse } from "@/types/api-types";
 
-const getTransactionsNoRefresh = async (): Promise<TransactionAPI[]> => {
+const getTransactionsNoRefresh = async (): Promise<
+  FilteredResponse<TransactionAPI[]>
+> => {
   const { data } = await api.get('/transactions');
   return data
 }
 
-export const getTransactions = async (): Promise<TransactionAPI[] | undefined> => {
+export const getTransactions = async (): Promise<
+  FilteredResponse<TransactionAPI[]> | undefined> => {
   return withRefresh(getTransactionsNoRefresh);
 }
 
