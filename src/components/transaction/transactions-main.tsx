@@ -1,0 +1,38 @@
+"use client"
+
+import { TransactionsTable } from "@/components/transaction/transactions-table";
+import { Card, CardContent } from "@/components/ui/card"
+import { useGetTransactions } from "@/hooks/use-get-transactions";
+import { TransactionsFilter } from "./transactions-filter";
+import { useTransactionsFilterStore } from "@/store/transactions-filter-store";
+import { useGeneralStore } from "@/store/general-store";
+import { TransactionsHeader } from "./transactions-header";
+import { useTranslation } from "react-i18next";
+
+export const TransactionsMain = () => {
+  const { t } = useTranslation("common");
+  const { transactions, isLoading, isError, error } = useGetTransactions();
+  const { isShown } = useTransactionsFilterStore();
+  const isLoggingOut = useGeneralStore(s => s.isLoggingOut);
+
+  if (isLoggingOut) return null;
+
+  return (
+    <div className="flex-1 flex flex-col h-full space-y-4 p-6 min-h-[300px]">
+      <Card className="overflow-hidden">
+        <TransactionsHeader />
+        <CardContent className="flex flex-row overflow-hidden">
+          {isLoading && <p>{t('loading')}</p>}
+          {isError && <p className="text-red-500">{error?.message}</p>}
+          {!isLoading && transactions?.length === 0 && <p>{t('noTransactionsFound')}</p>}
+          {!isLoading && (transactions ?? []).length > 0 && (
+            <>
+              <TransactionsTable transactions={transactions!}/>
+              {isShown && <TransactionsFilter />}
+            </>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  )
+}

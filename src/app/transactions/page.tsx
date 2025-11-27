@@ -1,15 +1,17 @@
 "use client"
 
 import { AppLayout } from "@/components/layout/app-layout"
-import { TransactionsMain } from "@/components/transaction/main";
+import { TransactionsMain } from "@/components/transaction/transactions-main";
 import { Spinner } from "@/components/ui/spinner";
 import { useGeneralStore } from "@/store/general-store";
 import { useTransactionsFilterStore } from "@/store/transactions-filter-store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 
 export default function TransactionsPage() {
+  const { t } = useTranslation("common");
   const accessToken = useGeneralStore(s => s.accessToken);
   const hasHydrated = useGeneralStore(s => s._hasHydrated);
   const hasTransactionsFilterHydrated = useTransactionsFilterStore(s => s._hasHydrated);
@@ -26,7 +28,7 @@ export default function TransactionsPage() {
   if (!accessToken) {
     return (
       <div className="flex h-screen justify-center items-center gap-2 text-4xl">
-        <span>Loading</span>
+        <span>{t('loading')}</span>
         <Spinner className="w-[1em] h-[1em] inline-block"/>
       </div>
     )
