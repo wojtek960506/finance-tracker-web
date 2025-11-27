@@ -57,6 +57,12 @@
   "created_at": "Created",
   "updated_at": "Edited",
 
+  "filterPanel": "Filters",
+  "startDate": "Date from",
+  "endDate": "Date to",
+  "minAmount": "Minimum amount",
+  "maxAmount": "Maximum amount",
+
   "paymentMethod_options": {
     "atm": "ATM",
     "bankTransfer": "Bank Transfer",

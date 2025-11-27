@@ -41,7 +41,7 @@
 
   "date": "Data",
   "description": "Opis",
-  "amount": "Wartość",
+  "amount": "Kwota",
   "transactionType": "Typ",
 
   "paymentMethod": "Metoda płatności",
@@ -56,6 +56,12 @@
 
   "created_at": "Utworzono",
   "updated_at": "Edytowano",
+
+  "filterPanel": "Filtry",
+  "startDate": "Data od",
+  "endDate": "Data do",
+  "minAmount": "Minimalna kwota",
+  "maxAmount": "Maksymalna kwota",
 
   "paymentMethod_options": {
     "atm": "Bankomat",
