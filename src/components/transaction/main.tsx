@@ -11,12 +11,18 @@ import { useState } from "react";
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
 import { TransactionsFilter } from "./transactions-filter";
+import { useTransactionsFilterStore } from "@/store/transactions-filter-store";
+import { useGeneralStore } from "@/store/general-store";
 
 export const TransactionsMain = () => {
   const { t } = useTranslation("common");
   const { transactions, isLoading, isError, error } = useGetTransactions();
+  const { isShown, setIsShown } = useTransactionsFilterStore();
   const createMutation = useCreateTransaction();
-  const [filterPanelOn, setFilterPanelOn] = useState(false);
+  const [filterPanelOn, setFilterPanelOn] = useState(isShown);
+  const isLoggingOut = useGeneralStore(s => s.isLoggingOut);
+
+  if (isLoggingOut) return null;
 
   return (
     <div className="flex-1 flex flex-col h-full space-y-4 p-6 min-h-[300px]">
@@ -35,7 +41,10 @@ export const TransactionsMain = () => {
               <Switch
                 id="filter-switch"
                 checked={filterPanelOn}
-                onCheckedChange={setFilterPanelOn}
+                onCheckedChange={(v: boolean) => {
+                  setFilterPanelOn(v);
+                  setIsShown(v);
+                }}
               />
               <Label htmlFor="filter-switch" className="text-lg">Filter Panel</Label>
             </div>

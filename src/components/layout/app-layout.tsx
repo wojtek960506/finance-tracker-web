@@ -11,8 +11,7 @@ import { usePathname } from "next/navigation";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
 
-  const hasHydrated = useGeneralStore(s => s._hasHydrated);
-  const accessToken = useGeneralStore(s => s.accessToken);
+  const { _hasHydrated: hasHydrated, accessToken, isLoggingOut } = useGeneralStore();
   const pathname = usePathname();
 
   if (!hasHydrated) {
@@ -24,7 +23,10 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     )
   }
 
-  const showSidebard = accessToken && !["/login", "/register"].includes(pathname);
+  const showSidebard =
+    accessToken &&
+    !["/login", "/register"].includes(pathname) &&
+    !isLoggingOut;
 
   return (
     <I18nextProvider i18n={i18n}>

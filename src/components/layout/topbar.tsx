@@ -7,9 +7,12 @@ import { usePathname } from "next/navigation";
 
 export function Topbar() {
   const { t } = useTranslation("common");
-  const { accessToken } = useGeneralStore();
+  const { accessToken, isLoggingOut } = useGeneralStore();
   const pathname = usePathname();
-  const showPageName = accessToken && !["/login", "/register"].includes(pathname)
+  const showPageName =
+    accessToken &&
+    !["/login", "/register"].includes(pathname) &&
+    !isLoggingOut;
 
   return (
     <header className="flex items-center h-14 border-b bg-background ">

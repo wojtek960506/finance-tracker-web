@@ -75,11 +75,12 @@ export const logout = async (): Promise<{ success: boolean } | undefined> => wit
 export const getMe = async (): Promise<UserAPI | undefined> => withRefresh(getMeNoRefresh);
 
 
-export const logoutCore = async (): Promise<undefined> => {
+export const logoutCore = async (isInsideRefresh: boolean): Promise<undefined> => {
   try {
     isInsideLogout = true;
     await logout();
   } catch (err: unknown) {
+    if (!isInsideRefresh)
       toast.error((err as CommonError).message);
   } finally {
     isInsideLogout = false;

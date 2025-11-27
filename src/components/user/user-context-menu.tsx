@@ -11,7 +11,7 @@ import { PrivateContextMenuItems } from "./private-context-menu-items";
 
 export const UserContextMenu = () => {
   const { t, i18n } = useTranslation("common");
-  const { language, setLanguage, accessToken } = useGeneralStore();
+  const { language, setLanguage, accessToken, isLoggingOut } = useGeneralStore();
   const pathname = usePathname();
    
   useEffect(() => {
@@ -24,7 +24,11 @@ export const UserContextMenu = () => {
   }
 
   const chosenCn = "bg-blue-300 data-[highlighted]:bg-blue-400 data-[highlighted]:text-white"
-  const showPrivateData = accessToken && !["/login", "/register"].includes(pathname)
+  const showPrivateData =
+    accessToken &&
+    !["/login", "/register"].includes(pathname) &&
+    !isLoggingOut;
+
 
   return (
     <DropdownMenu>
