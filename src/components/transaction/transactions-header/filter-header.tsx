@@ -22,13 +22,19 @@ export const TransactionsFilterHeader = () => {
 
   return (
     <ul className="flex gap-2">
-      {Object.entries(filters)
-        .filter(([key, value]) => !notShownFilters.includes(key) && value !== undefined)
-        .map(([key, value]) => (
-          <li key={key} className="border border-2 border-black rounded-lg px-2">
-            {t(key)}: {parseValue(key, value)}
-          </li>
-      ))}
+      {
+        Object.entries(filters)
+          .filter(([key, value]) => !notShownFilters.includes(key) && value !== undefined)
+          .map(([key, value]) => (
+            <li
+              key={key}
+              className="border border-2 border-black rounded-lg px-2"
+            >
+              {t(key)}: {parseValue(key, value)}
+            </li>
+          )
+        )
+      }
     </ul>
   )
 }

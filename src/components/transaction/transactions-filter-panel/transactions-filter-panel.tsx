@@ -13,18 +13,44 @@ import {
 import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { useTransactionsFilterStore } from "@/store/transactions-filter-store"
+import { areObjectsEqual } from "@/lib/utils"
+import { useEffect } from "react"
 
-export const TransactionsFilter = () => {
+// TODO think about creating some common function for values here and in filters's store
+const defaultValues: TransactionQuery = {
+  page: 1,
+  limit: 40,
+  sortBy: "date",
+  sortOrder: "desc",
+  startDate: undefined,
+  endDate: undefined,
+  minAmount: undefined,
+  maxAmount: undefined,
+  transactionType: undefined,
+  currency: undefined,
+  category: undefined,
+  paymentMethod: undefined,
+  account: undefined,
+}
+
+export const TransactionsFilterPanel = () => {
   const { t } = useTranslation("common");
-  const { filters, setFilters } = useTransactionsFilterStore();
+  const { filters, setFilters, setIsShown } = useTransactionsFilterStore();
   const form = useForm<TransactionQuery>({
     resolver: zodResolver(TransactionQuerySchema),
-    defaultValues: filters,
-  })
+    defaultValues
+  })  
+
+  
+  useEffect(() => {
+    form.reset(filters);
+  }, [form, filters]);
 
   const onSubmit = (values: TransactionQuery) => {
     console.log('values: ', values);
-    setFilters(values);
+    if (!areObjectsEqual(values, filters))
+      setFilters(values);
+    setIsShown(false);
   }
 
   const mcn = "flex min-w-fit border-1 border-gray-500 rounded-xl ml-2 p-2 overflow-hidden";

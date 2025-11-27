@@ -3,7 +3,7 @@
 import { TransactionsTable } from "@/components/transaction/transactions-table";
 import { Card, CardContent } from "@/components/ui/card"
 import { useGetTransactions } from "@/hooks/use-get-transactions";
-import { TransactionsFilter } from "./transactions-filter";
+import { TransactionsFilterPanel } from "./transactions-filter-panel";
 import { useTransactionsFilterStore } from "@/store/transactions-filter-store";
 import { useGeneralStore } from "@/store/general-store";
 import { TransactionsHeader } from "./transactions-header";
@@ -28,7 +28,7 @@ export const TransactionsMain = () => {
           {!isLoading && (transactions ?? []).length > 0 && (
             <>
               <TransactionsTable transactions={transactions!}/>
-              {isShown && <TransactionsFilter />}
+              {isShown && <TransactionsFilterPanel />}
             </>
           )}
         </CardContent>
