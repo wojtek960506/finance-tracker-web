@@ -11,7 +11,8 @@ import { useTranslation } from "react-i18next";
 
 export const TransactionsMain = () => {
   const { t } = useTranslation("common");
-  const { transactions, isLoading, isError, error } = useGetTransactions();
+  const filters = useTransactionsFilterStore(s => s.filters)
+  const { data, isLoading, isError, error } = useGetTransactions(filters);
   const { isShown } = useTransactionsFilterStore();
   const isLoggingOut = useGeneralStore(s => s.isLoggingOut);
 
@@ -21,16 +22,14 @@ export const TransactionsMain = () => {
     <div className="flex-1 flex flex-col h-full space-y-4 p-6 min-h-[300px]">
       <Card className="overflow-hidden">
         <TransactionsHeader />
-        <CardContent className="flex flex-row overflow-hidden">
+        <CardContent className="flex flex-row overflow-hidden justify-between">
           {isLoading && <p>{t('loading')}</p>}
           {isError && <p className="text-red-500">{error?.message}</p>}
-          {!isLoading && transactions?.length === 0 && <p>{t('noTransactionsFound')}</p>}
-          {!isLoading && (transactions ?? []).length > 0 && (
-            <>
-              <TransactionsTable transactions={transactions!}/>
-              {isShown && <TransactionsFilterPanel />}
-            </>
-          )}
+          {!isLoading && data?.items.length === 0 && <p>{t('noTransactionsFound')}</p>}
+          {!isLoading && (data?.items ?? []).length > 0 && (
+            <TransactionsTable data={data!}/>
+          )}      
+          {isShown && <TransactionsFilterPanel />}
         </CardContent>
       </Card>
     </div>

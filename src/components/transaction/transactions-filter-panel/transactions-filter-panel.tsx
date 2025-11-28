@@ -14,44 +14,36 @@ import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { useTransactionsFilterStore } from "@/store/transactions-filter-store"
 import { areObjectsEqual } from "@/lib/utils"
-import { useEffect } from "react"
-
-// TODO think about creating some common function for values here and in filters's store
-const defaultValues: TransactionQuery = {
-  page: 1,
-  limit: 40,
-  sortBy: "date",
-  sortOrder: "desc",
-  startDate: undefined,
-  endDate: undefined,
-  minAmount: undefined,
-  maxAmount: undefined,
-  transactionType: undefined,
-  currency: undefined,
-  category: undefined,
-  paymentMethod: undefined,
-  account: undefined,
-}
 
 export const TransactionsFilterPanel = () => {
   const { t } = useTranslation("common");
   const { filters, setFilters, setIsShown } = useTransactionsFilterStore();
   const form = useForm<TransactionQuery>({
     resolver: zodResolver(TransactionQuerySchema),
-    defaultValues
+    defaultValues: JSON.parse(JSON.stringify(filters))
   })  
 
-  
-  useEffect(() => {
-    form.reset(filters);
-  }, [form, filters]);
-
   const onSubmit = (values: TransactionQuery) => {
-    console.log('values: ', values);
-    if (!areObjectsEqual(values, filters))
-      setFilters(values);
+    if (!areObjectsEqual(values, filters)) setFilters(values);
     setIsShown(false);
   }
+
+  const handleClick = () => {
+    const raw = form.getValues();
+    for (const [key, value] of Object.entries(raw)) {
+      if (value === "") form.setValue(key as keyof TransactionQuery, undefined)
+    }
+    // zod validation runs when calling form.handleSubmit
+    form.handleSubmit(
+      (data) => {
+        console.log("AFTER validation:", data);
+        onSubmit(data);
+      },
+      (errors) => {
+        console.log("Validation errors:", errors);
+      }
+    )();
+  };
 
   const mcn = "flex min-w-fit border-1 border-gray-500 rounded-xl ml-2 p-2 overflow-hidden";
   return (
@@ -59,7 +51,10 @@ export const TransactionsFilterPanel = () => {
       <div className="overflow-auto pr-1">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleClick();
+          }}
           className="flex h-full flex-col justify-between"
         >
           <div className="grid grid-cols-[auto_auto] gap-3">

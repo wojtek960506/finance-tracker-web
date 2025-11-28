@@ -12,14 +12,23 @@ export function sleep(ms: number) {
 export const areObjectsEqual = (
     obj1: Record<string, unknown>,
     obj2: Record<string, unknown>
-  ) => {
-    const map1 = new Map(Object.entries(obj1));
-    const map2 = new Map(Object.entries(obj2));
+) => {
+  const map1 = new Map(Object.entries(obj1));
+  const map2 = new Map(Object.entries(obj2));
 
-    if (map1.size !== map2.size) return false;
+  if (map1.size !== map2.size) return false;
 
-    for (const [key, value] of map1) {
-      if (map2.get(key) !== value) return false;
-    }
-    return true;
+  for (const [key, value] of map1) {
+    if (map2.get(key) !== value) return false;
   }
+  return true;
+}
+
+export const buildQueryParams = (filters: Record<string, unknown>) => {
+  const params = new URLSearchParams();
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value !== undefined && value !== "")
+      params.set(key, String(value));
+  })
+  return params.toString();
+}

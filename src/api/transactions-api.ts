@@ -4,16 +4,16 @@ import { TransactionCreateDTO, TransactionUpdateDTO } from "@/schemas/transactio
 import { withRefresh } from "./auth-api";
 import { FilteredResponse } from "@/types/api-types";
 
-const getTransactionsNoRefresh = async (): Promise<
+const getTransactionsNoRefresh = async (query: string): Promise<
   FilteredResponse<TransactionAPI[]>
 > => {
-  const { data } = await api.get('/transactions');
+  const { data } = await api.get(`/transactions?${query}`);
   return data
 }
 
-export const getTransactions = async (): Promise<
+export const getTransactions = async (query: string): Promise<
   FilteredResponse<TransactionAPI[]> | undefined> => {
-  return withRefresh(getTransactionsNoRefresh);
+  return withRefresh(getTransactionsNoRefresh, query);
 }
 
 const createTransactionNoRefresh = async (

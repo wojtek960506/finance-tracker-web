@@ -29,10 +29,11 @@ export const CommonInputField = ({ name, type }: InputFieldProps) => {
     <CommonFormField name={name} label={t(name)}>
       {(field) => (
         <Input
-          type={type}
           {...field}
+          type={type}
           value={field.value ?? ""}
           {...registerProps}
+          onChange={(e) => field.onChange(e.target.value)}
         />
       )}
     </CommonFormField>

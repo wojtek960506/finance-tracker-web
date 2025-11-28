@@ -12,9 +12,13 @@ import {
   EditTransactionModal,
   ShowTransactionModal
 } from "../modals";
+import { FilteredResponse } from "@/types/api-types";
+import { TransactionsPagination } from "./transactions-pagination";
 
 
-export const TransactionsTable = ({ transactions }: { transactions: TransactionAPI[] }) => {
+export const TransactionsTable = ({ data }: { data: FilteredResponse<TransactionAPI[]> }) => {
+  const { items: transactions, page, total, totalPages } = data;
+
   const [detailsOpen, setDetailsOpen] = useState(false);  
   const [transactionToDelete, setTransactionToDelete] = useState<TransactionAPI | null>(null);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
@@ -57,42 +61,49 @@ export const TransactionsTable = ({ transactions }: { transactions: TransactionA
   }
   
   return (
-    <Table className="text-lg">
-      <TransactionsTableHeader />
-      <TableBody>
-        {transactions.map(transaction => (
-          <TableRow
-            key={transaction.id}
-            onClick={() => handleDetailsClick(transaction)}
-          >
-            <TransactionInfoCells transaction={transaction}/>
-            <TableCell className="sticky right-0 bg-background flex justify-center">
-              <TransactionContextMenu
-                onDetailsClick={() => handleDetailsClick(transaction)}
-                onEditClick={() => handleEditClick(transaction)}
-                onDeleteClick={() => handleDeleteClick(transaction)}
-              />
-            </TableCell>
-          </TableRow>
-        ))}
-        <DeleteTransactionModal 
-          onDelete={handleTransactionDelete}
-          transaction={transactionToDelete}
-          open={deleteConfirmationOpen}
-          onOpenChange={setDeleteConfirmationOpen}
-        />
-        <ShowTransactionModal
-          transaction={transactionToShow}
-          open={detailsOpen}
-          onOpenChange={setDetailsOpen}
-        />
-        <EditTransactionModal
-          onEdit={handleEditTransaction}
-          transaction={transactionToEdit}
-          open={editOpen}
-          onOpenChange={setEditOpen}
-        />
-      </TableBody>
-    </Table>
+    <div className="grid w-full gap-3">
+      <Table className="text-lg">
+        <TransactionsTableHeader />
+        <TableBody>
+          {transactions.map(transaction => (
+            <TableRow
+              key={transaction.id}
+              onClick={() => handleDetailsClick(transaction)}
+            >
+              <TransactionInfoCells transaction={transaction}/>
+              <TableCell className="sticky right-0 bg-background flex justify-center">
+                <TransactionContextMenu
+                  onDetailsClick={() => handleDetailsClick(transaction)}
+                  onEditClick={() => handleEditClick(transaction)}
+                  onDeleteClick={() => handleDeleteClick(transaction)}
+                />
+              </TableCell>
+            </TableRow>
+          ))}
+          <DeleteTransactionModal 
+            onDelete={handleTransactionDelete}
+            transaction={transactionToDelete}
+            open={deleteConfirmationOpen}
+            onOpenChange={setDeleteConfirmationOpen}
+          />
+          <ShowTransactionModal
+            transaction={transactionToShow}
+            open={detailsOpen}
+            onOpenChange={setDetailsOpen}
+          />
+          <EditTransactionModal
+            onEdit={handleEditTransaction}
+            transaction={transactionToEdit}
+            open={editOpen}
+            onOpenChange={setEditOpen}
+          />
+        </TableBody>
+      </Table>
+      <TransactionsPagination
+        page={page}
+        total={total}
+        totalPages={totalPages}
+      /> 
+    </div>
   )
 }
