@@ -22,7 +22,7 @@ const initialTransactionsFilterState: Omit<
 > = {
   filters: {
     page: 1,
-    limit: 40,
+    limit: 50,
     sortBy: "date",
     sortOrder: "desc",
     startDate: undefined,

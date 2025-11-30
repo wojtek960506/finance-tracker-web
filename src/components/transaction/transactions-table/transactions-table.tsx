@@ -103,7 +103,7 @@ export const TransactionsTable = ({ data }: { data: FilteredResponse<Transaction
         page={page}
         total={total}
         totalPages={totalPages}
-      /> 
+      />
     </div>
   )
 }

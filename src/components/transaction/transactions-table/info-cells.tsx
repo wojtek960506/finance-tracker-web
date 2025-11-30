@@ -20,7 +20,8 @@ export const TransactionInfoCells = ({ transaction }: { transaction: Transaction
       </TableCell>
       <TableCell>{transaction.amount}</TableCell>
       <TableCell>
-        {`${t(`currency_options.${transaction.currency}`)} (${transaction.currency})`}
+        {/* {`${t(`currency_options.${transaction.currency}`)} (${transaction.currency})`} */}
+        {transaction.currency}
       </TableCell>
       <TableCell>{t(`category_options.${transaction.category}`)}</TableCell>
       <TableCell>{t(`paymentMethod_options.${transaction.paymentMethod}`)}</TableCell>

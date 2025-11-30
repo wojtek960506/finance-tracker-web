@@ -71,7 +71,8 @@
     "payment": "Opłata",
     "credit": "Uznanie",
     "cashDepositMachine": "Wpłatomat",
-    "card": "Karta"
+    "card": "Karta",
+    "incomingTransfer": "Incoming Transfer"
   },
 
   "currency_options": {

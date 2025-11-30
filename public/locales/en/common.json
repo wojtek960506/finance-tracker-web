@@ -71,7 +71,8 @@
     "payment": "Payment",
     "credit": "Credit",
     "cashDepositMachine": "Cash Deposit Machine",
-    "card": "Card"
+    "card": "Card",
+    "incomingTransfer": "Incoming Transfer"
   },
 
   "currency_options": {
