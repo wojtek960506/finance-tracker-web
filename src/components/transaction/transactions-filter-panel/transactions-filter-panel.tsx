@@ -12,7 +12,10 @@ import {
 } from "../modals/forms/fields"
 import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
-import { useTransactionsFilterStore } from "@/store/transactions-filter-store"
+import {
+  defaultTransactionFilters,
+  useTransactionsFilterStore
+} from "@/store/transactions-filter-store"
 import { areObjectsEqual } from "@/lib/utils"
 
 export const TransactionsFilterPanel = () => {
@@ -28,7 +31,12 @@ export const TransactionsFilterPanel = () => {
     setIsShown(false);
   }
 
-  const handleClick = () => {
+  const onClear = () => {
+    console.log('clear')
+    form.reset(JSON.parse(JSON.stringify(defaultTransactionFilters)));
+  }
+
+  const handleSubmit = () => {
     const raw = form.getValues();
     for (const [key, value] of Object.entries(raw)) {
       if (value === "") form.setValue(key as keyof TransactionQuery, undefined)
@@ -53,9 +61,9 @@ export const TransactionsFilterPanel = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handleClick();
+            handleSubmit();
           }}
-          className="flex h-full flex-col justify-between"
+          // className="flex h-full flex-col justify-between"
         >
           <div className="grid grid-cols-[auto_auto] gap-3">
             <CommonInputField name="startDate" type="date" />
@@ -68,8 +76,10 @@ export const TransactionsFilterPanel = () => {
             <PaymentMethodField />
             <AccountField />
             <TransactionTypeField />
+          
+          <Button className="mt-4" type="button" variant="secondary" onClick={onClear}>{t('clear')}</Button>
+          <Button className="mt-4" type="submit">{t("apply")} </Button>
           </div>
-          <Button className="col-span-2 mt-4" type="submit">{t("apply")}</Button>
         </form>
       </Form>
       </div>

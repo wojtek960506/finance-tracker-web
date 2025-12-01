@@ -13,6 +13,22 @@ type TransactionsFilterState = {
   setHasHydrated: (_hasHydrated: boolean) => void;
 }
 
+export const defaultTransactionFilters = {
+  page: 1,
+  limit: 50,
+  sortBy: "date",
+  sortOrder: "desc",
+  startDate: undefined,
+  endDate: undefined,
+  minAmount: undefined,
+  maxAmount: undefined,
+  transactionType: undefined,
+  currency: undefined,
+  category: undefined,
+  paymentMethod: undefined,
+  account: undefined,
+} as TransactionQuery;
+
 const initialTransactionsFilterState: Omit<
   TransactionsFilterState,
   "_hasHydrated" |
@@ -20,21 +36,7 @@ const initialTransactionsFilterState: Omit<
   "setIsShown" |
   "setHasHydrated"
 > = {
-  filters: {
-    page: 1,
-    limit: 50,
-    sortBy: "date",
-    sortOrder: "desc",
-    startDate: undefined,
-    endDate: undefined,
-    minAmount: undefined,
-    maxAmount: undefined,
-    transactionType: undefined,
-    currency: undefined,
-    category: undefined,
-    paymentMethod: undefined,
-    account: undefined,
-  },
+  filters: defaultTransactionFilters,
   isShown: false,
 }
 

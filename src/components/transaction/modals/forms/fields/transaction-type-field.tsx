@@ -14,6 +14,7 @@ export const TransactionTypeField = () => {
           value={field.value}
           setValue={field.onChange}
           optionsKeys={[...TRANSACTION_TYPES]}
+          isHorizontal={false}
         />
       )}
     </CommonFormField>

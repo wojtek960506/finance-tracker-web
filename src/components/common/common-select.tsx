@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/select";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Button } from "../ui/button";
 
 type CommonSelectProps = {
   titleKey: string,
@@ -14,7 +15,7 @@ type CommonSelectProps = {
   setValue: (value: string) => void;
   placeholderKey: string;
   optionsKeys: Set<string>;
-  clearable?: boolean;
+  isClearable?: boolean;
 }
 
 export const CommonSelect = ({
@@ -23,7 +24,7 @@ export const CommonSelect = ({
   setValue,
   placeholderKey,
   optionsKeys,
-  clearable = true
+  isClearable = true
 }: CommonSelectProps) => {
   const { t } = useTranslation("common");
   const form = useFormContext();
@@ -52,19 +53,19 @@ export const CommonSelect = ({
             </SelectItem>
           ))}
         </SelectContent>
-        {value && clearable && 
-          <button
-          type="button"
+        {value && isClearable && 
+          <Button
+          variant="ghost"
           onClick={(e) => {
             e.preventDefault();
             // TODO - check this probably is not needed
             form.setValue(titleKey, undefined);
             setValue("");
           }}
-          className="mx-1"
+          className="p-1 ml-1"
         >
           ✕
-        </button>}
+        </Button>}
       </Select>
       
     </div>
