@@ -2,19 +2,14 @@ import {
   TransactionFilter,
   TransactionFilterSchema,
   TransactionQuery,
-  // TransactionQuerySchema
 } from "@/schemas/transaction-query"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Form } from "@/components/ui/form"
 import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
-import {
-  // defaultTransactionFilters,
-  useTransactionsFilterStore
-} from "@/store/transactions-filter-store"
+import { useTransactionsFilterStore } from "@/store/transactions-filter-store"
 import { areObjectsEqual } from "@/lib/utils"
-import { ControlledSelectField } from "@/components/common/common-form-v2/controlled/controlled-select-field"
 import {
   ACCOUNTS,
   CATEGORIES,
@@ -22,8 +17,11 @@ import {
   PAYMENT_METHODS,
   TRANSACTION_TYPES
 } from "@/lib/consts"
-import { ControlledInputField } from "@/components/common/common-form-v2/controlled/controlled-input-field"
-import { ControlledRadioField } from "@/components/common/common-form-v2/controlled/controlled-radio-field"
+import {
+  ControlledInputField,
+  ControlledRadioField,
+  ControlledSelectField,
+} from "@/components/controlled-form"
 
 const denormalizeFilters = (values: TransactionQuery): TransactionFilter => ({
   ...values,

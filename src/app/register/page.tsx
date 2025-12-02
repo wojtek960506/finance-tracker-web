@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { CommonUserPage } from "@/components/user/common-user-page";
-import { ControlledInputField } from "@/components/common/common-form-v2/controlled/controlled-input-field";
+import { ControlledInputField } from "@/components/controlled-form";
 
 const defaultNewUserValues = {
   firstName: "",

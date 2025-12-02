@@ -12,11 +12,13 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
-
 import { toast } from "sonner";
 import { CommonError } from "@/types/api-types";
-import { ControlledInputField } from "@/components/common/common-form-v2/controlled/controlled-input-field";
-import { ControlledSelectField } from "@/components/common/common-form-v2/controlled/controlled-select-field";
+import {
+  ControlledInputField,
+  ControlledRadioField,
+  ControlledSelectField,
+} from "@/components/controlled-form";
 import {
   ACCOUNTS,
   CATEGORIES,
@@ -24,7 +26,6 @@ import {
   PAYMENT_METHODS,
   TRANSACTION_TYPES
 } from "@/lib/consts";
-import { ControlledRadioField } from "@/components/common/common-form-v2/controlled/controlled-radio-field";
 
 type AddTransactionFormProps = {
   onOpenChange: (value: boolean) => void;

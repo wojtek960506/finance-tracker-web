@@ -13,9 +13,11 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { CommonError } from "@/types/api-types";
-import { ControlledInputField } from "@/components/common/common-form-v2/controlled/controlled-input-field";
-import { ControlledSelectField } from "@/components/common/common-form-v2/controlled/controlled-select-field";
-import { ControlledRadioField } from "@/components/common/common-form-v2/controlled/controlled-radio-field";
+import {
+  ControlledInputField,
+  ControlledRadioField,
+  ControlledSelectField,
+} from "@/components/controlled-form";
 import {
   ACCOUNTS,
   CATEGORIES,
