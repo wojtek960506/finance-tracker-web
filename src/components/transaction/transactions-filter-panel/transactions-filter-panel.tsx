@@ -23,6 +23,7 @@ import {
   TRANSACTION_TYPES
 } from "@/lib/consts"
 import { ControlledInputField } from "@/components/common/common-form-v2/controlled/controlled-input-field"
+import { ControlledRadioField } from "@/components/common/common-form-v2/controlled/controlled-radio-field"
 
 const denormalizeFilters = (values: TransactionQuery): TransactionFilter => ({
   ...values,
@@ -124,9 +125,8 @@ export const TransactionsFilterPanel = () => {
               optionsKeys={ACCOUNTS}
             />
 
-            <ControlledSelectField
+            <ControlledRadioField
               name={"transactionType"}
-              placeholderKey={"transactionTypePlaceholder"}
               optionsKeys={TRANSACTION_TYPES}
             />
 

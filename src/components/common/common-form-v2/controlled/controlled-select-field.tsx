@@ -47,7 +47,7 @@ export const ControlledSelectField = ({
                 </SelectItem>
               ))}
             </SelectContent>
-            {field.value && isClearable &&
+            {field.value && isClearable && !isDisabled &&
               <Button
                 variant="ghost"
                 type="button"
