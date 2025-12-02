@@ -2,13 +2,13 @@
 
 import { login } from "@/api/auth-api";
 import { AppLayout } from "@/components/layout/app-layout";
-import { CommonInputField } from "@/components/common/common-input-field";
 import { LoginDTO, LoginSchema } from "@/schemas/user-schema";
 import { useGeneralStore } from "@/store/general-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { CommonUserPage } from "@/components/user/common-user-page";
+import { ControlledInputField } from "@/components/common/common-form-v2/controlled/controlled-input-field";
 
 const defaultLoginValues = {
   email: "",
@@ -38,8 +38,8 @@ export default function LoginPage() {
         nextRouteButtonText={t('createAccount')}
         submitMethod={submitMethod}
       >
-        <CommonInputField name="email" type="text" />
-        <CommonInputField name="password" type="password" />
+        <ControlledInputField name="email" type="text" />
+        <ControlledInputField name="password" type="password" />
       </CommonUserPage>
     </AppLayout>
   )

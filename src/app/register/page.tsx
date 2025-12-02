@@ -2,13 +2,13 @@
 
 import { createUser } from "@/api/users-api";
 import { AppLayout } from "@/components/layout/app-layout";
-import { CommonInputField } from "@/components/common/common-input-field";
 import { UserCreateDTO, UserCreateSchema } from "@/schemas/user-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { CommonUserPage } from "@/components/user/common-user-page";
+import { ControlledInputField } from "@/components/common/common-form-v2/controlled/controlled-input-field";
 
 const defaultNewUserValues = {
   firstName: "",
@@ -44,12 +44,12 @@ export default function RegisterPage() {
         nextRouteButtonText={t('doYouHaveAccount')}
         submitMethod={submitMethod}
       >
-        <CommonInputField name="firstName" type="text" />
-        <CommonInputField name="lastName" type="text" />
-        <CommonInputField name="email" type="text" />
-        <CommonInputField name="confirmEmail" type="text" />
-        <CommonInputField name="password" type="password" />
-        <CommonInputField name="confirmPassword" type="password" />
+        <ControlledInputField name="firstName" type="text" />
+        <ControlledInputField name="lastName" type="text" />
+        <ControlledInputField name="email" type="text" />
+        <ControlledInputField name="confirmEmail" type="text" />
+        <ControlledInputField name="password" type="password" />
+        <ControlledInputField name="confirmPassword" type="password" />
       </CommonUserPage>
     </AppLayout>
   )
