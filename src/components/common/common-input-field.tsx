@@ -31,7 +31,7 @@ export const CommonInputField = ({ name, type }: InputFieldProps) => {
         <Input
           {...field}
           type={type}
-          value={field.value ?? ""}
+          value={field.value ?? undefined}
           {...registerProps}
           onChange={(e) => field.onChange(e.target.value)}
         />

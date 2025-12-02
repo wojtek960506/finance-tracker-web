@@ -19,11 +19,11 @@ export const TransactionQuerySchema = z.object({
   endDate: z.string().optional(),
   minAmount: z.number().min(0).optional(),
   maxAmount: z.number().min(0).optional(),
-  transactionType: z.enum([...TRANSACTION_TYPES, ""]).optional(),
-  currency: z.enum([...CURRENCIES, ""]).optional(),
-  category: z.enum([...CATEGORIES, ""]).optional(),
-  paymentMethod: z.enum([...PAYMENT_METHODS, ""]).optional(),
-  account: z.enum([...ACCOUNTS, ""]).optional(),
+  transactionType: z.enum([...TRANSACTION_TYPES]).optional(),
+  currency: z.enum([...CURRENCIES]).optional(),
+  category: z.enum([...CATEGORIES]).optional(),
+  paymentMethod: z.enum([...PAYMENT_METHODS]).optional(),
+  account: z.enum([...ACCOUNTS]).optional(),
 });
 
 export type TransactionQuery = z.infer<typeof TransactionQuerySchema>;
