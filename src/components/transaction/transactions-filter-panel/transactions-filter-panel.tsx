@@ -1,11 +1,16 @@
-import { TransactionQuery, TransactionQuerySchema } from "@/schemas/transaction-query"
+import {
+  TransactionFilter,
+  TransactionFilterSchema,
+  TransactionQuery,
+  // TransactionQuerySchema
+} from "@/schemas/transaction-query"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Form } from "@/components/ui/form"
 import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import {
-  defaultTransactionFilters,
+  // defaultTransactionFilters,
   useTransactionsFilterStore
 } from "@/store/transactions-filter-store"
 import { areObjectsEqual } from "@/lib/utils"
@@ -19,12 +24,24 @@ import {
 } from "@/lib/consts"
 import { ControlledInputField } from "@/components/common/common-form-v2/controlled/controlled-input-field"
 
+const denormalizeFilters = (values: TransactionQuery): TransactionFilter => ({
+  ...values,
+  minAmount: values.minAmount ? String(values.minAmount) : "",
+  maxAmount: values.maxAmount ? String(values.maxAmount) : "",
+})
+
+const normalizeFilters = (values: TransactionFilter): TransactionQuery => ({
+  ...values,
+  minAmount: values.minAmount ? Number(values.minAmount) : undefined,
+  maxAmount: values.maxAmount ? Number(values.maxAmount) : undefined,
+})
+
 export const TransactionsFilterPanel = () => {
   const { t } = useTranslation("common");
   const { filters, setFilters, setIsShown } = useTransactionsFilterStore();
-  const form = useForm<TransactionQuery>({
-    resolver: zodResolver(TransactionQuerySchema),
-    defaultValues: JSON.parse(JSON.stringify(filters))
+  const form = useForm<TransactionFilter>({
+    resolver: zodResolver(TransactionFilterSchema),
+    defaultValues: JSON.parse(JSON.stringify(denormalizeFilters(filters)))
   })
 
   const onSubmit = (values: TransactionQuery) => {
@@ -33,7 +50,6 @@ export const TransactionsFilterPanel = () => {
   }
 
   const onClear = () => {
-    console.log('clear')
     // it has to have empty strings not undefined to let values actually be cleared
     // in case of undefined - controlled inputs do not reset 
     // I have to play a little with zod schema to somehow have string but check it as number
@@ -62,7 +78,7 @@ export const TransactionsFilterPanel = () => {
     }
     // zod validation runs when calling form.handleSubmit
     form.handleSubmit(
-      (data) => onSubmit({ ...data, page: 1, }),
+      (data) => onSubmit(normalizeFilters({ ...data, page: 1, })),
       (errors) => console.log("Validation errors:", errors),
     )();
   };
