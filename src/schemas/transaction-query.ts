@@ -34,7 +34,6 @@ export const TransactionFilterSchema = TransactionFilterCommon.extend({
   minAmount: z.string()
     .refine(v => v === "" || !Number.isNaN(v), "Must be valid number")
     .refine(v => Number(v) >= 0, "Must be bigger or equal 0").optional(),
-  
   maxAmount: z.string()
     .refine(v => v === undefined || !Number.isNaN(v), "Must be valid number")
     .refine(v => Number(v) >= 0, "Must be bigger or equal 0").optional(),

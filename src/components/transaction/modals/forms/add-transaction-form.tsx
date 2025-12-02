@@ -4,23 +4,27 @@ import { useEffect, useState } from "react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import { TransactionCreateDTO } from "@/schemas/transaction";
+import {
+  TransactionCreateDTO,
+  TransactionCreateFormSchema,
+  TransactionCreateFormType
+} from "@/schemas/transaction";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TransactionCreateSchema } from "@/schemas/transaction";
 import { Form } from "@/components/ui/form";
-import {
-  AccountField,
-  AmountField,
-  CategoryField,
-  CurrencyField,
-  DateField,
-  DescriptionField,
-  PaymentMethodField,
-  TransactionTypeField,
-} from "./fields";
+
 import { toast } from "sonner";
 import { CommonError } from "@/types/api-types";
+import { ControlledInputField } from "@/components/common/common-form-v2/controlled/controlled-input-field";
+import { ControlledSelectField } from "@/components/common/common-form-v2/controlled/controlled-select-field";
+import {
+  ACCOUNTS,
+  CATEGORIES,
+  CURRENCIES,
+  PAYMENT_METHODS,
+  TRANSACTION_TYPES
+} from "@/lib/consts";
+import { ControlledRadioField } from "@/components/common/common-form-v2/controlled/controlled-radio-field";
 
 type AddTransactionFormProps = {
   onOpenChange: (value: boolean) => void;
@@ -30,7 +34,7 @@ type AddTransactionFormProps = {
 const getEmptyTransaction = () => ({
   date: new Date().toISOString().slice(0, 10),
   description: "",
-  amount: 0,
+  amount: "0",
   currency: "",
   category: "",
   paymentMethod: "",
@@ -41,8 +45,8 @@ const getEmptyTransaction = () => ({
 export const AddTransactionForm = ({ onCreated, onOpenChange }: AddTransactionFormProps) => {
 
   const { t } = useTranslation("common");
-  const form = useForm<TransactionCreateDTO>({
-    resolver: zodResolver(TransactionCreateSchema),
+  const form = useForm<TransactionCreateFormType>({
+    resolver: zodResolver(TransactionCreateFormSchema),
     defaultValues: getEmptyTransaction()
   })
   const [loading, setLoading] = useState(false);
@@ -51,10 +55,10 @@ export const AddTransactionForm = ({ onCreated, onOpenChange }: AddTransactionFo
     form.reset(getEmptyTransaction());
   }, [form]);
 
-  const onSubmit = async (values: TransactionCreateDTO) => {
+  const onSubmit = async (values: TransactionCreateFormType) => {
     setLoading(true);
     try {
-      await onCreated(values);
+      await onCreated({ ...values, amount: Number(values.amount) });
     } catch (err: unknown) {
       console.log('Creating transaction error:', err);
       toast.error((err as CommonError).message || "Creating transaction failed");
@@ -68,16 +72,35 @@ export const AddTransactionForm = ({ onCreated, onOpenChange }: AddTransactionFo
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-[auto_1fr] gap-4"
+        className="grid grid-cols-[auto_300px] gap-3"
       >
-        <DateField />
-        <DescriptionField />
-        <AmountField />
-        <CurrencyField />
-        <CategoryField />
-        <PaymentMethodField />
-        <AccountField />
-        <TransactionTypeField />
+        <ControlledInputField name="date" type="date" />
+        <ControlledInputField name="description" type="text" />
+        <ControlledInputField name="amount" type="number" step={0.01} decimalPlaces={2} />
+        <ControlledSelectField
+          name={"currency"}
+          placeholderKey={"currencyPlaceholder"}
+          optionsKeys={CURRENCIES}
+        />
+        <ControlledSelectField
+          name={"category"}
+          placeholderKey={"categoryPlaceholder"}
+          optionsKeys={CATEGORIES}
+        />
+        <ControlledSelectField
+          name={"paymentMethod"}
+          placeholderKey={"paymentMethodPlaceholder"}
+          optionsKeys={PAYMENT_METHODS}
+        />
+        <ControlledSelectField
+          name={"account"}
+          placeholderKey={"accountPlaceholder"}
+          optionsKeys={ACCOUNTS}
+        />
+        <ControlledRadioField
+          name={"transactionType"}
+          optionsKeys={TRANSACTION_TYPES}
+        />
         <DialogFooter className="col-start-2 flex justify-end gap-2">
           <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
             {t('cancel')}
