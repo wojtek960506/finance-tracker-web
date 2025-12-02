@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { ControlledFormField } from "./controlled-form-field";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ClearFieldButton } from "./clear-field-button";
 
 
 type ControlledRadioFieldProps = {
@@ -24,35 +25,21 @@ export const ControlledRadioField = ({
   return (
     <ControlledFormField name={name} label={t(name)} isHorizontal={isHorizontal}>
       {(field) => (
-      <div className={`flex flex-row justify-between ${isHorizontal ? "h-7" : ""} items-center`}>
-        <div className={`flex flex-${isHorizontal ? "row" : "col"} gap-2`}>
-          {[...optionsKeys].map(optionKey => (
-            <Label key={optionKey}>
-              <input
-                type="radio"
-                name={name}
-                checked={field.value === optionKey}
-                onChange={() => field.onChange(optionKey)}
-                disabled={isDisabled}
-              />
-              <span>{t(`${name}_options.${optionKey}`)}</span>
-            </Label>
-          ))}
-        </div>
-        { field.value && isClearable && !isDisabled &&
-          <Button
-            variant="ghost"
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              field.onChange("");
-            }}
-            className="p-1 ml-1"
-          >
-            ✕
-          </Button>
-        }
-      </div>
+        <RadioGroup
+          onValueChange={field.onChange}
+          value={field.value ?? ""}
+          className={`flex flex-row ${isHorizontal ? "h-7" : ""} items-center justify-between`}
+        >
+          <div className={`flex flex-${isHorizontal ? "row" : "col"} gap-2`}>
+            {[...optionsKeys].map(optionKey => (
+              <div key={optionKey} className="flex gap-2">
+                <RadioGroupItem value={optionKey} id={optionKey} />
+                <Label htmlFor={optionKey}>{t(`${name}_options.${optionKey}`)}</Label>
+              </div>
+            ))}
+          </div>
+          {field.value && isClearable && !isDisabled && <ClearFieldButton field={field} />}
+        </RadioGroup>
       )}
     </ControlledFormField>
   )

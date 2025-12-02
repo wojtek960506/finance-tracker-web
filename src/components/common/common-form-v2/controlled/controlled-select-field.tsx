@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+import { ClearFieldButton } from "./clear-field-button";
 
 type ControlledSelectFieldProps = {
   name: string;
@@ -47,16 +47,7 @@ export const ControlledSelectField = ({
                 </SelectItem>
               ))}
             </SelectContent>
-            {field.value && isClearable && !isDisabled &&
-              <Button
-                variant="ghost"
-                type="button"
-                onClick={() => field.onChange("")}
-                className="p-1 ml-1"
-              >
-                ✕
-              </Button>
-            }
+            {field.value && isClearable && !isDisabled && <ClearFieldButton field={field} />}
           </Select>
         </div>
       )}
