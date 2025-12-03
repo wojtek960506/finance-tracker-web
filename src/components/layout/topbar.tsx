@@ -4,12 +4,13 @@ import { useGeneralStore } from "@/store/general-store";
 import { useTranslation } from "react-i18next";
 import { UserContextMenu } from "@/components/user/user-context-menu";
 import { usePathname } from "next/navigation";
+import { PageMenu } from "../page-menu/page-menu";
 
 export function Topbar() {
   const { t } = useTranslation("common");
   const { accessToken, isLoggingOut } = useGeneralStore();
   const pathname = usePathname();
-  const showPageName =
+  const showPageMenu =
     accessToken &&
     !["/login", "/register"].includes(pathname) &&
     !isLoggingOut;
@@ -24,9 +25,7 @@ export function Topbar() {
       <div className="flex items-center justify-between h-14 px-6 w-full gap-3">
         {/* Left side — app section title or menu */}
         <div className="flex items-center gap-3">
-          { showPageName && <h1 className="text-lg font-semibold tracking-tight">
-            {t('transactions')}
-          </h1> }
+          {showPageMenu && <PageMenu />}
         </div>
         {/* Right side — placeholder for future features */}
         <div className="flex items-center gap-4">

@@ -7,16 +7,20 @@ import { AddTransactionModal } from "../modals";
 import { TransactionsFilterSwitch } from "./filter-switch";
 
 
-export const TransactionsHeader = () => {
+export const TransactionsHeader = ({ total }: { total?: number}) => {
   const { t } = useTranslation("common");
   const createMutation = useCreateTransaction();
+
 
   return (
     <CardHeader >
       <div className="flex justify-between">
-        <CardTitle className="text-2xl">
-          {t('recentTransactions')}
-        </CardTitle>
+        <div className="flex gap-6 items-center">
+          <CardTitle className="text-2xl">
+            {t('allTransactions')}
+          </CardTitle>
+          {total && <span>{total} item(s)</span>}
+        </div>
         <div className="flex gap-6">
           <AddTransactionModal
             onCreated={async (created: TransactionCreateDTO) => {

@@ -94,9 +94,9 @@ export const TransactionsFilterPanel = () => {
             handleSubmit();
           }}
         >
-          <div
-            className={isHorizontal ? "grid grid-cols-[auto_auto] gap-3" : "flex flex-col gap-2"}
-          >
+          <div className={
+            isHorizontal ? "grid grid-cols-[auto_auto] gap-3" : "flex flex-col gap-2"
+          }>
             <ControlledInputField name="startDate" type="date" isHorizontal={isHorizontal} />
             <ControlledInputField name="endDate" type="date" isHorizontal={isHorizontal} />
             <ControlledInputField name="minAmount" type="number" isHorizontal={isHorizontal} />
