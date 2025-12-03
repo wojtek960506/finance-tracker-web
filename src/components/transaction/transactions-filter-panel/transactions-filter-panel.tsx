@@ -83,9 +83,10 @@ export const TransactionsFilterPanel = () => {
   };
 
   const mcn = "flex min-w-fit border-1 border-gray-500 rounded-xl ml-2 p-2 overflow-hidden";
+  const isHorizontal = false
   return (
     <div className={mcn}>
-      <div className="overflow-auto pr-1">
+      <div className="overflow-auto px-1">
       <Form {...form}>
         <form
           onSubmit={(e) => {
@@ -93,40 +94,47 @@ export const TransactionsFilterPanel = () => {
             handleSubmit();
           }}
         >
-          <div className="grid grid-cols-[auto_auto] gap-3">
-            <ControlledInputField name="startDate" type="date"/>
-            <ControlledInputField name="endDate" type="date" />
-            <ControlledInputField name="minAmount" type="number" />
-            <ControlledInputField name="maxAmount" type="number" />
+          <div
+            className={isHorizontal ? "grid grid-cols-[auto_auto] gap-3" : "flex flex-col gap-2"}
+          >
+            <ControlledInputField name="startDate" type="date" isHorizontal={isHorizontal} />
+            <ControlledInputField name="endDate" type="date" isHorizontal={isHorizontal} />
+            <ControlledInputField name="minAmount" type="number" isHorizontal={isHorizontal} />
+            <ControlledInputField name="maxAmount" type="number" isHorizontal={isHorizontal} />
 
             <ControlledSelectField
               name={"currency"}
               placeholderKey={"currencyPlaceholder"}
               optionsKeys={CURRENCIES}
+              isHorizontal={isHorizontal}
             />
             <ControlledSelectField
               name={"category"}
               placeholderKey={"categoryPlaceholder"}
               optionsKeys={CATEGORIES}
+              isHorizontal={isHorizontal}
             />
             <ControlledSelectField
               name={"paymentMethod"}
               placeholderKey={"paymentMethodPlaceholder"}
               optionsKeys={PAYMENT_METHODS}
+              isHorizontal={isHorizontal}
             />
             <ControlledSelectField
               name={"account"}
               placeholderKey={"accountPlaceholder"}
               optionsKeys={ACCOUNTS}
+              isHorizontal={isHorizontal}
             />
             <ControlledRadioField
               name={"transactionType"}
               optionsKeys={TRANSACTION_TYPES}
+              isHorizontal={isHorizontal}
             />
             <Button className="mt-4" type="button" variant="secondary" onClick={onClear}>
               {t('clear')}
             </Button>
-            <Button className="mt-4" type="submit">{t("apply")}</Button>
+            <Button className={isHorizontal ? "mt-4" : "mt-2"} type="submit">{t("apply")}</Button>
           </div>
         </form>
       </Form>
