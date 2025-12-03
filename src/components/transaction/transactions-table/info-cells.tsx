@@ -1,6 +1,6 @@
 "use client"
 
-import { CommonTooltip } from "@/components/common/common-tooltip";
+import { CommonTooltip } from "@/components/common";
 import { TableCell } from "@/components/ui/table";
 import { TransactionAPI } from "@/types/transaction-types";
 import { useTranslation } from "react-i18next";

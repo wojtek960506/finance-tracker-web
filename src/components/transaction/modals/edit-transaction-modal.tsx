@@ -4,7 +4,7 @@ import { TransactionUpdateDTO } from "@/schemas/transaction";
 import { TransactionAPI } from "@/types/transaction-types";
 import { useTranslation } from "react-i18next";
 import { EditTransactionForm } from "./forms";
-import { CommonModal } from "@/components/common/common-modal";
+import { CommonModal } from "@/components/common";
 
 type EdtiTransactionModalProps = {
   onEdit: (id: string, updatedTransaction: TransactionUpdateDTO | null) => Promise<void>;

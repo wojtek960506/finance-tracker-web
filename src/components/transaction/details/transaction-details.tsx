@@ -1,6 +1,6 @@
 "use client"
 
-import { CommonInfo } from "@/components/common/common-info";
+import { CommonInfo } from "@/components/common";
 import { Separator } from "@/components/ui/separator";
 import { TransactionAPI } from "@/types/transaction-types";
 import { useTranslation } from "react-i18next";

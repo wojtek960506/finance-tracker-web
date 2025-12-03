@@ -5,7 +5,7 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { TransactionAPI } from "@/types/transaction-types";
 import { useTranslation } from "react-i18next";
 import { TransactionDetails } from "../details/transaction-details";
-import { CommonModal } from "@/components/common/common-modal";
+import { CommonModal } from "@/components/common";
 
 type DeleteTransactionModalProps = {
   onDelete: () => void;

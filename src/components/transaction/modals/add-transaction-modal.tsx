@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AddTransactionForm } from "./forms";
 import { useTranslation } from "react-i18next";
-import { CommonModal } from "@/components/common/common-modal";
+import { CommonModal } from "@/components/common";
 import { TransactionCreateDTO } from "@/schemas/transaction";
 
 type AddTransactionModalProps = {
