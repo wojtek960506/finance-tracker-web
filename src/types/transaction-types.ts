@@ -18,3 +18,8 @@ export type TransactionAPI = TransactionCreateAPI & {
   updatedAt: Date;
   id: string;
 }
+
+export type TransactionsAnalysisAPI = {
+  totalAmount: number;
+  totalItems: number;
+}

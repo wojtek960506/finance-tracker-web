@@ -1,4 +1,4 @@
-import { TransactionAPI } from "@/types/transaction-types";
+import { TransactionAPI, TransactionsAnalysisAPI } from "@/types/transaction-types";
 import { api } from "./axios";
 import { TransactionCreateDTO, TransactionUpdateDTO } from "@/schemas/transaction";
 import { withRefresh } from "./auth-api";
@@ -8,12 +8,25 @@ const getTransactionsNoRefresh = async (query: string): Promise<
   FilteredResponse<TransactionAPI[]>
 > => {
   const { data } = await api.get(`/transactions?${query}`);
-  return data
+  return data;
 }
 
 export const getTransactions = async (query: string): Promise<
   FilteredResponse<TransactionAPI[]> | undefined> => {
   return withRefresh(getTransactionsNoRefresh, query);
+}
+
+const getTransactionsAnalysisNoRefresh = async (
+  query: string
+): Promise<TransactionsAnalysisAPI> => {
+  const { data } = await api.get(`/transactions/analysis?${query}`);
+  return data;
+}
+
+export const getTransactionsAnalysis = async (
+  query: string
+): Promise<TransactionsAnalysisAPI | undefined> => {
+  return withRefresh(getTransactionsAnalysisNoRefresh, query);
 }
 
 const createTransactionNoRefresh = async (

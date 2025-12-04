@@ -41,3 +41,16 @@ export const TransactionFilterSchema = TransactionFilterCommon.extend({
 
 export type TransactionQuery = z.infer<typeof TransactionQuerySchema>;
 export type TransactionFilter = z.infer<typeof TransactionFilterSchema>;
+
+export const TransactionsAnalysisQuerySchema = z.object({
+  startDate: z.string(),
+  endDate: z.string(),
+  transactionType: z.enum([...TRANSACTION_TYPES]),
+  currency: z.enum([...CURRENCIES]),
+
+  category: z.enum([...CATEGORIES]).optional(),
+  paymentMethod: z.enum([...PAYMENT_METHODS]).optional(),
+  account: z.enum([...ACCOUNTS]).optional(),
+});
+
+export type TransactionsAnalysisQuery = z.infer<typeof TransactionsAnalysisQuerySchema>;
