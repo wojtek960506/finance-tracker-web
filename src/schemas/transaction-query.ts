@@ -54,3 +54,23 @@ export const TransactionsAnalysisQuerySchema = z.object({
 });
 
 export type TransactionsAnalysisQuery = z.infer<typeof TransactionsAnalysisQuerySchema>;
+
+export const transactionStatisticsQuerySchema = z.object({
+  year: z.string()
+    .refine(v => v === "" || !Number.isNaN(v), "Must be valid number").optional(),
+  month: z.string()
+    .refine(v => v === "" || !Number.isNaN(v), "Must be valid number")
+    .refine(v => Number(v) >= 0, "Must be number between 1 and 12").optional(),
+  transactionType: z.enum([...TRANSACTION_TYPES]),
+  currency: z.enum([...CURRENCIES]),
+  category: z.enum([...CATEGORIES]).optional(),
+  omitCategory: z
+    .union([z.enum([...CATEGORIES]), z.array(z.enum([...CATEGORIES]))])
+    .transform(value => (Array.isArray(value) ? value : [value]))
+    .optional(),
+  paymentMethod: z.enum([...PAYMENT_METHODS]).optional(),
+  account: z.enum([...ACCOUNTS]).optional(),
+
+})
+
+export type TransactionStatisticsQuery = z.infer<typeof transactionStatisticsQuerySchema>;

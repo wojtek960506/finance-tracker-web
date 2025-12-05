@@ -23,3 +23,26 @@ export type TransactionsAnalysisAPI = {
   totalAmount: number;
   totalItems: number;
 }
+
+type TotalAmountAndItems = {
+  totalAmount: number;
+  totalItems: number;
+}
+
+type MonthYearStatistics = TotalAmountAndItems;
+
+type YearlyResult = (TotalAmountAndItems & { year: number })[];
+
+type MonthStatistics = {
+  allTimeByMonth: TotalAmountAndItems;
+  yearly: YearlyResult;
+}
+
+type MonthlyResult = (TotalAmountAndItems & { month: number })[];
+
+type YearStatistics = {
+  allTimeByYear: TotalAmountAndItems;
+  monthly: MonthlyResult;
+}
+
+export type TransactionStatisticsAPI = MonthYearStatistics | MonthStatistics | YearStatistics;
