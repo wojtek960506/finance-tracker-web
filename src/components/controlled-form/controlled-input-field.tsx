@@ -10,6 +10,7 @@ type ControlledInputFieldProps = {
   isRequired?: boolean,
   isDisabled?: boolean,
   isHorizontal?: boolean,
+  showLabel?: boolean,
 }
 
 export const ControlledInputField = ({
@@ -19,6 +20,7 @@ export const ControlledInputField = ({
   decimalPlaces = 0,
   isDisabled = false,
   isHorizontal = true,
+  showLabel = true,
 }: ControlledInputFieldProps) => {
   const { t } = useTranslation("common");
 
@@ -33,7 +35,12 @@ export const ControlledInputField = ({
   }
 
   return (
-    <ControlledFormField name={name} label={t(name)} isHorizontal={isHorizontal}>
+    <ControlledFormField
+      name={name}
+      label={t(name)}
+      isHorizontal={isHorizontal}
+      showLabel={showLabel}
+    >
       {(field) => (
         <Input
           type={type}

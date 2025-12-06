@@ -8,6 +8,7 @@ type ControlledFormFieldProps = {
   label: string,
   children: (field: ControllerRenderProps) => React.ReactNode,
   isHorizontal?: boolean,
+  showLabel?: boolean,
 }
 
 export const ControlledFormField = ({
@@ -15,6 +16,7 @@ export const ControlledFormField = ({
   label,
   children,
   isHorizontal = true,
+  showLabel = true
 }: ControlledFormFieldProps) => {
   const { control } = useFormContext();
   return (
@@ -23,7 +25,7 @@ export const ControlledFormField = ({
       name={name}
       render={({ field }) => (
         <FormItem className="contents">
-          <FormLabel>{label}</FormLabel>
+          {showLabel && <FormLabel>{label}</FormLabel>}
           <FormControl>{children(field)}</FormControl>
           <FormMessage className={cn(isHorizontal ? "col-start-2" : "", "break-words")}/>
         </FormItem>
