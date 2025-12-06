@@ -4,10 +4,7 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import {
-  useGetTransactionExpenseStatistics,
-  useGetTransactionIncomeStatistics,
-} from "@/hooks/transaction-statistics";
+import { useGetTransactionStatistics } from "@/hooks/use-get-transaction-statistics";
 import { CURRENCIES } from "@/lib/consts";
 
 
@@ -64,9 +61,9 @@ export default function TransactionStatisticsPage() {
     setError(undefined)
   }
 
-  const { data: expenses } = useGetTransactionExpenseStatistics(tmpFilters);
-  const { data: incomes } = useGetTransactionIncomeStatistics(tmpFilters);
-
+  const { data: expenses } = useGetTransactionStatistics(tmpFilters, "expense");
+  const { data: incomes } = useGetTransactionStatistics(tmpFilters, "income");
+  
   return (
     <AppLayout>
       <div className="flex-1 flex flex-col h-full space-y-4 p-1 min-h-[300px]">

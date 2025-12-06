@@ -4,15 +4,16 @@ import { TransactionStatisticsQuery } from "@/schemas/transaction-query";
 import { TransactionStatisticsAPI } from "@/types/transaction-types";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetTransactionExpenseStatistics = (
-  filters: Omit<TransactionStatisticsQuery, "transactionType">
+export const useGetTransactionStatistics = (
+  filters: Omit<TransactionStatisticsQuery, "transactionType">,
+  transactionType: "expense" | "income"
 ) => {
   const { data, isLoading, isError, error } = useQuery<
     TransactionStatisticsAPI | undefined, Error
   >({
-    queryKey: ['transactionExpenseStatistics', { ...filters }],
+    queryKey: ['transactionStatistics', transactionType, { ...filters }],
     queryFn: () => getTransactionStatistics(
-      buildQueryParams({ ...filters, transactionType: "expense" })
+      buildQueryParams({ ...filters, transactionType })
     )
   });
 

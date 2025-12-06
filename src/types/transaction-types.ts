@@ -31,18 +31,16 @@ type TotalAmountAndItems = {
 
 type MonthYearStatistics = TotalAmountAndItems;
 
-type YearlyResult = (TotalAmountAndItems & { year: number })[];
+type TotalAmountAndItemsObj = Record<number, TotalAmountAndItems>;
 
 type MonthStatistics = {
   allTimeByMonth: TotalAmountAndItems;
-  yearly: YearlyResult;
+  yearly: TotalAmountAndItemsObj;
 }
-
-type MonthlyResult = (TotalAmountAndItems & { month: number })[];
 
 type YearStatistics = {
   allTimeByYear: TotalAmountAndItems;
-  monthly: MonthlyResult;
+  monthly: TotalAmountAndItemsObj;
 }
 
 export type TransactionStatisticsAPI = MonthYearStatistics | MonthStatistics | YearStatistics;
