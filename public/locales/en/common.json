@@ -15,6 +15,7 @@
   
   "title": "Finance Tracker",
   "transactions": "Transactions",
+  "allTransactions": "All transactions",
   "recentTransactions": "Recent transactions",
   "newTransaction": "New Transaction",
   "transactionDetails": "Transaction details",
@@ -22,6 +23,22 @@
   "deleteTransactionQuestion": "Are you sure you want to delete transaction?",
   "editTransaction": "Edit transaction",
   "editTransactionDescription": "You can edit only some fields",
+
+  "transactionStatistics": "Transaction statistics",
+  "year": "Year",
+  "month": "Month",
+  "month1": "January",
+  "month2": "February",
+  "month3": "March",
+  "month4": "April",
+  "month5": "May",
+  "month6": "June",
+  "month7": "July",
+  "month8": "August",
+  "month9": "September",
+  "month10": "October",
+  "month11": "November",
+  "month12": "December",
 
   "descriptionRequired": "Description is required",
 
@@ -62,6 +79,11 @@
   "endDate": "Date to",
   "minAmount": "Minimum amount",
   "maxAmount": "Maximum amount",
+  "additionalFilters": "Additional filters",
+  "apply": "Apply",
+  "applyFilters": "Apply filters",
+  "clear": "Clear",
+  "clearFilters": "Clear filters",
 
   "paymentMethod_options": {
     "atm": "ATM",

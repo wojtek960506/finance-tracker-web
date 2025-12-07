@@ -84,7 +84,7 @@ export const TransactionStatisticsHeader = ({ setTmpFilters, defaultValues }: {
             {t('transactionStatistics')}
           </CardTitle>
 
-          <div className={`flex gap-2 justify-self-end items-center px-4 ${borderCn}`}>
+          <div className={`flex gap-2 items-center px-4 ${borderCn}`}>
             <Switch
               id="filter-switch"
               checked={areAdditionalFilters}
@@ -99,7 +99,7 @@ export const TransactionStatisticsHeader = ({ setTmpFilters, defaultValues }: {
                 }
               }}
             />
-            <Label htmlFor="filter-switch" className="text-lg">
+            <Label htmlFor="filter-switch" className="text-lg whitespace-nowrap">
               {t('additionalFilters')}
             </Label>
   

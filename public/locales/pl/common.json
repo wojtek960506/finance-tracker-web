@@ -15,6 +15,7 @@
 
   "title": "Śledzik Finansowy",
   "transactions": "Transakcje",
+  "allTransactions": "Wszystkie transakcje",
   "recentTransactions": "Ostatnie transakcje",
   "newTransaction": "Nowa transakcja",
   "transactionDetails": "Szczegóły transakcji",
@@ -22,6 +23,22 @@
   "deleteTransactionQuestion": "Czy na pewno chcesz usunąć transakcję?",
   "editTransaction": "Edytuj transakcję",
   "editTransactionDescription": "Możesz edytować tylko niektóre pola",
+
+  "transactionStatistics": "Statystyki transakcji",
+  "year": "Rok",
+  "month": "Miesiąc",
+  "month1": "Styczeń",
+  "month2": "Luty",
+  "month3": "Marzec",
+  "month4": "Kwiecień",
+  "month5": "Maj",
+  "month6": "Czerwiec",
+  "month7": "Lipiec",
+  "month8": "Sierpień",
+  "month9": "Wrzesień",
+  "month10": "Październik",
+  "month11": "Listopad",
+  "month12": "Grudzień",
 
   "descriptionRequired": "Opis jest wymagany",
 
@@ -62,6 +79,11 @@
   "endDate": "Data do",
   "minAmount": "Minimalna kwota",
   "maxAmount": "Maksymalna kwota",
+  "additionalFilters": "Dodatkowe filtry",
+  "apply": "Zastosuj",
+  "applyFilters": "Zastosuj filtry",
+  "clear": "Wyczyść",
+  "clearFilters": "Wyczyść filtry",
 
   "paymentMethod_options": {
     "atm": "Bankomat",

@@ -33,14 +33,14 @@ type MonthYearStatistics = TotalAmountAndItems;
 
 type TotalAmountAndItemsObj = Record<number, TotalAmountAndItems>;
 
-type MonthStatistics = {
-  allTimeByMonth: TotalAmountAndItems;
+type NoYearStatistics = {
+  allTime: TotalAmountAndItems;
   yearly: TotalAmountAndItemsObj;
 }
 
 type YearStatistics = {
-  allTimeByYear: TotalAmountAndItems;
+  allTime: TotalAmountAndItems;
   monthly: TotalAmountAndItemsObj;
 }
 
-export type TransactionStatisticsAPI = MonthYearStatistics | MonthStatistics | YearStatistics;
+export type TransactionStatisticsAPI = MonthYearStatistics | NoYearStatistics | YearStatistics;
