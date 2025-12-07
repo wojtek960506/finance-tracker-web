@@ -4,12 +4,15 @@ import { ControlledCommonSelectField } from "@/components/controlled-form/contro
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { CURRENCIES } from "@/lib/consts";
+import { Switch } from "@/components/ui/switch";
+import { ACCOUNTS, CATEGORIES, CURRENCIES, PAYMENT_METHODS } from "@/lib/consts";
 import {
   TransactionStatisticsFilter,
   transactionStatisticsFilterSchema,
 } from "@/schemas/transaction-statistics";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Label } from "@radix-ui/react-label";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -29,9 +32,20 @@ const monthOptions = Object.fromEntries(
     .map(index => ([index, `month${index}` ]))
 );
 
-
 const currencyOptions = Object.fromEntries(
   [...CURRENCIES].map(v => [v, v])
+);
+
+const categoryOptions = Object.fromEntries(
+  [...CATEGORIES].map(v => [v, `category_options.${v}`])
+);
+
+const paymentMethodOptions = Object.fromEntries(
+  [...PAYMENT_METHODS].map(v => [v, `paymentMethod_options.${v}`])
+);
+
+const accountOptions = Object.fromEntries(
+  [...ACCOUNTS].map(v => [v, `account_options.${v}`])
 );
 
 export const TransactionStatisticsHeader = ({ setTmpFilters, defaultValues }: {
@@ -63,18 +77,39 @@ export const TransactionStatisticsHeader = ({ setTmpFilters, defaultValues }: {
     )();
   }
 
+  const [areAdditionalFilters, setAreAdditionalFilters] = useState(false);
+
+  const borderCn = "border-2 border-black rounded-lg"
+
   return (
     <CardHeader >
-      <div className="flex flex-col items-center justify-start gap-1">
-        <CardTitle className="text-2xl w-full justify-self-start">
-          {t('transactionStatistics')}
-        </CardTitle>
+      <div className="flex flex-col items-center justify-start gap-2">
+        
+        <div className="flex justify-between w-full">
+          <CardTitle className="text-2xl w-full justify-self-start">
+            {t('transactionStatistics')}
+          </CardTitle>
+
+          <div className={`flex gap-2 justify-self-end items-center px-4 ${borderCn}`}>
+            <Switch
+              id="filter-switch"
+              checked={areAdditionalFilters}
+              onCheckedChange={setAreAdditionalFilters}
+            />
+            <Label htmlFor="filter-switch" className="text-lg">
+              {t('additionalFilters')}
+            </Label>
+  
+          </div>
+  
+        </div>
+
         <Form {...form}>
           <form onSubmit={e => {
             e.preventDefault();
             handleSubmit();                  
           }} className="w-full justify-self-start">
-            <div className="grid grid-cols-[2fr_2fr_2fr_1fr] items-center gap-5">
+            <div className="grid grid-cols-[2fr_2fr_2fr_1fr] items-center gap-x-5 gap-y-2">
               <ControlledCommonSelectField
                 name="year"
                 placeholderKey="year"
@@ -100,6 +135,35 @@ export const TransactionStatisticsHeader = ({ setTmpFilters, defaultValues }: {
                 showLabel={false}
               />
               <Button type="submit">{t('apply')}</Button>
+
+              {areAdditionalFilters && (
+                <>
+                  <ControlledCommonSelectField
+                    name="category"
+                    placeholderKey="category"
+                    options={categoryOptions}
+                    isClearable={true}
+                    isHorizontal={false}
+                    showLabel={false}
+                  />
+                  <ControlledCommonSelectField
+                    name="paymentMethod"
+                    placeholderKey="paymentMethod"
+                    options={paymentMethodOptions}
+                    isClearable={true}
+                    isHorizontal={false}
+                    showLabel={false}
+                  />
+                  <ControlledCommonSelectField
+                    name="account"
+                    placeholderKey="account"
+                    options={accountOptions}
+                    isClearable={true}
+                    isHorizontal={false}
+                    showLabel={false}
+                  />
+                </>
+              )}
             </div>
           </form>
         </Form>
