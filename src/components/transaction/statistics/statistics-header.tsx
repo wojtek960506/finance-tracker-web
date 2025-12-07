@@ -12,6 +12,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 const FIRST_YEAR = 2015
 const LAST_YEAR = 2024
@@ -28,9 +29,6 @@ const monthOptions = Object.fromEntries(
     .map(index => ([index, `month${index}` ]))
 );
 
-// const currencyOptions = Object.fromEntries(
-//   [...CURRENCIES].map(v => [v, `currency_options.${v}`])
-// );
 
 const currencyOptions = Object.fromEntries(
   [...CURRENCIES].map(v => [v, v])
@@ -49,6 +47,11 @@ export const TransactionStatisticsHeader = ({ setTmpFilters, defaultValues }: {
 
   const handleSubmit = () => {
     const raw = form.getValues();
+
+    if (!raw.year && !raw.month) {
+      toast.warning(t("monthOrYearNotProvided"));
+      return;
+    }
 
     for (const [key, value] of Object.entries(raw)) {
       if (value === "") form.setValue(key as keyof TransactionStatisticsFilter, undefined)
