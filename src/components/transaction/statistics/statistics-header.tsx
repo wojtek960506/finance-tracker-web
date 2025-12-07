@@ -15,7 +15,6 @@ import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 
 const FIRST_YEAR = 2015
 const LAST_YEAR = 2024
@@ -62,11 +61,6 @@ export const TransactionStatisticsHeader = ({ setTmpFilters, defaultValues }: {
   const handleSubmit = () => {
     const raw = form.getValues();
 
-    if (!raw.year && !raw.month) {
-      toast.warning(t("monthOrYearNotProvided"));
-      return;
-    }
-
     for (const [key, value] of Object.entries(raw)) {
       if (value === "") form.setValue(key as keyof TransactionStatisticsFilter, undefined)
     }
@@ -94,7 +88,16 @@ export const TransactionStatisticsHeader = ({ setTmpFilters, defaultValues }: {
             <Switch
               id="filter-switch"
               checked={areAdditionalFilters}
-              onCheckedChange={setAreAdditionalFilters}
+              onCheckedChange={() => {
+                if (areAdditionalFilters) {
+                  form.setValue("category", undefined);
+                  form.setValue("paymentMethod", undefined);
+                  form.setValue("account", undefined);
+                  setAreAdditionalFilters(false);
+                } else {
+                  setAreAdditionalFilters(true);
+                }
+              }}
             />
             <Label htmlFor="filter-switch" className="text-lg">
               {t('additionalFilters')}

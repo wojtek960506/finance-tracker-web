@@ -8,7 +8,6 @@ export const useGetTransactionStatistics = (
   filters: Omit<TransactionStatisticsQuery, "transactionType">,
   transactionType: "expense" | "income"
 ) => {
-  const enabled = Boolean(filters.year || filters.month);
   const { data, isLoading, isError, error } = useQuery<
     TransactionStatisticsAPI | undefined, Error
   >({
@@ -16,7 +15,6 @@ export const useGetTransactionStatistics = (
     queryFn: () => getTransactionStatistics(
       buildQueryParams({ ...filters, transactionType })
     ),
-    enabled,
   });
 
   return {

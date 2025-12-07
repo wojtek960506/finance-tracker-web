@@ -14,7 +14,7 @@ const defaultValues: TransactionStatisticsFilter = {
   month: "",
   currency: "PLN",
   category: undefined,
-  omitCategory: undefined,
+  omitCategory: ["myAccount", "investments"],
   paymentMethod: undefined,
   account: undefined,
 }

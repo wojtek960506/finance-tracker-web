@@ -27,13 +27,12 @@ export const transactionStatisticsFilterSchema = z.object({
     .refine(v => v === "" || !Number.isNaN(v), "Must be valid number")
     .refine(v => Number(v) >= 0, "Must be number between 1 and 12").optional(),
   currency: z.enum([...CURRENCIES]),
-  category: z.enum([...CATEGORIES]).optional(),
+  category: z.enum([...CATEGORIES, ""]).optional(),
   omitCategory: z
     .array(z.enum([...CATEGORIES]))
-    .transform(value => (Array.isArray(value) ? value : [value]))
     .optional(),
-  paymentMethod: z.enum([...PAYMENT_METHODS]).optional(),
-  account: z.enum([...ACCOUNTS]).optional(),
+  paymentMethod: z.enum([...PAYMENT_METHODS, ""]).optional(),
+  account: z.enum([...ACCOUNTS, ""]).optional(),
 })
 
 export const transactionStatisticsQuerySchema = transactionStatisticsFilterSchema.extend({
