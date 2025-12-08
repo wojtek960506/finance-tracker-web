@@ -76,7 +76,7 @@ export const TransactionStatisticsHeader = ({ setTmpFilters, defaultValues }: {
   const borderCn = "border-2 border-black rounded-lg"
 
   return (
-    <CardHeader >
+    <CardHeader>
       <div className="flex flex-col items-center justify-start gap-2">
         
         <div className="flex justify-between w-full">
