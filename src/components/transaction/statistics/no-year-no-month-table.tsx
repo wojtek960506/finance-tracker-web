@@ -23,38 +23,28 @@ export const NoYearNoMonthTable = (
 
   const yearlyKeys = new Set([...Object.keys(yearlyExpense), ...Object.keys(yearlyIncome)]);
 
-  const headStyle = (colorNum: number, isBottomThicker: boolean = false) => {
-    return cn(
-      `text-center border border-gray-600 ${isBottomThicker ? "border-b-3" : ""}`,
-      `bg-gray-${colorNum}`
-    )
-  } 
 
-  const allTimeStyle = () => {
+  const headStyleDarker = cn("text-center", "bg-gray-200");
+   
+  const allTimeStyle = (() => {
     const totalBalance = income.allTime.totalAmount - expense.allTime.totalAmount;
     const bgColor = totalBalance > 0
       ? "bg-green-200"
       : totalBalance === 0 ? "bg-blue-200" : "bg-red-200"
-
-    return `text-center border border-gray-600 ${bgColor} border-t-3`;
-  } 
+    return cn("text-center", `${bgColor}`, "border border-0");
+  })();
 
   return (
     <Table className="text-base">
-      <TableHeader className="sticky top-0 bg-background z-10">
-        <TableRow>
-          <TableHead className={cn(headStyle(100))}></TableHead>
-          <TableHead colSpan={2} className={headStyle(100)}>{t('totalAmount')}</TableHead>
-          <TableHead colSpan={2} className={headStyle(100)}>{t('totalItems')}</TableHead>
-          <TableHead className={cn(headStyle(100), "border-l-3")}></TableHead>
-        </TableRow>
-        <TableRow>
-          <TableHead className={headStyle(200, true)}>{t('year')}</TableHead>
-          <TableHead className={headStyle(200, true)}>{t('expense')}</TableHead>
-          <TableHead className={headStyle(200, true)}>{t('income')}</TableHead>
-          <TableHead className={headStyle(200, true)}>{t('expense')}</TableHead>
-          <TableHead className={headStyle(200, true)}>{t('income')}</TableHead>
-          <TableHead className={cn(headStyle(200, true), "border-l-3")}>{t('balance')}</TableHead>
+      <TableHeader className="sticky top-0 z-20">
+        <TableRow className="h-11">
+          <TableHead className={headStyleDarker}>{t('year')}</TableHead>
+          <TableHead className={headStyleDarker}>{t('expenseAmount')}</TableHead>
+          <TableHead className={headStyleDarker}>{t('incomeAmount')}</TableHead>
+          <TableHead className={headStyleDarker}>{t('balanceAmount')}</TableHead>
+          <TableHead className={headStyleDarker}>{t('expenseItems')}</TableHead>
+          <TableHead className={headStyleDarker}>{t('incomeItems')}</TableHead>
+          
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -66,36 +56,40 @@ export const NoYearNoMonthTable = (
           const totalItemsIncome = yearlyIncome[Number(year)]?.totalItems ?? 0;
           const totalBalance = totalAmountIncome - totalAmountExpense;
 
-          const cellStyle = () => {
+          const cellStyle = (() => {
             const bgColor = totalBalance > 0
               ? "bg-green-100"
               : totalBalance === 0 ? "bg-blue-100" : "bg-red-100"
 
-            return `text-center border-x border-gray-600 ${bgColor}`;
-          }
+            return cn(
+              "text-center",
+              `${bgColor}`,
+              "border border-0"
+            );
+          })()
 
           return (
-            <TableRow key={year}>
-              <TableCell className={cellStyle()}>{year}</TableCell>
-              <TableCell className={cellStyle()}>{totalAmountExpense.toFixed(2)}</TableCell>
-              <TableCell className={cellStyle()}>{totalAmountIncome.toFixed(2)}</TableCell>
-              <TableCell className={cellStyle()}>{totalItemsExpense}</TableCell>
-              <TableCell className={cellStyle()}>{totalItemsIncome}</TableCell>
-              <TableCell className={cn(cellStyle(), "border-l-3")}>
-                {totalBalance.toFixed(2)}
-              </TableCell>
+            <TableRow key={year} className="h-10">
+              <TableCell className={cellStyle}>{year}</TableCell>
+              <TableCell className={cellStyle}>{totalAmountExpense.toFixed(2)}</TableCell>
+              <TableCell className={cellStyle}>{totalAmountIncome.toFixed(2)}</TableCell>
+              <TableCell className={cellStyle}>{totalBalance.toFixed(2)}</TableCell>
+              <TableCell className={cellStyle}>{totalItemsExpense}</TableCell>
+              <TableCell className={cellStyle}>{totalItemsIncome}</TableCell>
             </TableRow>
           )
         })}
-        <TableRow key={'allTime'}>
-          <TableCell className={allTimeStyle()}>{t('allTime')}</TableCell>
-          <TableCell className={allTimeStyle()}>{expense.allTime.totalAmount.toFixed(2)}</TableCell>
-          <TableCell className={allTimeStyle()}>{income.allTime.totalAmount.toFixed(2)}</TableCell>
-          <TableCell className={allTimeStyle()}>{expense.allTime.totalItems}</TableCell>
-          <TableCell className={allTimeStyle()}>{income.allTime.totalItems}</TableCell>
-          <TableCell className={cn(allTimeStyle(), "border-l-3")}>
+        
+        <TableRow key={'allTime'} className="sticky bottom-0 z-20 bg-gray-200 h-11">
+          <TableCell className={allTimeStyle}>{t('allTime')}</TableCell>
+          <TableCell className={allTimeStyle}>{expense.allTime.totalAmount.toFixed(2)}</TableCell>
+          <TableCell className={allTimeStyle}>{income.allTime.totalAmount.toFixed(2)}</TableCell>
+          <TableCell className={allTimeStyle}>
             {(income.allTime.totalAmount - expense.allTime.totalAmount).toFixed(2)}
           </TableCell>
+          <TableCell className={allTimeStyle}>{expense.allTime.totalItems}</TableCell>
+          <TableCell className={allTimeStyle}>{income.allTime.totalItems}</TableCell>
+          
         </TableRow>
       </TableBody>
     </Table>
