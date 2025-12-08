@@ -20,7 +20,7 @@ const defaultValues: TransactionStatisticsFilter = {
 }
 
 export default function TransactionStatisticsPage() {
-  const [tmpFilters, setTmpFilters] = useState<TransactionStatisticsFilter>(defaultValues);
+  const [filters, setTmpFilters] = useState<TransactionStatisticsFilter>(defaultValues);
 
   return (
     <AppLayout>
@@ -30,7 +30,7 @@ export default function TransactionStatisticsPage() {
             setTmpFilters={setTmpFilters}
             defaultValues={defaultValues}
           />
-          <TransactionStatisticsContent tmpFilters={tmpFilters} />
+          <TransactionStatisticsContent filters={filters} />
         </Card>
       </div>
     </AppLayout>

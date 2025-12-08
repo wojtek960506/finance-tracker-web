@@ -29,16 +29,16 @@ type TotalAmountAndItems = {
   totalItems: number;
 }
 
-type MonthYearStatistics = TotalAmountAndItems;
+export type MonthYearStatistics = TotalAmountAndItems;
 
 type TotalAmountAndItemsObj = Record<number, TotalAmountAndItems>;
 
-type NoYearStatistics = {
+export type NoYearStatistics = {
   allTime: TotalAmountAndItems;
   yearly: TotalAmountAndItemsObj;
 }
 
-type YearStatistics = {
+export type YearStatistics = {
   allTime: TotalAmountAndItems;
   monthly: TotalAmountAndItemsObj;
 }
