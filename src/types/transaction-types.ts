@@ -24,14 +24,14 @@ export type TransactionsAnalysisAPI = {
   totalItems: number;
 }
 
-type TotalAmountAndItems = {
+export type TotalAmountAndItems = {
   totalAmount: number;
   totalItems: number;
 }
 
 export type MonthYearStatistics = TotalAmountAndItems;
 
-type TotalAmountAndItemsObj = Record<number, TotalAmountAndItems>;
+export type TotalAmountAndItemsObj = Record<number, TotalAmountAndItems>;
 
 export type NoYearStatistics = {
   allTime: TotalAmountAndItems;
