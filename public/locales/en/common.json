@@ -40,6 +40,17 @@
   "month11": "November",
   "month12": "December",
 
+  "sumStatistics": "Total amount",
+  "averageStatistics": "Average amount",
+  "totalAmountTransactions": "Total amount of transactions",
+  "totalItemsTransactions": "Total number of transactions",
+  "averageAmountTransactions": "Average amount of transactions",
+  "averageItemsTransactions": "Average number of transactions",
+  "expense": "Expense",
+  "income": "Income",
+  "balance": "Balance",
+  "allTime": "Total",
+
   "descriptionRequired": "Description is required",
 
   "details": "Details",

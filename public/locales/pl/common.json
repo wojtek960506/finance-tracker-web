@@ -40,6 +40,17 @@
   "month11": "Listopad",
   "month12": "Grudzień",
 
+  "sumStatistics": "Całkowita wartość",
+  "averageStatistics": "Średnia wartość",
+  "totalAmountTransactions": "Całkowita wartość transakcji",
+  "totalItemsTransactions": "Całkowita ilość transakcji",
+  "averageAmountTransactions": "Średnia wartość transakcji",
+  "averageItemsTransactions": "Średnia ilość transakcji",
+  "expense": "Wydatki",
+  "income": "Wpływy",
+  "balance": "Bilans",
+  "allTime": "Razem",
+
   "descriptionRequired": "Opis jest wymagany",
 
   "details": "Szczegóły",

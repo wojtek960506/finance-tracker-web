@@ -113,9 +113,28 @@ export const TransactionStatisticsContent = ({
     periodicKeys,
   }, statisticsType);
 
+  const isSum = statisticsType === "sumStatistics";
+  const firstHeaderKeys = [
+    "",
+    isSum ? "totalAmountTransactions" : "averageAmountTransactions",
+    isSum ? "totalItemsTransactions" : "averageItemsTransactions",
+  ] as [string, string, string];
+  const secondHeaderKeys = [
+    title,
+    "expense",
+    "income",
+    "balance",
+    "expense",
+    "income",
+  ] as [string, string, string, string, string, string];
+
   return (
     <CardContent className="flex flex-col overflow-auto justify-between">
-      <TransactionStatisticsTable statistics={statistics} />
+      <TransactionStatisticsTable
+        statistics={statistics}
+        firstHeaderKeys={firstHeaderKeys}
+        secondHeaderKeys={secondHeaderKeys}
+      />
     </CardContent>
   )
 }
