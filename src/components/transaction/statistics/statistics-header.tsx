@@ -120,6 +120,7 @@ export const TransactionStatisticsHeader = ({
                   form.setValue("paymentMethod", undefined);
                   form.setValue("account", undefined);
                   setAreAdditionalFilters(false);
+                  handleSubmit();
                 } else {
                   setAreAdditionalFilters(true);
                 }

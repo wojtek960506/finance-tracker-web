@@ -9,17 +9,20 @@ import {
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { CommonTransactionStatistics } from "@/types/transaction-types";
+import { useFormatNumber } from "@/hooks/use-format-number";
 
 type TransactionStatisticsTableProps = {
   statistics: CommonTransactionStatistics,
   firstHeaderKeys: [string, string, string],
   secondHeaderKeys: [string, string, string, string, string, string],
+  currency: string,
 }
 
 export const TransactionStatisticsTable = ({
   statistics,
   firstHeaderKeys,
-  secondHeaderKeys
+  secondHeaderKeys,
+  currency,
 }: TransactionStatisticsTableProps) => {
   const { t } = useTranslation("common");
   const {
@@ -30,6 +33,7 @@ export const TransactionStatisticsTable = ({
     periodicIncome,
     periodicKeys,
   } = statistics;
+  const formatNumber2 = useFormatNumber();
 
   const headStyleLighter = cn("text-center", "bg-blue-100");
   const headStyleDarker = cn("text-center", "bg-blue-200");
@@ -37,15 +41,20 @@ export const TransactionStatisticsTable = ({
   const borderRight = "border-r border-r-black border-r-2";
   const borderLeftRight = "border-x border-x-black border-x-2";
  
-  const allTimeStyle = (() => {
+  const keyAllTimeStyle = (() => {
     const totalBalance = allTimeIncome.totalAmount - allTimeExpense.totalAmount;
     const bgColor = totalBalance >= 0 ? "bg-green-300" : "bg-red-300";
     return cn("text-center", `${bgColor}`);
   })();
 
-  const roundOrNot = (value: number) => {
-    if (Number.isInteger(value)) return value;
-    return Number(value.toFixed(2));
+  const allTimeStyle = cn(keyAllTimeStyle, "pr-10", "text-right");
+
+  const formatNumber = (
+    num: number | string,
+    precision: number = 0,
+    shouldAddPrecision: boolean = false,
+  ) => {
+    return `${formatNumber2(num, precision, shouldAddPrecision)} ${currency}`
   }
 
   return (
@@ -85,44 +94,52 @@ export const TransactionStatisticsTable = ({
           const totalItemsIncome = periodicIncome[Number(key)]?.totalItems ?? 0;
           const totalBalance = totalAmountIncome - totalAmountExpense;
 
-          const cellStyle = (() => {
+          const keyCellStyle = (() => {
             const bgColor = totalBalance >= 0 ? "bg-green-100" : "bg-red-100";
             return cn("text-center", `${bgColor}`);
           })();
 
+          const cellStyle = cn(keyCellStyle, "pr-10", "text-right")
+
           return (
             <TableRow key={key} className="h-10">
-              <TableCell className={cellStyle}>
+              <TableCell className={cn(keyCellStyle)}>
                 {title === "month" ? `${t(`month${key}`)}` : key}
               </TableCell>
               <TableCell className={cn(cellStyle, borderLeft)}>
-                {totalAmountExpense.toFixed(2)}
+                {formatNumber(totalAmountExpense, 2, true)}
               </TableCell>
-              <TableCell className={cellStyle}>{totalAmountIncome.toFixed(2)}</TableCell>
+              <TableCell className={cellStyle}>
+                {formatNumber(totalAmountIncome, 2, true)}
+              </TableCell>
               <TableCell className={cn(cellStyle, borderRight)}>
-                {totalBalance.toFixed(2)}
+                {formatNumber(totalBalance, 2, true)}
               </TableCell>
-              <TableCell className={cellStyle}>{roundOrNot(totalItemsExpense)}</TableCell>
-              <TableCell className={cellStyle}>{roundOrNot(totalItemsIncome)}</TableCell>
+              <TableCell className={keyCellStyle}>
+                {formatNumber2(totalItemsExpense, 2, false)}  
+              </TableCell>
+              <TableCell className={keyCellStyle}>
+                {formatNumber2(totalItemsIncome, 2, false)}
+              </TableCell>
             </TableRow>
           )
         })}
         <TableRow key={'allTime'} className="sticky bottom-0 z-20 h-11">
-          <TableCell className={allTimeStyle}>{t('allTime')}</TableCell>
+          <TableCell className={keyAllTimeStyle}>{t('allTime')}</TableCell>
           <TableCell className={cn(allTimeStyle, borderLeft)}>
-            {allTimeExpense.totalAmount.toFixed(2)}
+            {formatNumber(allTimeExpense.totalAmount, 2, true)}
           </TableCell>
           <TableCell className={allTimeStyle}>
-            {allTimeIncome.totalAmount.toFixed(2)}
+            {formatNumber(allTimeIncome.totalAmount, 2, true)}
           </TableCell>
           <TableCell className={cn(allTimeStyle, borderRight)}>
-            {(allTimeIncome.totalAmount - allTimeExpense.totalAmount).toFixed(2)}
+            {formatNumber(allTimeIncome.totalAmount - allTimeExpense.totalAmount, 2, true)}
           </TableCell>
-          <TableCell className={allTimeStyle}>
-            {roundOrNot(allTimeExpense.totalItems)}
+          <TableCell className={keyAllTimeStyle}>
+            {formatNumber2(allTimeExpense.totalItems, 2, false)}
           </TableCell>
-          <TableCell className={allTimeStyle}>
-            {roundOrNot(allTimeIncome.totalItems)}
+          <TableCell className={keyAllTimeStyle}>
+            {formatNumber2(allTimeIncome.totalItems, 2, false)}
           </TableCell>
         </TableRow>
       </TableBody>

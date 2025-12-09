@@ -2,11 +2,13 @@
 
 import { CommonInfo } from "@/components/common";
 import { Separator } from "@/components/ui/separator";
+import { useFormatNumber } from "@/hooks/use-format-number";
 import { TransactionAPI } from "@/types/transaction-types";
 import { useTranslation } from "react-i18next";
 
 export const TransactionDetails = ({ transaction }: { transaction: TransactionAPI }) => {
-  const { t, i18n } = useTranslation("common")
+  const { t, i18n } = useTranslation("common");
+  const formatNumber = useFormatNumber();
 
   return (
     <div className="grid grid-cols-[3fr_4fr] gap-x-5 gap-y-3 text-lg">
@@ -17,7 +19,7 @@ export const TransactionDetails = ({ transaction }: { transaction: TransactionAP
       <CommonInfo label={t("description")} value={transaction.description} />
       <CommonInfo
         label={t("amount")}
-        value={`${transaction.amount} ${transaction.currency}`}
+        value={`${formatNumber(transaction.amount, 2, true)} ${transaction.currency}`}
       />
       <CommonInfo
         label={t("category")}

@@ -9,14 +9,13 @@ export const TransactionsTableHeader = () => {
   return (
     <TableHeader className="sticky top-0 bg-background z-10">
       <TableRow>
-        <TableHead>{t('date')}</TableHead>
-        <TableHead>{t('description')}</TableHead>
-        <TableHead>{t('amount')}</TableHead>
-        <TableHead>{t('currency')}</TableHead>
-        <TableHead>{t('category')}</TableHead>
-        <TableHead>{t('paymentMethod')}</TableHead>
-        <TableHead>{t('account')}</TableHead>
-        <TableHead>{t('transactionType')}</TableHead>
+        <TableHead className="text-center">{t('date')}</TableHead>
+        <TableHead className="text-center">{t('description')}</TableHead>
+        <TableHead className="text-center">{t('amount')}</TableHead>
+        <TableHead className="text-center">{t('category')}</TableHead>
+        <TableHead className="text-center">{t('paymentMethod')}</TableHead>
+        <TableHead className="text-center">{t('account')}</TableHead>
+        <TableHead className="text-center">{t('transactionType')}</TableHead>
         <TableHead className="sticky right-0 bg-background"></TableHead>
       </TableRow>
     </TableHeader>

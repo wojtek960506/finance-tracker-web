@@ -1,9 +1,11 @@
+import { useFormatNumber } from "@/hooks/use-format-number";
 import { useTransactionsFilterStore } from "@/store/transactions-filter-store"
 import { useTranslation } from "react-i18next";
 
 export const TransactionsFilterHeader = () => {
   const { t, i18n } = useTranslation("common");
   const filters = useTransactionsFilterStore(s => s.filters);
+  const formatNumber = useFormatNumber()
 
   const notShownFilters = ["page", "limit", "sortBy", "sortOrder"];
 
@@ -14,7 +16,7 @@ export const TransactionsFilterHeader = () => {
         return new Date(value).toLocaleDateString(i18n.language);
       case "minAmount":
       case "maxAmount":
-        return value
+        return formatNumber(value, 2, true);
       default:
         return t(`${key}_options.${value as string}`);
     }

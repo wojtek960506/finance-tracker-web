@@ -134,6 +134,7 @@ export const TransactionStatisticsContent = ({
         statistics={statistics}
         firstHeaderKeys={firstHeaderKeys}
         secondHeaderKeys={secondHeaderKeys}
+        currency={filters.currency}
       />
     </CardContent>
   )
