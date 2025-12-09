@@ -8,20 +8,10 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
-import { TotalAmountAndItems, TotalAmountAndItemsObj } from "@/types/transaction-types";
+import { CommonTransactionStatistics } from "@/types/transaction-types";
 
-export type AdjustableStatisticsColumnTitle = "" | "month" | "year";
 
-export type CommonTransactionStatistics = {
-  title: AdjustableStatisticsColumnTitle,
-  allTimeExpense: TotalAmountAndItems,
-  allTimeIncome: TotalAmountAndItems,
-  periodicExpense: TotalAmountAndItemsObj,
-  periodicIncome: TotalAmountAndItemsObj,
-  periodicKeys: string[],
-}
-
-export const CommonTransactionStatisticsTable = (
+export const TransactionStatisticsTable = (
   { statistics }: { statistics: CommonTransactionStatistics}
 ) => {
   const { t } = useTranslation("common");
@@ -41,6 +31,11 @@ export const CommonTransactionStatisticsTable = (
     const bgColor = totalBalance >= 0 ? "bg-green-300" : "bg-red-300";
     return cn("text-center", `${bgColor}`);
   })();
+
+  const roundOrNot = (value: number) => {
+    if (Number.isInteger(value)) return value;
+    return Number(value.toFixed(2));
+  }
 
   return (
     <Table className="text-base">
@@ -76,8 +71,8 @@ export const CommonTransactionStatisticsTable = (
               <TableCell className={cellStyle}>{totalAmountExpense.toFixed(2)}</TableCell>
               <TableCell className={cellStyle}>{totalAmountIncome.toFixed(2)}</TableCell>
               <TableCell className={cellStyle}>{totalBalance.toFixed(2)}</TableCell>
-              <TableCell className={cellStyle}>{totalItemsExpense}</TableCell>
-              <TableCell className={cellStyle}>{totalItemsIncome}</TableCell>
+              <TableCell className={cellStyle}>{roundOrNot(totalItemsExpense)}</TableCell>
+              <TableCell className={cellStyle}>{roundOrNot(totalItemsIncome)}</TableCell>
             </TableRow>
           )
         })}
@@ -92,11 +87,14 @@ export const CommonTransactionStatisticsTable = (
           <TableCell className={allTimeStyle}>
             {(allTimeIncome.totalAmount - allTimeExpense.totalAmount).toFixed(2)}
           </TableCell>
-          <TableCell className={allTimeStyle}>{allTimeExpense.totalItems}</TableCell>
-          <TableCell className={allTimeStyle}>{allTimeIncome.totalItems}</TableCell>
+          <TableCell className={allTimeStyle}>
+            {roundOrNot(allTimeExpense.totalItems)}
+          </TableCell>
+          <TableCell className={allTimeStyle}>
+            {roundOrNot(allTimeIncome.totalItems)}
+          </TableCell>
         </TableRow>
       </TableBody>
     </Table>
   )
-
 }

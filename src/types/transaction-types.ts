@@ -44,3 +44,16 @@ export type YearStatistics = {
 }
 
 export type TransactionStatisticsAPI = MonthYearStatistics | NoYearStatistics | YearStatistics;
+
+export type StatisticsType = "sumStatistics" | "averageStatistics";
+
+export type AdjustableStatisticsColumnTitle = "" | "month" | "year";
+
+export type CommonTransactionStatistics = {
+  title: AdjustableStatisticsColumnTitle,
+  allTimeExpense: TotalAmountAndItems,
+  allTimeIncome: TotalAmountAndItems,
+  periodicExpense: TotalAmountAndItemsObj,
+  periodicIncome: TotalAmountAndItemsObj,
+  periodicKeys: string[],
+}

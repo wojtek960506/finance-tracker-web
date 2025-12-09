@@ -1,15 +1,6 @@
 import { ControlledFormField } from "./controlled-form-field";
 import { useTranslation } from "react-i18next";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
-import { ClearFieldButton } from "./clear-field-button";
-
-type SelectOption = Record<string, string>
+import { CommonSelect, SelectOption } from "../common/common-select";
 
 type ControlledCommonSelectFieldProps = {
   name: string;
@@ -40,25 +31,14 @@ export const ControlledCommonSelectField = ({
       showLabel={showLabel}
     >
       {(field) => (
-        <div className="flex relative">
-          <Select
-            disabled={isDisabled}
-            value={field.value ?? ""}
-            onValueChange={field.onChange}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder={t(placeholderKey)} />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.entries(options).map(([key, value]) => (
-                <SelectItem key={key} value={key}>
-                  {t(value)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-            {field.value && isClearable && !isDisabled && <ClearFieldButton field={field} />}
-          </Select>
-        </div>
+        <CommonSelect
+          value={field.value ?? ""}
+          setValue={field.onChange}
+          placeholderKey={placeholderKey}
+          options={options}
+          isDisabled={isDisabled}
+          isClearable={isClearable}
+        />
       )}
     </ControlledFormField>
   )

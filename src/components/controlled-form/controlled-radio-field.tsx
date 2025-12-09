@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { ControlledFormField } from "./controlled-form-field";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ClearFieldButton } from "./clear-field-button";
+import { ClearFieldButton } from "../common/clear-field-button";
 
 
 type ControlledRadioFieldProps = {
@@ -38,7 +38,9 @@ export const ControlledRadioField = ({
               </div>
             ))}
           </div>
-          {field.value && isClearable && !isDisabled && <ClearFieldButton field={field} />}
+          {field.value && isClearable && !isDisabled && (
+            <ClearFieldButton setValue={field.onChange} />
+          )}
         </RadioGroup>
       )}
     </ControlledFormField>

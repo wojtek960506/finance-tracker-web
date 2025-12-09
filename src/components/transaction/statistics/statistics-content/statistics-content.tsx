@@ -1,14 +1,11 @@
 "use client"
 
-import { 
-  AdjustableStatisticsColumnTitle,
-  CommonTransactionStatistics,
-  CommonTransactionStatisticsTable
-} from "./common-statistics-table";
-
+import { TransactionStatisticsTable } from "../statistics-table";
 import {
+  AdjustableStatisticsColumnTitle,
   MonthYearStatistics,
   NoYearStatistics,
+  StatisticsType,
   TotalAmountAndItems,
   TotalAmountAndItemsObj,
   TransactionStatisticsAPI,
@@ -22,11 +19,29 @@ import {
 import { CardContent } from "@/components/ui/card"
 import { TransactionStatisticsFilter } from "@/schemas/transaction-statistics";
 import { useGetTransactionStatistics } from "@/hooks/use-get-transaction-statistics";
+import { useTranslation } from "react-i18next";
+import { prepareStatistics } from "@/utils/prepare-statistics";
 
-export const TransactionStatisticsContent = (
-  { filters }: { filters: TransactionStatisticsFilter }
-) => {
+type TransactionStatisticsContentProps = {
+  filters: TransactionStatisticsFilter,
+  statisticsType: StatisticsType,
+}
 
+const StatisticsNotAvailable = () => {
+  const { t } = useTranslation("common");
+  return (
+    <CardContent className="flex flex-col overflow-auto justify-between">
+      <div>{t('averageStatisticsNotAvailableForMonthOrYear')}</div>
+    </CardContent>
+  ) 
+};
+
+
+
+export const TransactionStatisticsContent = ({
+  filters,
+  statisticsType,
+}: TransactionStatisticsContentProps) => {
   const { data: dataExpense } = useGetTransactionStatistics(filters, "expense");
   const { data: dataIncome } = useGetTransactionStatistics(filters, "income");
 
@@ -41,6 +56,9 @@ export const TransactionStatisticsContent = (
   let title: AdjustableStatisticsColumnTitle = "";
 
   if (isMonthYearStatistics(dataExpense) && isMonthYearStatistics(dataIncome)) {
+    if (statisticsType === "averageStatistics")
+      return <StatisticsNotAvailable />;
+    
     expense = dataExpense as MonthYearStatistics;
     income = dataIncome as MonthYearStatistics;
 
@@ -51,6 +69,9 @@ export const TransactionStatisticsContent = (
     title = "";
   }
   if (isNoYearStatistics(dataExpense) && isNoYearStatistics(dataIncome)) {
+    if (statisticsType === "averageStatistics" && filters.month)
+      return <StatisticsNotAvailable />;
+    
     expense = dataExpense as NoYearStatistics;
     income = dataIncome as NoYearStatistics;
 
@@ -61,6 +82,9 @@ export const TransactionStatisticsContent = (
     title = "year"
   }
   if (isYearStatistics(dataExpense) && isYearStatistics(dataIncome)) {
+    if (statisticsType === "averageStatistics")
+      return <StatisticsNotAvailable />;
+    
     expense = dataExpense as YearStatistics;
     income = dataIncome as YearStatistics;
 
@@ -80,18 +104,18 @@ export const TransactionStatisticsContent = (
     ... new Set([...Object.keys(periodicExpense), ...Object.keys(periodicIncome)])
   ].sort((a,b) => Number(a) - Number(b));
 
-  const statistics: CommonTransactionStatistics = {
+  const statistics = prepareStatistics({
     title,
     allTimeExpense,
     allTimeIncome,
     periodicExpense,
     periodicIncome,
-    periodicKeys
-  }
+    periodicKeys,
+  }, statisticsType);
 
   return (
     <CardContent className="flex flex-col overflow-auto justify-between">
-      <CommonTransactionStatisticsTable statistics={statistics} />
+      <TransactionStatisticsTable statistics={statistics} />
     </CardContent>
   )
 }

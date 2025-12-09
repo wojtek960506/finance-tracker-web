@@ -1,5 +1,6 @@
 "use client"
 
+import { CommonSelect } from "@/components/common/common-select";
 import { ControlledCommonSelectField } from "@/components/controlled-form/controlled-common-select-field";
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +11,7 @@ import {
   TransactionStatisticsFilter,
   transactionStatisticsFilterSchema,
 } from "@/schemas/transaction-statistics";
+import { StatisticsType } from "@/types/transaction-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
@@ -47,11 +49,21 @@ const accountOptions = Object.fromEntries(
   [...ACCOUNTS].map(v => [v, `account_options.${v}`])
 );
 
-export const TransactionStatisticsHeader = ({ setTmpFilters, defaultValues }: {
-    setTmpFilters: (v: TransactionStatisticsFilter) => void,
-    defaultValues: TransactionStatisticsFilter,
-}) => {
+type TransactionStatisticsHeaderProps = {
+  statisticsType: StatisticsType,
+  setStatisticsType: (v: StatisticsType) => void,
+  setTmpFilters: (v: TransactionStatisticsFilter) => void,
+  defaultValues: TransactionStatisticsFilter,
+}
+
+export const TransactionStatisticsHeader = ({
+  statisticsType,
+  setStatisticsType,
+  setTmpFilters,
+  defaultValues,
+}: TransactionStatisticsHeaderProps) => {
   const { t } = useTranslation("common");
+  const [areAdditionalFilters, setAreAdditionalFilters] = useState(false);
 
   const form = useForm<TransactionStatisticsFilter>({
     resolver: zodResolver(transactionStatisticsFilterSchema),
@@ -71,18 +83,32 @@ export const TransactionStatisticsHeader = ({ setTmpFilters, defaultValues }: {
     )();
   }
 
-  const [areAdditionalFilters, setAreAdditionalFilters] = useState(false);
-
   const borderCn = "border-2 border-black rounded-lg"
 
   return (
     <CardHeader>
-      <div className="flex flex-col items-center justify-start gap-2">
+      <div className="flex flex-col items-center justify-start overflow-x-auto gap-2">
         
-        <div className="flex justify-between w-full">
-          <CardTitle className="text-2xl w-full justify-self-start">
+        <div className="flex justify-between w-full items-center max-h-200 space-x-2">
+          <CardTitle className="text-2xl w-fit justify-self-start">
             {t('transactionStatistics')}
           </CardTitle>
+
+          <CommonSelect 
+            value={statisticsType}
+            setValue={(v: string) => {
+              setStatisticsType(v as StatisticsType);
+              form.setValue("year", undefined);
+              form.setValue("month", undefined);
+              handleSubmit();
+            }}
+            placeholderKey="statisticsType"
+            options={{
+              "sumStatistics": "sumStatistics",
+              "averageStatistics": "averageStatistics",
+            }}
+            className="w-[200px]"
+          />
 
           <div className={`flex gap-2 items-center px-4 ${borderCn}`}>
             <Switch
@@ -120,6 +146,7 @@ export const TransactionStatisticsHeader = ({ setTmpFilters, defaultValues }: {
                 isClearable={true}
                 isHorizontal={false}
                 showLabel={false}
+                isDisabled={statisticsType === "averageStatistics"}
               />
               <ControlledCommonSelectField
                 name="month"
@@ -128,6 +155,7 @@ export const TransactionStatisticsHeader = ({ setTmpFilters, defaultValues }: {
                 isClearable={true}
                 isHorizontal={false}
                 showLabel={false}
+                isDisabled={statisticsType === "averageStatistics"}
               />
               <ControlledCommonSelectField
                 name="currency"
