@@ -9,6 +9,7 @@ import {
   TotalAmountAndItems,
   TotalAmountAndItemsObj,
   TransactionStatisticsAPI,
+  VisualisationType,
   YearStatistics
 } from "@/types/transaction-types";
 import {
@@ -21,10 +22,12 @@ import { TransactionStatisticsFilter } from "@/schemas/transaction-statistics";
 import { useGetTransactionStatistics } from "@/hooks/use-get-transaction-statistics";
 import { useTranslation } from "react-i18next";
 import { prepareStatistics } from "@/utils/prepare-statistics";
+import { TransactionStatisticsBarChart } from "../statistics-bar-chart";
 
 type TransactionStatisticsContentProps = {
   filters: TransactionStatisticsFilter,
   statisticsType: StatisticsType,
+  visualisationType: VisualisationType,
 }
 
 const StatisticsNotAvailable = () => {
@@ -36,11 +39,10 @@ const StatisticsNotAvailable = () => {
   ) 
 };
 
-
-
 export const TransactionStatisticsContent = ({
   filters,
   statisticsType,
+  visualisationType,
 }: TransactionStatisticsContentProps) => {
   const { data: dataExpense } = useGetTransactionStatistics(filters, "expense");
   const { data: dataIncome } = useGetTransactionStatistics(filters, "income");
@@ -130,12 +132,16 @@ export const TransactionStatisticsContent = ({
 
   return (
     <CardContent className="flex flex-col overflow-auto justify-between">
-      <TransactionStatisticsTable
-        statistics={statistics}
-        firstHeaderKeys={firstHeaderKeys}
-        secondHeaderKeys={secondHeaderKeys}
-        currency={filters.currency}
-      />
+      {visualisationType === "tableVisualisation" ? (
+        <TransactionStatisticsTable
+          statistics={statistics}
+          firstHeaderKeys={firstHeaderKeys}
+          secondHeaderKeys={secondHeaderKeys}
+          currency={filters.currency}
+        />
+      ) : (
+        <TransactionStatisticsBarChart statistics={statistics} />
+      )}
     </CardContent>
   )
 }

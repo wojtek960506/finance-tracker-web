@@ -47,6 +47,8 @@ export type TransactionStatisticsAPI = MonthYearStatistics | NoYearStatistics | 
 
 export type StatisticsType = "sumStatistics" | "averageStatistics";
 
+export type VisualisationType = "tableVisualisation" | "barChartVisualisation";
+
 export type AdjustableStatisticsColumnTitle = "" | "month" | "year";
 
 export type CommonTransactionStatistics = {

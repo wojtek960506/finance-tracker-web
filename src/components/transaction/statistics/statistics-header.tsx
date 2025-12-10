@@ -11,7 +11,7 @@ import {
   TransactionStatisticsFilter,
   transactionStatisticsFilterSchema,
 } from "@/schemas/transaction-statistics";
-import { StatisticsType } from "@/types/transaction-types";
+import { StatisticsType, VisualisationType } from "@/types/transaction-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
@@ -50,17 +50,21 @@ const accountOptions = Object.fromEntries(
 );
 
 type TransactionStatisticsHeaderProps = {
-  statisticsType: StatisticsType,
-  setStatisticsType: (v: StatisticsType) => void,
   setTmpFilters: (v: TransactionStatisticsFilter) => void,
   defaultValues: TransactionStatisticsFilter,
+  statisticsType: StatisticsType,
+  setStatisticsType: (v: StatisticsType) => void,
+  visualisationType: VisualisationType,
+  setVisualisationType: (v: VisualisationType) => void,
 }
 
 export const TransactionStatisticsHeader = ({
-  statisticsType,
-  setStatisticsType,
   setTmpFilters,
   defaultValues,
+  statisticsType,
+  setStatisticsType,
+  visualisationType,
+  setVisualisationType,
 }: TransactionStatisticsHeaderProps) => {
   const { t } = useTranslation("common");
   const [areAdditionalFilters, setAreAdditionalFilters] = useState(false);
@@ -106,6 +110,17 @@ export const TransactionStatisticsHeader = ({
             options={{
               "sumStatistics": "sumStatistics",
               "averageStatistics": "averageStatistics",
+            }}
+            className="w-[200px]"
+          />
+
+          <CommonSelect 
+            value={visualisationType}
+            setValue={(v: string) => setVisualisationType(v as VisualisationType)}
+            placeholderKey="visualisationType"
+            options={{
+              "tableVisualisation": "tableVisualisation",
+              "barChartVisualisation": "barChartVisualisation",
             }}
             className="w-[200px]"
           />

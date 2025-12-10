@@ -29,7 +29,6 @@ export const buildQueryParams = (filters: Record<string, unknown>) => {
   Object.entries(filters).forEach(([key, value]) => {
     if (value !== undefined && value !== "")
       if (Array.isArray(value)) {
-        console.log('value is array', value)
         value.forEach(v => {
           params.append(key, String(v));
         })
