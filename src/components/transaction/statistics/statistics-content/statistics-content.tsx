@@ -22,7 +22,7 @@ import { TransactionStatisticsFilter } from "@/schemas/transaction-statistics";
 import { useGetTransactionStatistics } from "@/hooks/use-get-transaction-statistics";
 import { useTranslation } from "react-i18next";
 import { prepareStatistics } from "@/utils/prepare-statistics";
-import { TransactionStatisticsBarCharts } from "../statistics-bar-chart";
+import { TransactionStatisticsBarCharts } from "../statistics-bar-charts";
 
 type TransactionStatisticsContentProps = {
   filters: TransactionStatisticsFilter,
@@ -55,7 +55,7 @@ export const TransactionStatisticsContent = ({
   let periodicIncome: TotalAmountAndItemsObj | undefined = undefined;
   let allTimeExpense: TotalAmountAndItems | undefined = undefined;
   let allTimeIncome: TotalAmountAndItems | undefined = undefined;
-  let title: AdjustableStatisticsColumnTitle = "";
+  let periodicTitle: AdjustableStatisticsColumnTitle = "";
 
   if (isMonthYearStatistics(dataExpense) && isMonthYearStatistics(dataIncome)) {
     if (statisticsType === "averageStatistics")
@@ -68,7 +68,7 @@ export const TransactionStatisticsContent = ({
     periodicIncome = {}
     allTimeExpense = expense;
     allTimeIncome = income;
-    title = "";
+    periodicTitle = "";
   }
   if (isNoYearStatistics(dataExpense) && isNoYearStatistics(dataIncome)) {
     if (statisticsType === "averageStatistics" && filters.month)
@@ -81,7 +81,7 @@ export const TransactionStatisticsContent = ({
     periodicIncome = income.yearly;
     allTimeExpense = expense.allTime;
     allTimeIncome = income.allTime;
-    title = "year"
+    periodicTitle = "year"
   }
   if (isYearStatistics(dataExpense) && isYearStatistics(dataIncome)) {
     if (statisticsType === "averageStatistics")
@@ -94,7 +94,7 @@ export const TransactionStatisticsContent = ({
     periodicIncome = income.monthly;
     allTimeExpense = expense.allTime;
     allTimeIncome = income.allTime;
-    title = "month"
+    periodicTitle = "month"
   }
   if (
     !expense || !income ||
@@ -107,7 +107,7 @@ export const TransactionStatisticsContent = ({
   ].sort((a,b) => Number(a) - Number(b));
 
   const statistics = prepareStatistics({
-    title,
+    periodicTitle,
     allTimeExpense,
     allTimeIncome,
     periodicExpense,
@@ -122,7 +122,7 @@ export const TransactionStatisticsContent = ({
     isSum ? "totalItemsTransactions" : "averageItemsTransactions",
   ] as [string, string, string];
   const secondHeaderKeys = [
-    title,
+    periodicTitle,
     "expense",
     "income",
     "balance",
@@ -143,6 +143,7 @@ export const TransactionStatisticsContent = ({
         <TransactionStatisticsBarCharts
           statistics={statistics}
           currency={filters.currency}
+          isSum={isSum}
         />
       )}
     </CardContent>

@@ -52,7 +52,7 @@ export type VisualisationType = "tableVisualisation" | "barChartVisualisation";
 export type AdjustableStatisticsColumnTitle = "" | "month" | "year";
 
 export type CommonTransactionStatistics = {
-  title: AdjustableStatisticsColumnTitle,
+  periodicTitle: AdjustableStatisticsColumnTitle,
   allTimeExpense: TotalAmountAndItems,
   allTimeIncome: TotalAmountAndItems,
   periodicExpense: TotalAmountAndItemsObj,

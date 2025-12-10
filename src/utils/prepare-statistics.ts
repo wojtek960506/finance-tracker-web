@@ -2,7 +2,7 @@ import { CommonTransactionStatistics, StatisticsType } from "@/types/transaction
 
 export const prepareStatistics = (
   {
-    title,
+    periodicTitle,
     allTimeExpense,
     allTimeIncome,
     periodicExpense,
@@ -14,7 +14,7 @@ export const prepareStatistics = (
   const divideByMonths = statisticsType === "sumStatistics" ? 1 : 12;
   const divideByYears = statisticsType === "sumStatistics" ? 1 : periodicKeys.length;
   const statistics: CommonTransactionStatistics = {
-    title,
+    periodicTitle,
     allTimeExpense: {
       totalAmount: allTimeExpense.totalAmount / divideByYears,
       totalItems: allTimeExpense.totalItems / divideByYears,

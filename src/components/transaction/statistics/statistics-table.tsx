@@ -26,7 +26,7 @@ export const TransactionStatisticsTable = ({
 }: TransactionStatisticsTableProps) => {
   const { t } = useTranslation("common");
   const {
-    title,
+    periodicTitle,
     allTimeIncome,
     allTimeExpense,
     periodicExpense,
@@ -104,7 +104,7 @@ export const TransactionStatisticsTable = ({
           return (
             <TableRow key={key} className="h-10">
               <TableCell className={cn(keyCellStyle)}>
-                {title === "month" ? `${t(`month${key}`)}` : key}
+                {periodicTitle === "month" ? `${t(`month${key}`)}` : key}
               </TableCell>
               <TableCell className={cn(cellStyle, borderLeft)}>
                 {formatNumber(totalAmountExpense, 2, true)}
