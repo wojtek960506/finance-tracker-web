@@ -1,7 +1,9 @@
 "use client"
 
 import { CommonSelect } from "@/components/common/common-select";
-import { ControlledCommonSelectField } from "@/components/controlled-form/controlled-common-select-field";
+import {
+  ControlledCommonSelectField
+} from "@/components/controlled-form/controlled-common-select-field";
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
@@ -15,7 +17,7 @@ import { StatisticsType, VisualisationType } from "@/types/transaction-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 const FIRST_YEAR = 2015
@@ -72,7 +74,16 @@ export const TransactionStatisticsHeader = ({
   const form = useForm<TransactionStatisticsFilter>({
     resolver: zodResolver(transactionStatisticsFilterSchema),
     defaultValues
-  })
+  });
+
+  const year = useWatch({
+    control: form.control,
+    name: "year"
+  });
+  const month = useWatch({
+    control: form.control,
+    name: "month"
+  });
 
   const handleSubmit = () => {
     const raw = form.getValues();
@@ -92,7 +103,6 @@ export const TransactionStatisticsHeader = ({
   return (
     <CardHeader>
       <div className="flex flex-col items-center justify-start overflow-x-auto gap-2">
-        
         <div className="flex justify-between w-full items-center max-h-200 space-x-2">
           <CardTitle className="text-2xl w-fit justify-self-start">
             {t('transactionStatistics')}
@@ -123,6 +133,7 @@ export const TransactionStatisticsHeader = ({
               "barChartVisualisation": "barChartVisualisation",
             }}
             className="w-[200px]"
+            isDisabled={visualisationType === "tableVisualisation" && !!year && !!month}
           />
 
           <div className={`flex gap-2 items-center px-4 ${borderCn}`}>
@@ -144,9 +155,7 @@ export const TransactionStatisticsHeader = ({
             <Label htmlFor="filter-switch" className="text-lg whitespace-nowrap">
               {t('additionalFilters')}
             </Label>
-  
           </div>
-  
         </div>
 
         <Form {...form}>
@@ -162,7 +171,10 @@ export const TransactionStatisticsHeader = ({
                 isClearable={true}
                 isHorizontal={false}
                 showLabel={false}
-                isDisabled={statisticsType === "averageStatistics"}
+                isDisabled={statisticsType === "averageStatistics" || (
+                  visualisationType === "barChartVisualisation" && !!month
+                )}
+
               />
               <ControlledCommonSelectField
                 name="month"
@@ -171,7 +183,9 @@ export const TransactionStatisticsHeader = ({
                 isClearable={true}
                 isHorizontal={false}
                 showLabel={false}
-                isDisabled={statisticsType === "averageStatistics"}
+                isDisabled={statisticsType === "averageStatistics" || (
+                  visualisationType === "barChartVisualisation" && !!year
+                )}
               />
               <ControlledCommonSelectField
                 name="currency"

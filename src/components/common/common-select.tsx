@@ -32,8 +32,6 @@ export const CommonSelect = ({
 }: CommonSelectProps) => {
   const { t } = useTranslation("common");
 
-  console.log('value', value)
-
   return (
     <div className={cn("flex relative p-1", className)}>
       <Select

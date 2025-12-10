@@ -67,18 +67,20 @@ export const TransactionStatisticsBarCharts = ({
   )
 
   function tooltipFormatter (isAmount: boolean) {
-      return function wrapper (value: string | number, name: string) {
-        return (
-      <div className="flex gap-2 justify-between w-full items-center text-sm">
-        <div className={cn(
-          "h-4 w-4 rounded-[5]",
-          name === "expense" ? "bg-[var(--color-expense)]" : "bg-[var(--color-income)]"
-        )} />
-        <span className="font-bold">{t(name.toString())}</span>
-        <span>
-          {`${formatNumber(value.toString(), 2, isAmount)}${isAmount ? ` ${currency}` : ""}`}
-        </span>
-      </div>
+    return function wrapper (value: string | number, name: string) {
+      return (
+        <div className="flex gap-2 justify-between w-full items-center text-sm">
+          <div className="flex gap-2">
+            <div className={cn(
+              "h-4 w-4 rounded-[5]",
+              name === "expense" ? "bg-[var(--color-expense)]" : "bg-[var(--color-income)]"
+            )} />
+            <span className="font-bold">{t(name.toString())}</span>
+          </div>
+          <span>
+            {`${formatNumber(value.toString(), 2, isAmount)}${isAmount ? ` ${currency}` : ""}`}
+          </span>
+        </div>
       )
     }
   }

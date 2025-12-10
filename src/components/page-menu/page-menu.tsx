@@ -10,8 +10,6 @@ export const PageMenu = () => {
   const router = useRouter()
   const pathname = usePathname();
 
-  console.log('pathname', pathname);
-
   return (
     <div className="flex gap-2">
       <Button
