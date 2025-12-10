@@ -22,7 +22,7 @@ import { TransactionStatisticsFilter } from "@/schemas/transaction-statistics";
 import { useGetTransactionStatistics } from "@/hooks/use-get-transaction-statistics";
 import { useTranslation } from "react-i18next";
 import { prepareStatistics } from "@/utils/prepare-statistics";
-import { TransactionStatisticsBarChart } from "../statistics-bar-chart";
+import { TransactionStatisticsBarCharts } from "../statistics-bar-chart";
 
 type TransactionStatisticsContentProps = {
   filters: TransactionStatisticsFilter,
@@ -140,7 +140,10 @@ export const TransactionStatisticsContent = ({
           currency={filters.currency}
         />
       ) : (
-        <TransactionStatisticsBarChart statistics={statistics} />
+        <TransactionStatisticsBarCharts
+          statistics={statistics}
+          currency={filters.currency}
+        />
       )}
     </CardContent>
   )
