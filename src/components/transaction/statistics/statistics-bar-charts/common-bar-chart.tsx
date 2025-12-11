@@ -62,12 +62,18 @@ export const CommonBarChart = ({
             labelFormatter={tooltipLabelFormatter}
             formatter={tooltipFormatter}
           />
+          {/* TODO - todo - probably create custom legend instead of ChartContentLegend,
+              becuase there might be case (for example balance of transaction) where
+              there will be different colors for positive and negative value */}
           <ChartLegend
             content={(props) => (
               <ChartLegendContent payload={props.payload} className="text-base"/>
             )}
           />
           <CartesianGrid vertical={false} />
+
+
+          {/* TODO - show absolute value in bar and real value in tooltip */}
           {bars.map(({ dataKey, fillColor }) => (
             <Bar key={dataKey} dataKey={dataKey} fill={fillColor} radius={4} />
           ))}

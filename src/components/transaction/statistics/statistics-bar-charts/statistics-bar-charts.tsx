@@ -26,7 +26,7 @@ export const TransactionStatisticsBarCharts = ({
   } = statistics;
   const formatNumber = useFormatNumber();
 
-  type TmpType = { key: string, expense: number, income: number }[];
+  type TmpType = { key: string, expense: number, income: number, balance: number }[];
   const dataAmount: TmpType = [];
   const dataItems: TmpType = [];
   periodicKeys.forEach(key => {
@@ -35,10 +35,22 @@ export const TransactionStatisticsBarCharts = ({
     const totalItemsExpense = periodicExpense[Number(key)]?.totalItems ?? 0;
     const totalItemsIncome = periodicIncome[Number(key)]?.totalItems ?? 0;
 
-    dataAmount.push({ key, expense: totalAmountExpense, income: totalAmountIncome });
-    dataItems.push({ key, expense: totalItemsExpense, income: totalItemsIncome });
+    dataAmount.push({ 
+      key,
+      expense: totalAmountExpense,
+      income: totalAmountIncome,
+      balance: totalAmountIncome - totalAmountExpense,
+    });
+    dataItems.push({
+      key,
+      expense: totalItemsExpense,
+      income: totalItemsIncome,
+      balance: totalItemsIncome - totalItemsExpense,
+    });
   });
 
+  // values in chart legend are based on this, so maybe it will be better
+  // to have some custom component
   const chartConfig = {
     expense: {
       label: t('expense'),
@@ -48,6 +60,17 @@ export const TransactionStatisticsBarCharts = ({
       label: t('income'),
       color: "#4caf50",
     },
+    balance: {
+      label: t('balance'),
+    },
+    balancePositive: {
+      label: t('balance'),
+      color: "#123456",
+    },
+    balanceNegative: {
+      label: t('balance'),
+      color: "#654321",
+    }
   } satisfies ChartConfig;
 
   const amountTitle = isSum ? "totalAmountTransactions" : "averageAmountTransactions";
@@ -56,6 +79,7 @@ export const TransactionStatisticsBarCharts = ({
   const bars: NonEmptyArray<{ dataKey: string; fillColor: string }> = [
     { dataKey: "expense", fillColor: "var(--color-expense)" },
     { dataKey: "income", fillColor: "var(--color-income)" },
+    { dataKey: "balance", fillColor: "var(--color-balanceNegative)" },
   ]
 
   const xAxisTickFormatter = (value: string) => (
@@ -67,13 +91,19 @@ export const TransactionStatisticsBarCharts = ({
   )
 
   function tooltipFormatter (isAmount: boolean) {
-    return function wrapper (value: string | number, name: string) {
+    return function wrapper(value: number, name: string) {
       return (
         <div className="flex gap-2 justify-between w-full items-center text-sm">
           <div className="flex gap-2">
             <div className={cn(
               "h-4 w-4 rounded-[5]",
-              name === "expense" ? "bg-[var(--color-expense)]" : "bg-[var(--color-income)]"
+              name === "expense"
+                ? "bg-[var(--color-expense)]"
+                : name === "income"
+                  ? "bg-[var(--color-income)]"
+                  : value >= 0
+                    ? "bg-[var(--color-balancePositive)]"
+                    : "bg-[var(--color-balanceNegative)]"
             )} />
             <span className="font-bold">{t(name.toString())}</span>
           </div>
