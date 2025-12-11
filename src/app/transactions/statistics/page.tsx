@@ -33,6 +33,7 @@ export default function TransactionStatisticsPage() {
       <div className="flex-1 flex flex-col h-full space-y-4 p-1 min-h-[350px]">
         <Card className="overflow-hidden gap-2">
           <TransactionStatisticsHeader
+            tmpFilters={filters}
             setTmpFilters={setTmpFilters}
             defaultValues={defaultValues}
             statisticsType={statisticsType}

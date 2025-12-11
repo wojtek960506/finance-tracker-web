@@ -52,15 +52,18 @@ const accountOptions = Object.fromEntries(
 );
 
 type TransactionStatisticsHeaderProps = {
-  setTmpFilters: (v: TransactionStatisticsFilter) => void,
-  defaultValues: TransactionStatisticsFilter,
-  statisticsType: StatisticsType,
-  setStatisticsType: (v: StatisticsType) => void,
-  visualisationType: VisualisationType,
-  setVisualisationType: (v: VisualisationType) => void,
+  tmpFilters: TransactionStatisticsFilter;
+  setTmpFilters: (v: TransactionStatisticsFilter) => void;
+  defaultValues: TransactionStatisticsFilter;
+  statisticsType: StatisticsType;
+  setStatisticsType: (v: StatisticsType) => void;
+  visualisationType: VisualisationType;
+  setVisualisationType: (v: VisualisationType) => void;
 }
 
+// TODO split this component into smaller ones
 export const TransactionStatisticsHeader = ({
+  tmpFilters,
   setTmpFilters,
   defaultValues,
   statisticsType,
@@ -70,6 +73,23 @@ export const TransactionStatisticsHeader = ({
 }: TransactionStatisticsHeaderProps) => {
   const { t } = useTranslation("common");
   const [areAdditionalFilters, setAreAdditionalFilters] = useState(false);
+
+  // TODO I copied this code from `filter-header` and adjusted a little
+  // think about merging it into one function
+  const parseValue = (key: string, value: string | string[]) => {
+    if (Array.isArray(value))
+        return value.map(v => t(v)).join(",")
+    
+    switch (key) {
+      case "currency":
+      case "year":
+        return value
+      case "month":
+        return t(`month${value}`)
+      default:
+        return t(`${key}_options.${value as string}`);
+    }
+  }
 
   const form = useForm<TransactionStatisticsFilter>({
     resolver: zodResolver(transactionStatisticsFilterSchema),
@@ -228,6 +248,23 @@ export const TransactionStatisticsHeader = ({
             </div>
           </form>
         </Form>
+
+        <div className="flex gap-2 text-xs justify-start w-full">
+          {Object.entries(tmpFilters)
+            .filter(
+              ([key, value]) => value !== undefined && value !== "" && key !== "omitCategory"
+            )
+            // TODO - think about other places where sorting should be done by translations
+            // for sure in select options
+            .sort((a, b) => t(a[0]) > t(b[0]) ? 1 : -1)
+            .map(([key, value]) => (
+              <div key={key} className="px-2 py-1 border border-2 border-black rounded-lg">
+                <span className="font-bold">{`${t(key)}: `}</span>
+                <span>{parseValue(key, value)}</span>
+              </div>
+            ))
+          }
+        </div>
       </div>
     </CardHeader>
   )

@@ -9,6 +9,10 @@ export const TransactionsFilterHeader = () => {
 
   const notShownFilters = ["page", "limit", "sortBy", "sortOrder"];
 
+
+  // TODO I copied this code to `statistics-header` and adjusted a little
+  // think about merging it into one function - actually it might be even possible
+  // to have some common component to show chosen filters
   const parseValue = (key: string, value: string | number) => {
     switch (key) {
       case "startDate":
@@ -23,7 +27,7 @@ export const TransactionsFilterHeader = () => {
   }
 
   return (
-    <ul className="flex gap-2">
+    <ul className="flex gap-2 text-sm">
       {
         Object.entries(filters)
           .filter(([key, value]) => !notShownFilters.includes(key) && value !== undefined)
@@ -32,7 +36,8 @@ export const TransactionsFilterHeader = () => {
               key={key}
               className="border border-2 border-black rounded-lg px-2"
             >
-              {t(key)}: {parseValue(key, value)}
+              <span className="font-bold">{t(key)}: </span>
+              <span>{parseValue(key, value)}</span>
             </li>
           )
         )
