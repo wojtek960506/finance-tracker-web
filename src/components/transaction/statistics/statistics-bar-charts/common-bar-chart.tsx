@@ -6,7 +6,7 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from "@/components/ui/chart";
-import { ComponentProps } from "react";
+import { ComponentProps, ReactElement } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 export type NonEmptyArray<T> = [T, ...T[]];
@@ -19,7 +19,9 @@ type CommonBarChartProps = {
   config: ChartConfig,
   data: unknown[],
   dataKey: string,
-  bars: NonEmptyArray<{ dataKey: string, fillColor: string }>
+  // bars: NonEmptyArray<{ dataKey: string, fillColor: string }>
+  // bars: NonEmptyArray<ReactElement<typeof Bar>>,
+  bars: ReactElement<typeof Bar>[]
   title?: string,
   xAxisTickFormatter?: XAxisTickFormatterType,
   tooltipLabelFormatter?: TooltipLabelFormatterType,
@@ -35,6 +37,7 @@ export const CommonBarChart = ({
   xAxisTickFormatter,
   tooltipLabelFormatter,
   tooltipFormatter,
+  
 }: CommonBarChartProps) => {
 
   return (
@@ -66,17 +69,18 @@ export const CommonBarChart = ({
               becuase there might be case (for example balance of transaction) where
               there will be different colors for positive and negative value */}
           <ChartLegend
-            content={(props) => (
-              <ChartLegendContent payload={props.payload} className="text-base"/>
-            )}
+            content={undefined}
           />
           <CartesianGrid vertical={false} />
 
 
           {/* TODO - show absolute value in bar and real value in tooltip */}
-          {bars.map(({ dataKey, fillColor }) => (
+          {/* {bars.map(({ dataKey, fillColor }) => (
             <Bar key={dataKey} dataKey={dataKey} fill={fillColor} radius={4} />
-          ))}
+          ))} */}
+          
+          {...bars}
+          
         </BarChart>
       </ChartContainer>
     </div>
