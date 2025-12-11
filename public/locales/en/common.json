@@ -50,6 +50,10 @@
   "income": "Income",
   "balance": "Balance",
   "allTime": "Total",
+  "tableVisualisation": "Table",
+  "barChartVisualisation": "Bar chart",
+  "balancePositive": "Positive balance",
+  "balanceNegative": "Negative balance",
 
   "descriptionRequired": "Description is required",
 

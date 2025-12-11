@@ -3,7 +3,7 @@ import { useFormatNumber } from "@/hooks/use-format-number";
 import { cn } from "@/lib/utils";
 import { CommonTransactionStatistics } from "@/types/transaction-types"
 import { useTranslation } from "react-i18next";
-import { CommonBarChart, TooltipFormatterType } from "./common-bar-chart";
+import { CommonBarChart, LegendItem, TooltipFormatterType } from "./common-bar-chart";
 import { ReactElement } from "react";
 import { Bar, Cell } from "recharts";
 
@@ -61,24 +61,14 @@ export const TransactionStatisticsBarCharts = ({
   });
 
   const itemsChartConfig = {
-    expense: {
-      color: "#e57373",
-    },
-    income: {
-      color: "#4caf50",
-    },
+    expense: { color: "#ff9800" },
+    income: { color: "#2196f3" },
   } satisfies ChartConfig;
 
   const amountChartConfig = {
     ...itemsChartConfig,
-    balancePositive: {
-      label: t('balance'),
-      color: "#123456",
-    },
-    balanceNegative: {
-      label: t('balance'),
-      color: "#654321",
-    },
+    balancePositive: { color: "#4caf50" },
+    balanceNegative: { color: "#e57373" },
   } satisfies ChartConfig
 
   const amountTitle = isSum ? "totalAmountTransactions" : "averageAmountTransactions";
@@ -112,7 +102,6 @@ export const TransactionStatisticsBarCharts = ({
       )
   }
 
-  
   const tooltipAmountFormatter = (value: number, name: string, item: unknown) => {
     const actualName = name === "absBalance" ? "balance" : name;
     const actualValue = name === "absBalance"
@@ -165,8 +154,27 @@ export const TransactionStatisticsBarCharts = ({
     </Bar>
   ]
 
+  const itemsLegend: ReactElement<typeof LegendItem>[] = [
+    <LegendItem key="expense" label={t('expense')} color="bg-[var(--color-expense)]"/>,
+    <LegendItem key="income" label={t('income')} color="bg-[var(--color-income)]"/>,
+  ];
+
+  const amountLegend: ReactElement<typeof LegendItem>[] = [
+    ...itemsLegend,
+    <LegendItem
+      key="balancePositive"
+      label={t('balancePositive')}
+      color="bg-[var(--color-balancePositive)]"
+    />,
+    <LegendItem
+      key="balanceNegative"
+      label={t('balanceNegative')}
+      color="bg-[var(--color-balanceNegative)]"
+    />,
+  ];
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-5 mt-5">
       <CommonBarChart
         config={amountChartConfig}
         data={dataAmount}
@@ -176,7 +184,9 @@ export const TransactionStatisticsBarCharts = ({
         xAxisTickFormatter={xAxisTickFormatter}
         tooltipLabelFormatter={tooltipLabelFormatter}
         tooltipFormatter={tooltipAmountFormatter as TooltipFormatterType}
+        legendItems={amountLegend}
       />
+      <div className="w-full h-[2px] bg-gray-300"></div>
       <CommonBarChart
         config={itemsChartConfig}
         data={dataItems}
@@ -186,6 +196,7 @@ export const TransactionStatisticsBarCharts = ({
         xAxisTickFormatter={xAxisTickFormatter}
         tooltipLabelFormatter={tooltipLabelFormatter}
         tooltipFormatter={tooltipItemsFormatter as TooltipFormatterType}
+        legendItems={itemsLegend}
       />
     </div>
   )

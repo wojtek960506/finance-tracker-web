@@ -50,6 +50,10 @@
   "income": "Wpływy",
   "balance": "Bilans",
   "allTime": "Razem",
+  "tableVisualisation": "Tabela",
+  "barChartVisualisation": "Wykres słupkowy",
+  "balancePositive": "Bilans dodatni",
+  "balanceNegative": "Bilans ujemny",
 
   "descriptionRequired": "Opis jest wymagany",
 
