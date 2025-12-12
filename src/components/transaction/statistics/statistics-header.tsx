@@ -21,7 +21,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 const FIRST_YEAR = 2015
-const LAST_YEAR = 2024
+const LAST_YEAR = 2025
 
 const yearOptions = Object.fromEntries(
   Array
