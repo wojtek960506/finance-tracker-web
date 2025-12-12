@@ -14,6 +14,7 @@ import {
 } from "../modals";
 import { FilteredResponse } from "@/types/api-types";
 import { TransactionsPagination } from "./transactions-pagination";
+import { cn } from "@/lib/utils";
 
 
 export const TransactionsTable = ({ data }: { data: FilteredResponse<TransactionAPI[]> }) => {
@@ -60,6 +61,16 @@ export const TransactionsTable = ({ data }: { data: FilteredResponse<Transaction
     setDeleteConfirmationOpen(true);
   }
   
+  // const expenseRowColor = "bg-[rgb(255,152,0)]"
+  // const expenseRowHoverColor = "hover:bg-[rgba(255,152,0, 0.8)]"
+  // const incomeRowColor = "bg-[rgb(33,150,243)]"
+  // const incomeRowHoverColor = "hover:bg-[rgba(33,150,243, 0.9)]"
+
+  const expenseRowColor = "bg-orange-300"
+  const expenseRowHoverColor = "hover:bg-orange-400"
+  const incomeRowColor = "bg-blue-300"
+  const incomeRowHoverColor = "hover:bg-blue-400"
+
   return (
     <div className="grid w-full gap-3">
       <Table className="text-lg">
@@ -69,9 +80,25 @@ export const TransactionsTable = ({ data }: { data: FilteredResponse<Transaction
             <TableRow
               key={transaction.id}
               onClick={() => handleDetailsClick(transaction)}
+              className={cn(
+                transaction.transactionType === "expense"
+                  ? cn(expenseRowColor, expenseRowHoverColor)
+                  : cn(incomeRowColor, incomeRowHoverColor),
+                "border-y border-y-1 border-y-gray-300"
+              )}
             >
               <TransactionInfoCells transaction={transaction}/>
-              <TableCell className="sticky right-0 bg-background flex justify-center">
+              <TableCell
+                className={cn(
+                  "sticky right-0 flex justify-center",
+                  "bg-background",
+                  transaction.transactionType === "expense"
+                  ? cn(expenseRowColor, expenseRowHoverColor)
+                  : cn(incomeRowColor, incomeRowHoverColor),
+                  // ? "bg-blue-100 hover:bg-blue-200"
+                  // : "bg-orange-100 hover:bg-orange-200",
+              )}
+              >
                 <TransactionContextMenu
                   onDetailsClick={() => handleDetailsClick(transaction)}
                   onEditClick={() => handleEditClick(transaction)}

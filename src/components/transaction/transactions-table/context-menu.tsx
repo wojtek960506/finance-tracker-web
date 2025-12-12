@@ -26,7 +26,7 @@ export const TransactionContextMenu = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="hover:bg-gray-300 ml-5">
+        <Button variant="outline" className="hover:bg-gray-300 mx-2">
           <MoreVertical />
         </Button>
       </DropdownMenuTrigger>
