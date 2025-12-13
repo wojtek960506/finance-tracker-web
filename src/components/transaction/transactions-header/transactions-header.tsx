@@ -5,6 +5,7 @@ import { TransactionCreateDTO } from "@/schemas/transaction";
 import { TransactionsFilterHeader } from "./filter-header";
 import { AddTransactionModal } from "../modals";
 import { TransactionsFilterSwitch } from "./filter-switch";
+import { ExportTransactionsButton } from "./export-transactions-button";
 
 
 export const TransactionsHeader = ({ total }: { total?: number}) => {
@@ -22,6 +23,7 @@ export const TransactionsHeader = ({ total }: { total?: number}) => {
           {total && <span>{total} item(s)</span>}
         </div>
         <div className="flex gap-6">
+          <ExportTransactionsButton />
           <AddTransactionModal
             onCreated={async (created: TransactionCreateDTO) => {
               await createMutation.mutateAsync(created);

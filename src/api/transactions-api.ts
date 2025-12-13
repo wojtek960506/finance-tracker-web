@@ -16,6 +16,16 @@ export const getTransactions = async (query: string): Promise<
   return withRefresh(getTransactionsNoRefresh, query);
 }
 
+const exportTransactionsNoRefresh = async () => {
+  const { data } = await api.get(`/transactions/export`, { responseType: 'blob' });
+  return data;
+}
+
+export const exportTransactions = async () => {
+  return withRefresh(exportTransactionsNoRefresh);
+}
+
+
 const getTransactionsAnalysisNoRefresh = async (
   query: string
 ): Promise<TransactionsAnalysisAPI> => {
