@@ -13,6 +13,7 @@ export type TransactionCreateAPI = {
   calcRefIdx?: number;
   realIdx?: number;
   realIdxRef?: number;
+  exchangeRefId?: string
 }
 
 export type TransactionAPI = TransactionCreateAPI & {
