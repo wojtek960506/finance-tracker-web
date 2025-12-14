@@ -11,6 +11,8 @@ export type TransactionCreateAPI = {
   exchangeRate?: number;
   currencies?: string;
   calcRefIdx?: number;
+  realIdx?: number;
+  realIdxRef?: number;
 }
 
 export type TransactionAPI = TransactionCreateAPI & {

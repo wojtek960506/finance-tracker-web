@@ -46,6 +46,15 @@ export const TransactionDetails = ({ transaction }: { transaction: TransactionAP
         label={t('updated_at')}
         value={new Date(transaction.updatedAt).toLocaleString(i18n.language)}
       />
+      {/* TODO - remove it as it is just temporary info */}
+      {transaction.realIdx && <CommonInfo
+        label={t("realIdx")}
+        value={transaction.realIdx.toString()}
+      />}
+      {transaction.realIdxRef && <CommonInfo
+        label={t("realIdxRef")}
+        value={transaction.realIdxRef.toString()}
+      />}
     </div>
   )
 }

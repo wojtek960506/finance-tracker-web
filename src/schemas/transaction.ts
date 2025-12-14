@@ -50,6 +50,8 @@ export const TransactionSchema = TransactionCreateSchema.extend({
   id: z.string(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
+  realIdx: z.number().optional(),
+  realIdxRef: z.number().optional(),
 })
 
 export type TransactionCreateDTO = z.infer<typeof TransactionCreateSchema>;
