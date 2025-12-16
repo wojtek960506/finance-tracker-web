@@ -11,8 +11,7 @@ import { useTranslation } from "react-i18next";
 
 export const TransactionsMain = () => {
   const { t } = useTranslation("common");
-  const filters = useTransactionsFilterStore(s => s.filters)
-  const { data, isLoading, isError, error } = useGetTransactions(filters);
+  const { data, isLoading, isError, error } = useGetTransactions();
   const { isShown } = useTransactionsFilterStore();
   const isLoggingOut = useGeneralStore(s => s.isLoggingOut);
 
