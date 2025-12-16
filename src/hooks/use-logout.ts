@@ -16,6 +16,7 @@ export const useLogout = (isInsideRefresh: boolean = false) => {
     router.replace('/login');
     setIsLoggingOut(true);
     queryClient.removeQueries({ queryKey: ['user'] });
+    // TODO add some additional key for this removal as transactions are not cleared after logout
     queryClient.removeQueries({ queryKey: ['transactions'] });
     resetTransactionsFilterStore();
     await logoutCore(isInsideRefresh);
