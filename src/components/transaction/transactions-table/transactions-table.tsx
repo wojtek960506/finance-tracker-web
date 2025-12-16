@@ -91,12 +91,7 @@ export const TransactionsTable = ({ data }: { data: FilteredResponse<Transaction
               <TableCell
                 className={cn(
                   "sticky right-0 flex justify-center",
-                  "bg-background",
-                  transaction.transactionType === "expense"
-                  ? cn(expenseRowColor, expenseRowHoverColor)
-                  : cn(incomeRowColor, incomeRowHoverColor),
-                  // ? "bg-blue-100 hover:bg-blue-200"
-                  // : "bg-orange-100 hover:bg-orange-200",
+                  "bg-transparent",
               )}
               >
                 <TransactionContextMenu

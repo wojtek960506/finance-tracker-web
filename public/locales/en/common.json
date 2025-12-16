@@ -86,8 +86,8 @@
   "accountPlaceholder": "Select account",
   "categoryPlaceholder": "Select category",
 
-  "created_at": "Created",
-  "updated_at": "Edited",
+  "createdAt": "Created",
+  "updatedAt": "Edited",
 
   "filterPanel": "Filters",
   "startDate": "Date from",

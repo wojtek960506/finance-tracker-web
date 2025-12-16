@@ -86,8 +86,8 @@
   "accountPlaceholder": "Wybierz konto",
   "categoryPlaceholder": "Wybierz kategorię",
 
-  "created_at": "Utworzono",
-  "updated_at": "Edytowano",
+  "createdAt": "Utworzono",
+  "updatedAt": "Edytowano",
 
   "filterPanel": "Filtry",
   "startDate": "Data od",

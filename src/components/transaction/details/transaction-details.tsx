@@ -39,21 +39,29 @@ export const TransactionDetails = ({ transaction }: { transaction: TransactionAP
       />
       <Separator className="col-span-2 bg-gray-300"/>
       <CommonInfo
-        label={t('created_at')}
+        label={t('createdAt')}
         value={new Date(transaction.createdAt).toLocaleString(i18n.language)}
       />
       <CommonInfo
-        label={t('updated_at')}
+        label={t('updatedAt')}
         value={new Date(transaction.updatedAt).toLocaleString(i18n.language)}
       />
       {/* TODO - remove it as it is just temporary info */}
-      {transaction.realIdx && <CommonInfo
-        label={t("realIdx")}
-        value={transaction.realIdx.toString()}
+      {transaction.sourceIndex && <CommonInfo
+        label={t("sourceIndex")}
+        value={transaction.sourceIndex.toString()}
       />}
-      {transaction.realIdxRef && <CommonInfo
-        label={t("realIdxRef")}
-        value={transaction.realIdxRef.toString()}
+      {transaction.sourceRefIndex && <CommonInfo
+        label={t("sourceRefIndex")}
+        value={transaction.sourceRefIndex.toString()}
+      />}
+      {transaction.id && <CommonInfo
+        label={t("id")}
+        value={transaction.id.toString()}
+      />}
+      {transaction.refId && <CommonInfo
+        label={t("refId")}
+        value={transaction.refId.toString()}
       />}
     </div>
   )
