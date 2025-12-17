@@ -14,6 +14,9 @@ type AddTransactionModalProps = {
 export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => {
   const { t } = useTranslation("common");
   const [open, setOpen] = useState(false);
+
+  // TODO add way to choose whether it is standard or exchange transaction
+  // add new form for exchange transaction
   
   const trigger = (
     <Button variant="default" className="w-min justify-self-end text-lg">

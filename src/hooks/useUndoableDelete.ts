@@ -6,6 +6,13 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 export const useUndoableDelete = () => {
+
+  // TODO when deleting transaction it is not removed from the list
+  // probably some problem with missing `filters` as key in queryClient
+  // TODO for the toast with option to undo add the closing button for faster deletion
+  // (also make sure that the interval is closed earlier in that case and in general to close
+  // one toast and open the other even with no closing button flow)
+
   const { t } = useTranslation("common");
   const queryClient = useQueryClient();
 
