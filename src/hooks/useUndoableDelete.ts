@@ -1,61 +1,71 @@
 import { deleteTransaction } from "@/api/transactions-api";
-import { CommonError } from "@/types/api-types";
+import { useTransactionsFilterStore } from "@/store/transactions-filter-store";
+import { CommonError, FilteredResponse } from "@/types/api-types";
 import { TransactionAPI } from "@/types/transaction-types";
 import { useQueryClient } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
-export const useUndoableDelete = () => {
+type FilteredTransactions = FilteredResponse<TransactionAPI[]>
 
-  // TODO when deleting transaction it is not removed from the list
-  // probably some problem with missing `filters` as key in queryClient
-  // TODO for the toast with option to undo add the closing button for faster deletion
-  // (also make sure that the interval is closed earlier in that case and in general to close
-  // one toast and open the other even with no closing button flow)
+export const useUndoableDelete = () => {
 
   const { t } = useTranslation("common");
   const queryClient = useQueryClient();
+  const filters = useTransactionsFilterStore(s => s.filters);
 
   const handleDelete = (id: string) => {
     const waitingTime = 10 * 1000;
 
-    const previousTransactions = queryClient.getQueryData<TransactionAPI[]>(["transactions"]);
-    queryClient.setQueryData<TransactionAPI[]>(
-      ["transactions"],
-      old => old?.filter(txn => txn.id !== id)
+    const previousTransactions = queryClient.getQueryData<FilteredTransactions>(
+      ["transactions", filters]
+    );
+    queryClient.setQueryData<FilteredTransactions>(
+      ["transactions", filters],
+      old => {
+        if (!old) return undefined;
+        return {
+          ...old,
+          items: old?.items.filter(txn => txn.id !== id)
+        }
+      }
     );
   
-    let undone = false;
+    const makeFinalDeletion = async () => {
+      try {
+        await deleteTransaction(id);
+        queryClient.invalidateQueries({ queryKey: ["transcations", filters] })
+        toast.success(
+          t('transactionSuccessfullyDeleted'),
+          { description: t('actionCannotBeUndone')}
+        )
+      } catch (err: unknown) {
+        queryClient.setQueryData<FilteredTransactions>(
+          ["transactions", filters],
+          previousTransactions
+        );
+        console.log("Deleting transaction error:", err);
+        toast.error((err as CommonError).message);
+      }
+    }
 
     toast.warning(t('transactionDeleted'), {
+      closeButton: true,
       description: "Do you want to undo it?",
       duration: waitingTime,
       action: {
         label: t('undo'),
         onClick: () => {
-          undone = true;
-          queryClient.setQueryData<TransactionAPI[]>(["transactions"], previousTransactions);
+          queryClient.setQueryData<FilteredTransactions>(
+            ["transactions", filters],
+            previousTransactions
+          );
           toast.success(t('transactionRestored'))
         }
       },
+      onAutoClose: () => toast.dismiss(),
+      onDismiss: async () => await makeFinalDeletion(),
     })
-
-    setTimeout(async () => {
-      if (!undone) {
-        try {
-          await deleteTransaction(id);
-          queryClient.invalidateQueries({ queryKey: ["transcations"] })
-          toast.success(
-            t('transactionSuccessfullyDeleted'),
-            { description: t('actionCannotBeUndone')}
-          )
-        } catch (err: unknown) {
-          queryClient.setQueryData<TransactionAPI[]>(["transactions"], previousTransactions);
-          console.log("Deleting transaction error:", err);
-          toast.error((err as CommonError).message);
-        }
-      }
-    }, waitingTime)
   }
 
   return handleDelete;
