@@ -1,10 +1,10 @@
 "use client"
 
+import { useTranslation } from "react-i18next";
 import { CommonInfo } from "@/components/common";
 import { Separator } from "@/components/ui/separator";
-import { useFormatNumber } from "@/hooks/use-format-number";
 import { TransactionAPI } from "@/types/transaction-types";
-import { useTranslation } from "react-i18next";
+import { useFormatNumber } from "@/hooks/use-format-number";
 
 export const TransactionDetails = ({ transaction }: { transaction: TransactionAPI }) => {
   const { t, i18n } = useTranslation("common");
@@ -37,6 +37,18 @@ export const TransactionDetails = ({ transaction }: { transaction: TransactionAP
         label={t("transactionType")} 
         value={t(`transactionType_options.${transaction.transactionType}`)}
       />
+      
+      {(transaction.currencies || transaction.exchangeRate) &&
+        <Separator className="col-span-2 bg-gray-300"/>}
+      {transaction.currencies && <CommonInfo
+        label={t('currencies')}
+        value={transaction.currencies}
+      />}
+      {transaction.exchangeRate && <CommonInfo
+        label={t('exchangeRate')}
+        value={formatNumber(transaction.exchangeRate, 2, true)}
+      />}
+
       <Separator className="col-span-2 bg-gray-300"/>
       <CommonInfo
         label={t('createdAt')}
@@ -46,23 +58,7 @@ export const TransactionDetails = ({ transaction }: { transaction: TransactionAP
         label={t('updatedAt')}
         value={new Date(transaction.updatedAt).toLocaleString(i18n.language)}
       />
-      {/* TODO - remove it as it is just temporary info */}
-      {transaction.sourceIndex && <CommonInfo
-        label={t("sourceIndex")}
-        value={transaction.sourceIndex.toString()}
-      />}
-      {transaction.sourceRefIndex && <CommonInfo
-        label={t("sourceRefIndex")}
-        value={transaction.sourceRefIndex.toString()}
-      />}
-      {transaction.id && <CommonInfo
-        label={t("id")}
-        value={transaction.id.toString()}
-      />}
-      {transaction.refId && <CommonInfo
-        label={t("refId")}
-        value={transaction.refId.toString()}
-      />}
+
     </div>
   )
 }

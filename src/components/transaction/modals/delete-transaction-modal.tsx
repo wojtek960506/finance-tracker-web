@@ -1,11 +1,12 @@
 "use client"
 
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
+import { CommonModal } from "@/components/common";
 import { DialogFooter } from "@/components/ui/dialog";
 import { TransactionAPI } from "@/types/transaction-types";
-import { useTranslation } from "react-i18next";
 import { TransactionDetails } from "../details/transaction-details";
-import { CommonModal } from "@/components/common";
+
 
 type DeleteTransactionModalProps = {
   onDelete: () => void;
@@ -29,9 +30,17 @@ export const DeleteTransactionModal = ({
       open={open}
       onOpenChange={onOpenChange}
       contentClassName="bg-red-50"
-      title={t('newTransaction')}
+      title={
+        transaction.category === "exchange"
+        ? t('deleteExchangeTransaction')
+        : t('deleteTransaction')
+      }
       titleClassName="text-destructive"
-      description={t('newTransactionDescription')}
+      description={
+        transaction.category === "exchange"
+        ? t('deleteExchangeTransactionDescription')
+        : t('deleteTransactionDescription')
+      }
       descriptionClassName="text-destructive"
     >
       <>
