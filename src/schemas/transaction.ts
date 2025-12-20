@@ -3,12 +3,15 @@ import {
   CATEGORIES,
   CURRENCIES,
   PAYMENT_METHODS,
-  TRANSACTION_TYPES
+  TRANSACTION_TYPES,
 } from "@/lib/consts";
 import { z } from "zod";
 
-export const TransactionCreateSchema = z.object({
+const TransactionCreateCommonSchema = z.object({
   date: z.string().min(1, "Date is required"),
+})
+
+export const TransactionCreateSchema = TransactionCreateCommonSchema.extend({
   description: z.string().min(1, "descriptionRequired"),
   amount: z.number().positive("Amount must be positive"),
   currency: z.enum([...CURRENCIES]),
@@ -16,6 +19,16 @@ export const TransactionCreateSchema = z.object({
   paymentMethod: z.enum([...PAYMENT_METHODS]),
   account: z.enum([...ACCOUNTS]),
   transactionType: z.enum([...TRANSACTION_TYPES]),
+})
+
+export const TransactionCreateExchangeSchema = z.object({
+  additionalDescription: z.string().min(1, "Additional description cannot be empty").optional(),
+  amountExpense: z.number().positive("Amount of expense in exchange must be positive"),
+  amountIncome: z.number().positive("Amount of income in exchange must be positive"),
+  currencyExpense: z.enum([...CURRENCIES]),
+  currencyIncome: z.enum([...CURRENCIES]),
+  account: z.enum([...ACCOUNTS]),
+  paymentMethod: z.enum(["bankTransfer", "cash"]),
 })
 
 export const TransactionCreateFormSchema = z.object({
@@ -55,6 +68,7 @@ export const TransactionSchema = TransactionCreateSchema.extend({
 })
 
 export type TransactionCreateDTO = z.infer<typeof TransactionCreateSchema>;
+export type TransactionCreateExchageDTO = z.infer<typeof TransactionCreateExchangeSchema>;
 export type TransactionUpdateDTO = z.infer<typeof TransactionUpdateSchema>;
 export type TransactionDTO = z.infer<typeof TransactionSchema>;
 

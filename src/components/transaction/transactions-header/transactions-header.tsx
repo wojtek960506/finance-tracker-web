@@ -1,17 +1,16 @@
-import { CardHeader, CardTitle } from "@/components/ui/card"
-import { useCreateTransaction } from "@/hooks/use-create-transaction";
 import { useTranslation } from "react-i18next";
-import { TransactionCreateDTO } from "@/schemas/transaction";
-import { TransactionsFilterHeader } from "./filter-header";
 import { AddTransactionModal } from "../modals";
+import { TransactionsFilterHeader } from "./filter-header";
 import { TransactionsFilterSwitch } from "./filter-switch";
+import { CardHeader, CardTitle } from "@/components/ui/card";
+import { useCreateTransaction } from "@/hooks/use-create-transaction";
 import { ExportTransactionsButton } from "./export-transactions-button";
+import { TransactionCreateDTO, TransactionCreateExchageDTO } from "@/schemas/transaction";
 
 
 export const TransactionsHeader = ({ total }: { total?: number}) => {
   const { t } = useTranslation("common");
-  const createMutation = useCreateTransaction();
-
+  const { createStandardMutation, createExchangeMutation } = useCreateTransaction();
 
   return (
     <CardHeader >
@@ -25,13 +24,15 @@ export const TransactionsHeader = ({ total }: { total?: number}) => {
         <div className="flex gap-6">
           <ExportTransactionsButton />
           <AddTransactionModal
-            onCreated={async (created: TransactionCreateDTO) => {
-              await createMutation.mutateAsync(created);
+            onStandardCreated={async (created: TransactionCreateDTO) => {
+              await createStandardMutation.mutateAsync(created);
+            }}
+            onExchangeCreated={async (created: TransactionCreateExchageDTO) => {
+              await createExchangeMutation.mutateAsync(created)
             }}
           />
           <TransactionsFilterSwitch />
-        </div>
-        
+        </div>        
       </div>
       <TransactionsFilterHeader />
     </CardHeader>

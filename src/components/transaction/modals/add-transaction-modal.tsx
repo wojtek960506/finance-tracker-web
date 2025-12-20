@@ -1,17 +1,21 @@
 "use client"
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { AddTransactionForm } from "./forms";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 import { CommonModal } from "@/components/common";
-import { TransactionCreateDTO } from "@/schemas/transaction";
+import { TransactionCreateDTO, TransactionCreateExchageDTO } from "@/schemas/transaction";
 
 type AddTransactionModalProps = {
-  onCreated: (newTxn: TransactionCreateDTO) => Promise<void>;
+  onStandardCreated: (newTxn: TransactionCreateDTO) => Promise<void>;
+  onExchangeCreated: (newTxn: TransactionCreateExchageDTO) => Promise<void>;
 };
 
-export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => {
+export const AddTransactionModal = ({
+  onStandardCreated,
+  onExchangeCreated,
+}: AddTransactionModalProps) => {
   const { t } = useTranslation("common");
   const [open, setOpen] = useState(false);
 
@@ -34,7 +38,7 @@ export const AddTransactionModal = ({ onCreated }: AddTransactionModalProps) => 
     >
       <AddTransactionForm
         onOpenChange={setOpen}
-        onCreated={onCreated}
+        onCreated={onStandardCreated}
       />
     </CommonModal>
   )

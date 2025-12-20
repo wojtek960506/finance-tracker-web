@@ -1,8 +1,17 @@
-import { TransactionAPI, TransactionsAnalysisAPI, TransactionStatisticsAPI } from "@/types/transaction-types";
 import { api } from "./axios";
-import { TransactionCreateDTO, TransactionUpdateDTO } from "@/schemas/transaction";
 import { withRefresh } from "./auth-api";
 import { FilteredResponse } from "@/types/api-types";
+import {
+  TransactionCreateDTO,
+  TransactionCreateExchageDTO,
+  TransactionUpdateDTO,
+} from "@/schemas/transaction";
+import {
+  TransactionAPI,
+  TransactionsAnalysisAPI,
+  TransactionStatisticsAPI,
+} from "@/types/transaction-types";
+
 
 const getTransactionsNoRefresh = async (query: string): Promise<
   FilteredResponse<TransactionAPI[]>
@@ -52,16 +61,27 @@ export const getTransactionStatistics = async (
   return withRefresh(getTransactionStatisticsNoRefresh, query);
 }
 
-const createTransactionNoRefresh = async (
+const createStandardTransactionNoRefresh = async (
   payload: TransactionCreateDTO
 ): Promise<TransactionAPI> => {
   const { data } = await api.post('/transactions', payload)
   return data
 }
 
-export const createTransaction = async (
+export const createStandardTransaction = async (
   payload: TransactionCreateDTO
-): Promise<TransactionAPI | undefined> => withRefresh(createTransactionNoRefresh, payload);
+): Promise<TransactionAPI | undefined> => withRefresh(createStandardTransactionNoRefresh, payload);
+
+const createExchangeTransactionNoRefresh = async (
+  payload: TransactionCreateExchageDTO
+): Promise<TransactionAPI> => {
+  const { data } = await api.post('/transactions/exchange', payload)
+  return data;
+}
+
+export const createExchangeTransaction = async (
+  payload: TransactionCreateExchageDTO
+): Promise<TransactionAPI | undefined> => withRefresh(createExchangeTransactionNoRefresh, payload);
 
 export const deleteTransactionNoRefresh = async (id: string): Promise<TransactionAPI> => {
   const { data } = await api.delete(`/transactions/${id}`);

@@ -1,18 +1,33 @@
-import { createTransaction } from "@/api/transactions-api";
-import { TransactionCreateDTO } from "@/schemas/transaction";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { TransactionCreateDTO, TransactionCreateExchageDTO } from "@/schemas/transaction";
+import { createExchangeTransaction, createStandardTransaction } from "@/api/transactions-api";
 
 export const useCreateTransaction = () => {
+  const { t } = useTranslation("common");
   const queryClient = useQueryClient();
 
-  const createMutation = useMutation({
-    mutationFn: (payload: TransactionCreateDTO) => createTransaction(payload),
+  const createStandardMutation = useMutation({
+    mutationFn: (payload: TransactionCreateDTO) => createStandardTransaction(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"]})
-      toast.success("Transaction created successfully!");
+      toast.success(t('standardTransactionCreated'));
     },
   });
 
-  return createMutation;
+  const createExchangeMutation = useMutation({
+    mutationFn: (payload: TransactionCreateExchageDTO) => createExchangeTransaction(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["transactions"]})
+      toast.success(t('exchangeTransactionCreated'));
+    },
+  });
+
+  return {
+    createStandardMutation,
+    createExchangeMutation,
+  }
+  
+  
 }
