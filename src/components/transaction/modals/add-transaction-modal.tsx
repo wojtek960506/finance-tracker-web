@@ -5,7 +5,10 @@ import { AddTransactionForm } from "./forms";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { CommonModal } from "@/components/common";
+import { AddExchangeTransactionForm } from "./forms/add-exchange-transaction-form";
 import { TransactionCreateDTO, TransactionCreateExchageDTO } from "@/schemas/transaction";
+
+type TransactionCreationWorkflowType = "standard" | "exchange";
 
 type AddTransactionModalProps = {
   onStandardCreated: (newTxn: TransactionCreateDTO) => Promise<void>;
@@ -18,9 +21,7 @@ export const AddTransactionModal = ({
 }: AddTransactionModalProps) => {
   const { t } = useTranslation("common");
   const [open, setOpen] = useState(false);
-
-  // TODO add way to choose whether it is standard or exchange transaction
-  // add new form for exchange transaction
+  const [workflowType, setWorkflowType] = useState<TransactionCreationWorkflowType | null>(null);
   
   const trigger = (
     <Button variant="default" className="w-min justify-self-end text-lg">
@@ -28,18 +29,73 @@ export const AddTransactionModal = ({
     </Button>
   );
 
+  const handleOpenChange = (value: boolean) => {
+    if (value === true) setWorkflowType(null);
+    setOpen(value);
+  }
+
+  let title;
+  let description;
+  let component;
+
+  switch (workflowType) {
+    case "exchange":
+      title = 'newExchangeTransaction'
+      description = 'newExchangeTransactionDescription'
+      component = (
+        <AddExchangeTransactionForm
+          onOpenChange={handleOpenChange}
+          onCreated={onExchangeCreated}
+        />
+      )
+      break;
+    case "standard":
+      title = 'newStandardTransaction'
+      description = 'newStandardTransactionDescription'
+      component = (
+        <AddTransactionForm
+          onOpenChange={handleOpenChange}
+          onCreated={onStandardCreated}
+        />
+      )
+      break;
+    default:
+      title = 'chooseCreationWorkflow'
+      description = 'chooseCreationWorkflowDescription'
+      component = (
+        <div className="flex flex-col gap-10">
+          <Button
+            variant="default"
+            className="h-[100px]"
+            onClick={() => setWorkflowType("standard")}  
+          >
+            {t('standardTransaction')}
+          </Button>
+          <Button
+            variant="default"
+            className="h-[100px]"
+            onClick={() => setWorkflowType("exchange")}
+          >
+            {t('exchangeTransaction')}
+          </Button>
+        </div>
+      )
+      break;
+  }
+
   return (
     <CommonModal
       open={open}
-      onOpenChange={setOpen}
-      title={t('newTransaction')}
-      description={t('newTransactionDescription')}
+      onOpenChange={handleOpenChange}
+      title={title}
+      description={description}
       trigger={trigger}
     >
-      <AddTransactionForm
-        onOpenChange={setOpen}
+      {/* <AddTransactionForm
+        onOpenChange={handleOpenChange}
         onCreated={onStandardCreated}
-      />
+      /> */}
+      {component}
     </CommonModal>
   )
 }

@@ -31,6 +31,31 @@ export const TransactionCreateExchangeSchema = z.object({
   paymentMethod: z.enum(["bankTransfer", "cash"]),
 })
 
+export const TransactionCreateExchangeFormSchema = z.object({
+  date: z.string().min(1, "dateRequired"),
+  additionalDescription: z.string(),
+  amountExpense: z.string()
+    .refine(v => v !== "", "expenseAmountRequired")
+    .refine(v => !Number.isNaN(v), "expenseAmountValidNumber")
+    .refine(v => Number(v) >= 0, "expenseAmountBiggerEqualZero"),
+  amountIncome: z.string()
+    .refine(v => v !== "", "incomeAmountRequired")
+    .refine(v => !Number.isNaN(v), "incomeAmountValidNumber")
+    .refine(v => Number(v) >= 0, "incomeAmountBiggerEqualZero"),
+  currencyExpense: z.string()
+    .refine(v => v !== "", "expenseCurrencyRequired")
+    .refine(v => [...CURRENCIES].includes(v), "expenseCurrencyOneOfEmums"),
+  currencyIncome: z.string()
+    .refine(v => v !== "", "incomeCurrencyRequired")
+    .refine(v => [...CURRENCIES].includes(v), "incomeCurrencyOneOfEmums"),
+  account: z.string()
+    .refine(v => v !== "", "accountRequired")
+    .refine(v => [...ACCOUNTS].includes(v), "accountOneOfEmums"),
+  paymentMethod: z.string()
+    .refine(v => v !== "", "paymentMethodRequired")
+    .refine(v => ["bankTransfer", "cash"].includes(v), "paymentMethodOneOfEmums"),
+})
+
 export const TransactionCreateFormSchema = z.object({
   date: z.string().min(1, "dateRequired"),
   description: z.string().min(1, "descriptionRequired"),
@@ -73,4 +98,6 @@ export type TransactionUpdateDTO = z.infer<typeof TransactionUpdateSchema>;
 export type TransactionDTO = z.infer<typeof TransactionSchema>;
 
 export type TransactionCreateFormType = z.infer<typeof TransactionCreateFormSchema>;
+export type TransactionCreateExchangeFormType = z.infer<typeof TransactionCreateExchangeFormSchema>;
+
 export type TransactionUpdateFormType = z.infer<typeof TransactionUpdateFormSchema>;
