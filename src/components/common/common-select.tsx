@@ -28,7 +28,7 @@ export const CommonSelect = ({
   options,
   isDisabled,
   isClearable,
-  className = ""
+  className = "",
 }: CommonSelectProps) => {
   const { t } = useTranslation("common");
 
@@ -43,11 +43,14 @@ export const CommonSelect = ({
           <SelectValue placeholder={t(placeholderKey)} />
         </SelectTrigger>
         <SelectContent>
-          {Object.entries(options).map(([key, value]) => (
-            <SelectItem key={key} value={key}>
-              {t(value)}
-            </SelectItem>
-          ))}
+          {Object.entries(options)
+            .sort((a, b) => t(a[1]).toUpperCase() > t(b[1]).toUpperCase() ? 1 : -1)
+            .map(([key, value]) => (
+              <SelectItem key={key} value={key}>
+                {t(value)}
+              </SelectItem>
+            ))
+          }
         </SelectContent>
         {value && isClearable && !isDisabled && (
           <ClearFieldButton setValue={setValue} />

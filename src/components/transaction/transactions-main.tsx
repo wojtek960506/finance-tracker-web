@@ -1,13 +1,14 @@
 "use client"
 
-import { TransactionsTable } from "@/components/transaction/transactions-table";
-import { Card, CardContent } from "@/components/ui/card"
+import { useTranslation } from "react-i18next";
+import { useGeneralStore } from "@/store/general-store";
+import { Card, CardContent } from "@/components/ui/card";
+import { TransactionsHeader } from "./transactions-header";
 import { useGetTransactions } from "@/hooks/use-get-transactions";
 import { TransactionsFilterPanel } from "./transactions-filter-panel";
 import { useTransactionsFilterStore } from "@/store/transactions-filter-store";
-import { useGeneralStore } from "@/store/general-store";
-import { TransactionsHeader } from "./transactions-header";
-import { useTranslation } from "react-i18next";
+import { TransactionsTable } from "@/components/transaction/transactions-table";
+
 
 export const TransactionsMain = () => {
   const { t } = useTranslation("common");
@@ -18,7 +19,7 @@ export const TransactionsMain = () => {
   if (isLoggingOut) return null;
 
   return (
-    <div className="flex-1 flex flex-col h-full space-y-4 p-2 min-h-[300px]">
+    <div className="flex-1 flex flex-col h-full space-y-4 p-2 min-h-[400px]">
       <Card className="overflow-hidden">
         <TransactionsHeader total={data?.total} />
         <CardContent className="flex flex-row overflow-hidden justify-between">

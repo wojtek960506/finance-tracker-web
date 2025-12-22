@@ -241,9 +241,7 @@ export const TransactionStatisticsHeader = ({
             .filter(
               ([key, value]) => value !== undefined && value !== "" && key !== "omitCategory"
             )
-            // TODO - think about other places where sorting should be done by translations
-            // for sure in select options
-            .sort((a, b) => t(a[0]) > t(b[0]) ? 1 : -1)
+            .sort((a, b) => t(a[0]).toUpperCase() > t(b[0]).toUpperCase() ? 1 : -1)
             .map(([key, value]) => (
               <div key={key} className="px-2 py-1 border border-2 border-black rounded-lg">
                 <span className="font-bold">{`${t(key)}: `}</span>
