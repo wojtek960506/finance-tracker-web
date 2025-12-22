@@ -1,24 +1,27 @@
 "use client"
 
-import { CommonSelect } from "@/components/common/common-select";
-import {
-  ControlledCommonSelectField
-} from "@/components/controlled-form/controlled-common-select-field";
-import { Button } from "@/components/ui/button";
-import { CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
 import { Form } from "@/components/ui/form";
+import { Label } from "@radix-ui/react-label";
+import { useTranslation } from "react-i18next";
 import { Switch } from "@/components/ui/switch";
-import { ACCOUNTS, CATEGORIES, CURRENCIES, PAYMENT_METHODS } from "@/lib/consts";
+import { Button } from "@/components/ui/button";
+import { useForm, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CardHeader, CardTitle } from "@/components/ui/card";
+import { CommonSelect } from "@/components/common/common-select";
+import { ControlledCommonSelectField } from "@/components/controlled-form";
+import { StatisticsType, VisualisationType } from "@/types/transaction-types";
+import {
+  ACCOUNT_OPTIONS,
+  CATEGORY_OPTIONS,
+  CURRENCY_CODE_OPTIONS,
+  PAYMENT_METHOD_OPTIONS
+} from "@/lib/consts";
 import {
   TransactionStatisticsFilter,
   transactionStatisticsFilterSchema,
 } from "@/schemas/transaction-statistics";
-import { StatisticsType, VisualisationType } from "@/types/transaction-types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Label } from "@radix-ui/react-label";
-import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 
 const FIRST_YEAR = 2015
 const LAST_YEAR = 2025
@@ -33,22 +36,6 @@ const monthOptions = Object.fromEntries(
   Array
     .from({ length: 12 }, (_, i) => i + 1)
     .map(index => ([index, `month${index}` ]))
-);
-
-const currencyOptions = Object.fromEntries(
-  [...CURRENCIES].map(v => [v, v])
-);
-
-const categoryOptions = Object.fromEntries(
-  [...CATEGORIES].map(v => [v, `category_options.${v}`])
-);
-
-const paymentMethodOptions = Object.fromEntries(
-  [...PAYMENT_METHODS].map(v => [v, `paymentMethod_options.${v}`])
-);
-
-const accountOptions = Object.fromEntries(
-  [...ACCOUNTS].map(v => [v, `account_options.${v}`])
 );
 
 type TransactionStatisticsHeaderProps = {
@@ -210,7 +197,7 @@ export const TransactionStatisticsHeader = ({
               <ControlledCommonSelectField
                 name="currency"
                 placeholderKey="currency"
-                options={currencyOptions}
+                options={CURRENCY_CODE_OPTIONS}
                 isClearable={false}
                 isHorizontal={false}
                 showLabel={false}
@@ -222,7 +209,7 @@ export const TransactionStatisticsHeader = ({
                   <ControlledCommonSelectField
                     name="category"
                     placeholderKey="category"
-                    options={categoryOptions}
+                    options={CATEGORY_OPTIONS}
                     isClearable={true}
                     isHorizontal={false}
                     showLabel={false}
@@ -230,7 +217,7 @@ export const TransactionStatisticsHeader = ({
                   <ControlledCommonSelectField
                     name="paymentMethod"
                     placeholderKey="paymentMethod"
-                    options={paymentMethodOptions}
+                    options={PAYMENT_METHOD_OPTIONS}
                     isClearable={true}
                     isHorizontal={false}
                     showLabel={false}
@@ -238,7 +225,7 @@ export const TransactionStatisticsHeader = ({
                   <ControlledCommonSelectField
                     name="account"
                     placeholderKey="account"
-                    options={accountOptions}
+                    options={ACCOUNT_OPTIONS}
                     isClearable={true}
                     isHorizontal={false}
                     showLabel={false}
