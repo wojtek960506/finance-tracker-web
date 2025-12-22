@@ -8,13 +8,26 @@ import { Button } from "@/components/ui/button";
 import { ACCOUNTS, CURRENCIES } from "@/lib/consts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogFooter } from "@/components/ui/dialog";
-import { ControlledInputField, ControlledSelectField } from "@/components/controlled-form";
+import { ExchageRatesInfo } from "./exchange-rates-info";
+import { ControlledInputField } from "@/components/controlled-form";
+import { ControlledCommonSelectField } from "@/components/controlled-form";
 import {
   TransactionCreateExchageDTO,
   TransactionCreateExchangeFormType,
   TransactionCreateExchangeFormSchema,
 } from "@/schemas/transaction";
 
+const currencyOptions = Object.fromEntries(
+  [...CURRENCIES].map(v => [v, v])
+);
+
+const paymentMethodOptions = Object.fromEntries(
+  ["cash", "bankTransfer"].map(v => [v, `paymentMethod_options.${v}`])
+);
+
+const accountOptions = Object.fromEntries(
+  [...ACCOUNTS].map(v => [v, `account_options.${v}`])
+);
 
 type AddExchangeTransactionFormProps = {
   onOpenChange: (value: boolean) => void;
@@ -74,26 +87,27 @@ export const AddExchangeTransactionForm = ({
         <ControlledInputField name="date" type="date" />
         <ControlledInputField name="additionalDescription" type="text" />
         <ControlledInputField name="amountExpense" type="number" step={0.01} decimalPlaces={2} />
-        <ControlledSelectField
+        <ControlledCommonSelectField
           name={"currencyExpense"}
           placeholderKey={"currencyExpensePlaceholder"}
-          optionsKeys={CURRENCIES}
+          options={currencyOptions}
         />
         <ControlledInputField name="amountIncome" type="number" step={0.01} decimalPlaces={2} />
-        <ControlledSelectField
+        <ControlledCommonSelectField
           name={"currencyIncome"}
           placeholderKey={"currencyIncomePlaceholder"}
-          optionsKeys={CURRENCIES}
+          options={currencyOptions}
         />
-        <ControlledSelectField
+        <ExchageRatesInfo />
+        <ControlledCommonSelectField
           name="paymentMethod"
           placeholderKey="paymentMethodPlaceholder"
-          optionsKeys={new Set(["cash", "bankTransfer"])}
+          options={paymentMethodOptions}
         />
-        <ControlledSelectField
+        <ControlledCommonSelectField
           name={"account"}
           placeholderKey="accountPlaceholder"
-          optionsKeys={ACCOUNTS}
+          options={accountOptions}
         />
         <DialogFooter className="col-start-2 flex justify-end gap-2">
           <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
@@ -107,5 +121,3 @@ export const AddExchangeTransactionForm = ({
     </Form>
   )
 }
-
-

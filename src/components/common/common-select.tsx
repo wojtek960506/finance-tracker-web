@@ -1,3 +1,6 @@
+import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
+import { ClearFieldButton } from "./clear-field-button";
 import {
   Select,
   SelectContent,
@@ -5,9 +8,6 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { useTranslation } from "react-i18next";
-import { ClearFieldButton } from "./clear-field-button";
-import { cn } from "@/lib/utils";
 
 export type SelectOption = Record<string, string>
 
@@ -33,7 +33,7 @@ export const CommonSelect = ({
   const { t } = useTranslation("common");
 
   return (
-    <div className={cn("flex relative p-1", className)}>
+    <div className={cn("flex relative", className)}>
       <Select
         disabled={isDisabled}
         value={value}

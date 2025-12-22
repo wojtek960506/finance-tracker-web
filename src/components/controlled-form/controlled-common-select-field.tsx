@@ -1,5 +1,5 @@
-import { ControlledFormField } from "./controlled-form-field";
 import { useTranslation } from "react-i18next";
+import { ControlledFormField } from "./controlled-form-field";
 import { CommonSelect, SelectOption } from "../common/common-select";
 
 type ControlledCommonSelectFieldProps = {
