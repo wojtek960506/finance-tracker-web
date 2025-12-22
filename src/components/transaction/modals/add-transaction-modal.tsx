@@ -91,10 +91,6 @@ export const AddTransactionModal = ({
       description={description}
       trigger={trigger}
     >
-      {/* <AddTransactionForm
-        onOpenChange={handleOpenChange}
-        onCreated={onStandardCreated}
-      /> */}
       {component}
     </CommonModal>
   )
