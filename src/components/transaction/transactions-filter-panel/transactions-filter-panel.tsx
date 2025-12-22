@@ -18,7 +18,7 @@ import {
   TransactionFilterSchema,
 } from "@/schemas/transaction-query";
 import {
-  ControlledCommonSelectField,
+  ControlledSelectField,
   ControlledInputField,
   ControlledRadioField,
 } from "@/components/controlled-form";
@@ -102,25 +102,25 @@ export const TransactionsFilterPanel = () => {
             <ControlledInputField name="minAmount" type="number" isHorizontal={isHorizontal} />
             <ControlledInputField name="maxAmount" type="number" isHorizontal={isHorizontal} />
 
-            <ControlledCommonSelectField
+            <ControlledSelectField
               name={"currency"}
               placeholderKey={"currencyPlaceholder"}
               options={CURRENCY_CODE_OPTIONS}
               isHorizontal={isHorizontal}
             />
-            <ControlledCommonSelectField
+            <ControlledSelectField
               name={"category"}
               placeholderKey={"categoryPlaceholder"}
               options={CATEGORY_OPTIONS}
               isHorizontal={isHorizontal}
             />
-            <ControlledCommonSelectField
+            <ControlledSelectField
               name={"paymentMethod"}
               placeholderKey={"paymentMethodPlaceholder"}
               options={PAYMENT_METHOD_OPTIONS}
               isHorizontal={isHorizontal}
             />
-            <ControlledCommonSelectField
+            <ControlledSelectField
               name={"account"}
               placeholderKey={"accountPlaceholder"}
               options={ACCOUNT_OPTIONS}

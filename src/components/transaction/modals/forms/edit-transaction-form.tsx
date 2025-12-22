@@ -23,7 +23,7 @@ import {
 import {
   ControlledInputField,
   ControlledRadioField,
-  ControlledCommonSelectField,
+  ControlledSelectField,
 } from "@/components/controlled-form";
 
 
@@ -89,22 +89,22 @@ export const EditTransactionForm = ({
         <ControlledInputField name="date" type="date" />
         <ControlledInputField name="description" type="text" />
         <ControlledInputField name="amount" type="number" step={0.01} decimalPlaces={2} />
-        <ControlledCommonSelectField
+        <ControlledSelectField
           name={"currency"}
           placeholderKey={"currencyPlaceholder"}
           options={CURRENCY_CODE_OPTIONS}
         />
-        <ControlledCommonSelectField
+        <ControlledSelectField
           name={"category"}
           placeholderKey={"categoryPlaceholder"}
           options={CATEGORY_OPTIONS}
         />
-        <ControlledCommonSelectField
+        <ControlledSelectField
           name={"paymentMethod"}
           placeholderKey={"paymentMethodPlaceholder"}
           options={PAYMENT_METHOD_OPTIONS}
         />
-        <ControlledCommonSelectField
+        <ControlledSelectField
           name={"account"}
           placeholderKey={"accountPlaceholder"}
           options={ACCOUNT_OPTIONS}

@@ -10,7 +10,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import { CommonSelect } from "@/components/common/common-select";
-import { ControlledCommonSelectField } from "@/components/controlled-form";
+import { ControlledSelectField } from "@/components/controlled-form";
 import { StatisticsType, VisualisationType } from "@/types/transaction-types";
 import {
   ACCOUNT_OPTIONS,
@@ -171,7 +171,7 @@ export const TransactionStatisticsHeader = ({
             handleSubmit();                  
           }} className="w-full justify-self-start">
             <div className="grid grid-cols-[2fr_2fr_2fr_1fr] items-center gap-x-5 gap-y-2">
-              <ControlledCommonSelectField
+              <ControlledSelectField
                 name="year"
                 placeholderKey="year"
                 options={yearOptions}
@@ -183,7 +183,7 @@ export const TransactionStatisticsHeader = ({
                 )}
 
               />
-              <ControlledCommonSelectField
+              <ControlledSelectField
                 name="month"
                 placeholderKey="month"
                 options={monthOptions}
@@ -194,7 +194,7 @@ export const TransactionStatisticsHeader = ({
                   visualisationType === "barChartVisualisation" && !!year
                 )}
               />
-              <ControlledCommonSelectField
+              <ControlledSelectField
                 name="currency"
                 placeholderKey="currency"
                 options={CURRENCY_CODE_OPTIONS}
@@ -206,7 +206,7 @@ export const TransactionStatisticsHeader = ({
 
               {areAdditionalFilters && (
                 <>
-                  <ControlledCommonSelectField
+                  <ControlledSelectField
                     name="category"
                     placeholderKey="category"
                     options={CATEGORY_OPTIONS}
@@ -214,7 +214,7 @@ export const TransactionStatisticsHeader = ({
                     isHorizontal={false}
                     showLabel={false}
                   />
-                  <ControlledCommonSelectField
+                  <ControlledSelectField
                     name="paymentMethod"
                     placeholderKey="paymentMethod"
                     options={PAYMENT_METHOD_OPTIONS}
@@ -222,7 +222,7 @@ export const TransactionStatisticsHeader = ({
                     isHorizontal={false}
                     showLabel={false}
                   />
-                  <ControlledCommonSelectField
+                  <ControlledSelectField
                     name="account"
                     placeholderKey="account"
                     options={ACCOUNT_OPTIONS}

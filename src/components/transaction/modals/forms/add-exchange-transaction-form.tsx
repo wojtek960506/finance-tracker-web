@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogFooter } from "@/components/ui/dialog";
 import { ExchageRatesInfo } from "./exchange-rates-info";
 import { ControlledInputField } from "@/components/controlled-form";
-import { ControlledCommonSelectField } from "@/components/controlled-form";
+import { ControlledSelectField } from "@/components/controlled-form";
 import {
   TransactionCreateExchageDTO,
   TransactionCreateExchangeFormType,
@@ -87,24 +87,24 @@ export const AddExchangeTransactionForm = ({
         <ControlledInputField name="date" type="date" />
         <ControlledInputField name="additionalDescription" type="text" />
         <ControlledInputField name="amountExpense" type="number" step={0.01} decimalPlaces={2} />
-        <ControlledCommonSelectField
+        <ControlledSelectField
           name={"currencyExpense"}
           placeholderKey={"currencyExpensePlaceholder"}
           options={currencyOptions}
         />
         <ControlledInputField name="amountIncome" type="number" step={0.01} decimalPlaces={2} />
-        <ControlledCommonSelectField
+        <ControlledSelectField
           name={"currencyIncome"}
           placeholderKey={"currencyIncomePlaceholder"}
           options={currencyOptions}
         />
         <ExchageRatesInfo />
-        <ControlledCommonSelectField
+        <ControlledSelectField
           name="paymentMethod"
           placeholderKey="paymentMethodPlaceholder"
           options={paymentMethodOptions}
         />
-        <ControlledCommonSelectField
+        <ControlledSelectField
           name={"account"}
           placeholderKey="accountPlaceholder"
           options={accountOptions}

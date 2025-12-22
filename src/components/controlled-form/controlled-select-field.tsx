@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { ControlledFormField } from "./controlled-form-field";
 import { CommonSelect, SelectOption } from "../common/common-select";
 
-type ControlledCommonSelectFieldProps = {
+type ControlledSelectFieldProps = {
   name: string;
   placeholderKey: string;
   options: SelectOption;
@@ -12,7 +12,7 @@ type ControlledCommonSelectFieldProps = {
   showLabel?: boolean;
 }
 
-export const ControlledCommonSelectField = ({
+export const ControlledSelectField = ({
   name,
   placeholderKey,
   options,
@@ -20,7 +20,7 @@ export const ControlledCommonSelectField = ({
   isClearable = true,
   isHorizontal = true,
   showLabel = true,
-}: ControlledCommonSelectFieldProps) => {
+}: ControlledSelectFieldProps) => {
   const { t } = useTranslation("common");
 
   return (
