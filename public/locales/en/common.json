@@ -17,7 +17,7 @@
   "transactions": "Transactions",
   "allTransactions": "All transactions",
   "recentTransactions": "Recent transactions",
-  "newTransaction": "New Transaction",
+  "newTransaction": "New transaction",
   "transactionDetails": "Transaction details",
   "deleteTransaction": "Delete transaction",
   "deleteTransactionQuestion": "Are you sure you want to delete transaction?",

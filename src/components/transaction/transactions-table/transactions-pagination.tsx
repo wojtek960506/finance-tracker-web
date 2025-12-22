@@ -50,8 +50,6 @@ const createKeys = (page: number, totalPages: number): number[] => {
   return [...pagesNumbers].sort((a, b) => a - b);
 }
 
-
-
 const FastPagination = ({ 
   page, totalPages, onClick
 }: { page: number, totalPages: number, onClick: (key: number) => void }) => {
@@ -76,7 +74,7 @@ const FastPagination = ({
         <li className="list-none text-center" key={key}>
           <Button
             variant="link"
-            className={`p-0 ${page === key ? cnHighlight : ""}`}
+            className={`px-2 cursor-pointer ${page === key ? cnHighlight : ""}`}
             onClick={() => onClick(key)}
           >
             {key}
@@ -90,7 +88,7 @@ const FastPagination = ({
   }
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-1 py-1">
       {...getElems()}
     </div>
   )
@@ -108,17 +106,17 @@ export const TransactionsPagination = ({
   const borderTop = "border-t border-t-gray-500 border-t-2";
 
   return (
-    <div className={cn("flex justify-between bg-gray-200", borderTop)}>
+    <div className={cn("flex justify-between bg-gray-200 items-center", borderTop)}>
       <Button
         variant="link"
-        className="pl-2"
+        className="pl-4 cursor-pointer"
         disabled={page <= 1}
         onClick={() => setFilters({ ...filters, page: filters.page - 1})}
       >Previous</Button>
       <FastPagination totalPages={totalPages} page={page} onClick={handleFastPagination}/>
       <Button 
         variant="link"
-        className="pr-2"
+        className="pr-4 cursor-pointer"
         disabled={page >= totalPages}
         onClick={() => setFilters({ ...filters, page: filters.page + 1})}
       >Next</Button>
