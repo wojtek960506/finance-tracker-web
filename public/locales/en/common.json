@@ -24,6 +24,15 @@
   "editTransaction": "Edit transaction",
   "editTransactionDescription": "You can edit only some fields",
 
+  "exportTransactions": "Export transactions",
+  "exportTransactionsModalTitle": "Export transactions to a file",
+  "exportTransactionsModalDescription": "Transactions will be exported to a CSV file. The exact date and time of export, along with file extension, will be added to the filename you provided.",
+  "baseFilename": "Filename",
+  "export": "Export",
+  "filenameRequired": "Filename is required",
+  "filenameMaxLength30": "Filename cannot be longer than 30 characters",
+  "filenameInvalidCharacters": "Invalid characters in filename",
+
   "transactionStatistics": "Transaction statistics",
   "year": "Year",
   "month": "Month",

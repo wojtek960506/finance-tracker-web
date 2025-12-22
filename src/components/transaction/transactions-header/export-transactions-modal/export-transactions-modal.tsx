@@ -78,10 +78,10 @@ export const ExportTransactionsModal = () => {
     <CommonModal
       open={open}
       onOpenChange={handleOpenChange}
-      title={t('exportTransactionModalTitle')}
-      description={t('exportTransactionModalDescription')}
+      title={t('exportTransactionsModalTitle')}
+      description={t('exportTransactionsModalDescription')}
       trigger={trigger}
-      contentClassName="w-fit pr-10"
+      contentClassName="w-fit"
     >
       <Form {...form}>
         <form

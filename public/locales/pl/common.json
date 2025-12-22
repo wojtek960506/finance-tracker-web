@@ -24,6 +24,15 @@
   "editTransaction": "Edytuj transakcję",
   "editTransactionDescription": "Możesz edytować tylko niektóre pola",
 
+  "exportTransactions": "Eksport transakcji",
+  "exportTransactionsModalTitle": "Eksportuj transakcje do wybranego pliku",
+  "exportTransactionsModalDescription": "Transakcje zostaną wyeksportowane do pliku w formacie CSV. Do podanej przez Ciebie nazwy pliku dodana zostanie dokładna data i czas dokonania eksportu oraz rozszerzenie.",
+  "baseFilename": "Nazwa pliku",
+  "export": "Eksportuj",
+  "filenameRequired": "Nazwa pliku jest wymagana",
+  "filenameMaxLength30": "Nazwa pliku nie może być dłuższa niż 30 znaków",
+  "filenameInvalidCharacters": "Niedozwolone znaki w nazwie pliku",
+
   "transactionStatistics": "Statystyki transakcji",
   "year": "Rok",
   "month": "Miesiąc",
