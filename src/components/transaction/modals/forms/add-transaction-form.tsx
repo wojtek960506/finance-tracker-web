@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ACCOUNTS,
-  CATEGORIES,
-  CURRENCIES,
-  PAYMENT_METHODS,
+  ACCOUNT_OPTIONS,
+  CATEGORY_OPTIONS,
+  CURRENCY_CODE_OPTIONS,
+  PAYMENT_METHOD_OPTIONS,
   TRANSACTION_TYPES
 } from "@/lib/consts";
 import {
@@ -22,9 +22,9 @@ import {
   TransactionCreateFormSchema,
 } from "@/schemas/transaction";
 import {
+  ControlledCommonSelectField,
   ControlledInputField,
   ControlledRadioField,
-  ControlledSelectField,
 } from "@/components/controlled-form";
 
 
@@ -79,25 +79,25 @@ export const AddTransactionForm = ({ onCreated, onOpenChange }: AddTransactionFo
         <ControlledInputField name="date" type="date" />
         <ControlledInputField name="description" type="text" />
         <ControlledInputField name="amount" type="number" step={0.01} decimalPlaces={2} />
-        <ControlledSelectField
+        <ControlledCommonSelectField
           name={"currency"}
           placeholderKey={"currencyPlaceholder"}
-          optionsKeys={CURRENCIES}
+          options={CURRENCY_CODE_OPTIONS}
         />
-        <ControlledSelectField
+        <ControlledCommonSelectField
           name={"category"}
           placeholderKey={"categoryPlaceholder"}
-          optionsKeys={CATEGORIES}
+          options={CATEGORY_OPTIONS}
         />
-        <ControlledSelectField
+        <ControlledCommonSelectField
           name={"paymentMethod"}
           placeholderKey={"paymentMethodPlaceholder"}
-          optionsKeys={PAYMENT_METHODS}
+          options={PAYMENT_METHOD_OPTIONS}
         />
-        <ControlledSelectField
+        <ControlledCommonSelectField
           name={"account"}
           placeholderKey={"accountPlaceholder"}
-          optionsKeys={ACCOUNTS}
+          options={ACCOUNT_OPTIONS}
         />
         <ControlledRadioField
           name={"transactionType"}

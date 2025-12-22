@@ -69,7 +69,7 @@ export const CURRENCY_CODE_OPTIONS = Object.fromEntries(
   [...CURRENCIES].map(v => [v, v])
 );
 
-export const CURRENCY_TRANSLATED_OPTIONS = Object.fromEntries(
+export const CURRENCY_FULL_OPTIONS = Object.fromEntries(
   [...CURRENCIES].map(v => [v, `currency_options.${v}`])
 );
 

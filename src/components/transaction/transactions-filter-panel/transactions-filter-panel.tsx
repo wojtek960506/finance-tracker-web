@@ -1,27 +1,27 @@
+import { useForm } from "react-hook-form"
+import { Form } from "@/components/ui/form";
+import { areObjectsEqual } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransactionsFilterStore } from "@/store/transactions-filter-store";
 import {
+  ACCOUNT_OPTIONS,
+  CATEGORY_OPTIONS,
+  CURRENCY_CODE_OPTIONS,
+  PAYMENT_METHOD_OPTIONS,
+  TRANSACTION_TYPES
+} from "@/lib/consts";
+import {
+  TransactionQuery,
   TransactionFilter,
   TransactionFilterSchema,
-  TransactionQuery,
-} from "@/schemas/transaction-query"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { Form } from "@/components/ui/form"
-import { useTranslation } from "react-i18next"
-import { Button } from "@/components/ui/button"
-import { useTransactionsFilterStore } from "@/store/transactions-filter-store"
-import { areObjectsEqual } from "@/lib/utils"
+} from "@/schemas/transaction-query";
 import {
-  ACCOUNTS,
-  CATEGORIES,
-  CURRENCIES,
-  PAYMENT_METHODS,
-  TRANSACTION_TYPES
-} from "@/lib/consts"
-import {
+  ControlledCommonSelectField,
   ControlledInputField,
   ControlledRadioField,
-  ControlledSelectField,
-} from "@/components/controlled-form"
+} from "@/components/controlled-form";
 
 const denormalizeFilters = (values: TransactionQuery): TransactionFilter => ({
   ...values,
@@ -102,28 +102,28 @@ export const TransactionsFilterPanel = () => {
             <ControlledInputField name="minAmount" type="number" isHorizontal={isHorizontal} />
             <ControlledInputField name="maxAmount" type="number" isHorizontal={isHorizontal} />
 
-            <ControlledSelectField
+            <ControlledCommonSelectField
               name={"currency"}
               placeholderKey={"currencyPlaceholder"}
-              optionsKeys={CURRENCIES}
+              options={CURRENCY_CODE_OPTIONS}
               isHorizontal={isHorizontal}
             />
-            <ControlledSelectField
+            <ControlledCommonSelectField
               name={"category"}
               placeholderKey={"categoryPlaceholder"}
-              optionsKeys={CATEGORIES}
+              options={CATEGORY_OPTIONS}
               isHorizontal={isHorizontal}
             />
-            <ControlledSelectField
+            <ControlledCommonSelectField
               name={"paymentMethod"}
               placeholderKey={"paymentMethodPlaceholder"}
-              optionsKeys={PAYMENT_METHODS}
+              options={PAYMENT_METHOD_OPTIONS}
               isHorizontal={isHorizontal}
             />
-            <ControlledSelectField
+            <ControlledCommonSelectField
               name={"account"}
               placeholderKey={"accountPlaceholder"}
-              optionsKeys={ACCOUNTS}
+              options={ACCOUNT_OPTIONS}
               isHorizontal={isHorizontal}
             />
             <ControlledRadioField

@@ -1,30 +1,30 @@
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { Form } from "@/components/ui/form";
+import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { CommonError } from "@/types/api-types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { DialogFooter } from "@/components/ui/dialog";
+import { TransactionAPI } from "@/types/transaction-types";
+import {
+  ACCOUNT_OPTIONS,
+  CATEGORY_OPTIONS,
+  CURRENCY_CODE_OPTIONS,
+  PAYMENT_METHOD_OPTIONS,
+  TRANSACTION_TYPES
+} from "@/lib/consts";
 import {
   TransactionUpdateDTO,
+  TransactionUpdateFormType,
   TransactionUpdateFormSchema,
-  TransactionUpdateFormType
 } from "@/schemas/transaction";
-import { TransactionAPI } from "@/types/transaction-types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { DialogFooter } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { CommonError } from "@/types/api-types";
 import {
   ControlledInputField,
   ControlledRadioField,
-  ControlledSelectField,
+  ControlledCommonSelectField,
 } from "@/components/controlled-form";
-import {
-  ACCOUNTS,
-  CATEGORIES,
-  CURRENCIES,
-  PAYMENT_METHODS,
-  TRANSACTION_TYPES
-} from "@/lib/consts";
 
 
 const getDefaultTransaction = (
@@ -89,25 +89,25 @@ export const EditTransactionForm = ({
         <ControlledInputField name="date" type="date" />
         <ControlledInputField name="description" type="text" />
         <ControlledInputField name="amount" type="number" step={0.01} decimalPlaces={2} />
-        <ControlledSelectField
+        <ControlledCommonSelectField
           name={"currency"}
           placeholderKey={"currencyPlaceholder"}
-          optionsKeys={CURRENCIES}
+          options={CURRENCY_CODE_OPTIONS}
         />
-        <ControlledSelectField
+        <ControlledCommonSelectField
           name={"category"}
           placeholderKey={"categoryPlaceholder"}
-          optionsKeys={CATEGORIES}
+          options={CATEGORY_OPTIONS}
         />
-        <ControlledSelectField
+        <ControlledCommonSelectField
           name={"paymentMethod"}
           placeholderKey={"paymentMethodPlaceholder"}
-          optionsKeys={PAYMENT_METHODS}
+          options={PAYMENT_METHOD_OPTIONS}
         />
-        <ControlledSelectField
+        <ControlledCommonSelectField
           name={"account"}
           placeholderKey={"accountPlaceholder"}
-          optionsKeys={ACCOUNTS}
+          options={ACCOUNT_OPTIONS}
         />
         <ControlledRadioField
           name={"transactionType"}
