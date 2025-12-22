@@ -32,7 +32,7 @@ export const TransactionsTable = ({ data }: { data: FilteredResponse<Transaction
  
   const handleTransactionDelete = () => {
     if (!transactionToDelete) return;
-    deleteMutation(transactionToDelete.id);
+    deleteMutation(transactionToDelete.id, transactionToDelete.refId);
   }
 
   const handleEditTransaction = async (
