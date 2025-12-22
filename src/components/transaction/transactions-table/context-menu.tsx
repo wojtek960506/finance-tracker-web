@@ -1,14 +1,14 @@
 "use client"
 
-import { Button } from "@/components/ui/button";
 import { MoreVertical } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { useTranslation } from "react-i18next";
 
 type TransactionContextMenuProps = {
   onDetailsClick: () => void;
@@ -26,7 +26,7 @@ export const TransactionContextMenu = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="hover:bg-gray-300 mx-2">
+        <Button variant="outline" className="hover:bg-gray-300 bg-gray-200 mx-2 cursor-pointer">
           <MoreVertical />
         </Button>
       </DropdownMenuTrigger>

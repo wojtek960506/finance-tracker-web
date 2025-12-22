@@ -37,7 +37,7 @@ export const ExportTransactionsButton = () => {
     <Button
       variant="secondary"
       onClick={handleExport}
-      className="text-lg"
+      className="text-lg cursor-pointer"
       disabled={isLoading}
     >
       <span className="w-[1em] h-[1em] inline-block" />

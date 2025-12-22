@@ -1,20 +1,20 @@
-import { TransactionAPI } from "@/types/transaction-types";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { TransactionsTableHeader } from "./header";
-import { TransactionContextMenu } from "./context-menu";
 import { TransactionInfoCells } from "./info-cells";
+import { FilteredResponse } from "@/types/api-types";
+import { TransactionContextMenu } from "./context-menu";
+import { TransactionAPI } from "@/types/transaction-types";
 import { TransactionUpdateDTO } from "@/schemas/transaction";
-import { useEditTransaction } from "@/hooks/use-edit-transaction";
 import { useUndoableDelete } from "@/hooks/useUndoableDelete";
-import { 
+import { useEditTransaction } from "@/hooks/use-edit-transaction";
+import { TransactionsPagination } from "./transactions-pagination";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import {
   DeleteTransactionModal,
   EditTransactionModal,
   ShowTransactionModal
 } from "../modals";
-import { FilteredResponse } from "@/types/api-types";
-import { TransactionsPagination } from "./transactions-pagination";
-import { cn } from "@/lib/utils";
 
 
 export const TransactionsTable = ({ data }: { data: FilteredResponse<TransactionAPI[]> }) => {
@@ -70,10 +70,11 @@ export const TransactionsTable = ({ data }: { data: FilteredResponse<Transaction
   const expenseRowHoverColor = "hover:bg-orange-400"
   const incomeRowColor = "bg-blue-300"
   const incomeRowHoverColor = "hover:bg-blue-400"
+  const borderFull = "border border-gray-500 border-2";
 
   return (
-    <div className="grid w-full gap-3">
-      <Table className="text-lg">
+    <div className={cn("grid w-full", borderFull)}>
+      <Table className={"text-lg"}>
         <TransactionsTableHeader />
         <TableBody>
           {transactions.map(transaction => (

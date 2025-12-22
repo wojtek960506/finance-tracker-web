@@ -24,7 +24,7 @@ export const AddTransactionModal = ({
   const [workflowType, setWorkflowType] = useState<TransactionCreationWorkflowType | null>(null);
   
   const trigger = (
-    <Button variant="default" className="w-min justify-self-end text-lg">
+    <Button variant="default" className="w-min justify-self-end text-lg cursor-pointer">
       {t('newTransaction')}
     </Button>
   );

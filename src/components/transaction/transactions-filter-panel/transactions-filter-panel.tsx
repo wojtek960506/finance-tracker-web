@@ -82,7 +82,7 @@ export const TransactionsFilterPanel = () => {
     )();
   };
 
-  const mcn = "flex min-w-fit border-1 border-gray-500 rounded-xl ml-2 p-2 overflow-hidden";
+  const mcn = "flex min-w-fit border-2 border-gray-500 rounded-xl ml-2 p-2 overflow-hidden";
   const isHorizontal = false
   return (
     <div className={mcn}>

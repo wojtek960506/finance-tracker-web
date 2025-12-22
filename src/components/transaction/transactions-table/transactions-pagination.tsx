@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button"
-import { useTransactionsFilterStore } from "@/store/transactions-filter-store"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { useTransactionsFilterStore } from "@/store/transactions-filter-store";
 
 type TransactionsPaginationProps = {
   page: number,
@@ -104,8 +105,10 @@ export const TransactionsPagination = ({
 
   const handleFastPagination = (key: number) => setFilters({ ...filters, page: key })
 
+  const borderTop = "border-t border-t-gray-500 border-t-2";
+
   return (
-    <div className="flex justify-between">
+    <div className={cn("flex justify-between bg-gray-200", borderTop)}>
       <Button
         variant="link"
         className="pl-2"
