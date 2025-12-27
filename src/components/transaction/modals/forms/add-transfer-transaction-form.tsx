@@ -8,13 +8,11 @@ import { Button } from "@/components/ui/button";
 import { ACCOUNTS, CURRENCIES } from "@/lib/consts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogFooter } from "@/components/ui/dialog";
-import { ExchageRatesInfo } from "./exchange-rates-info";
-import { ControlledInputField } from "@/components/controlled-form";
-import { ControlledSelectField } from "@/components/controlled-form";
+import { ControlledInputField, ControlledSelectField } from "@/components/controlled-form";
 import {
-  TransactionCreateExchangeDTO,
-  TransactionCreateExchangeFormType,
-  TransactionCreateExchangeFormSchema,
+  TransactionCreateTransferDTO,
+  TransactionCreateTransferFormSchema,
+  TransactionCreateTransferFormType
 } from "@/schemas/transaction";
 
 const currencyOptions = Object.fromEntries(
@@ -22,36 +20,35 @@ const currencyOptions = Object.fromEntries(
 );
 
 const paymentMethodOptions = Object.fromEntries(
-  ["cash", "bankTransfer"].map(v => [v, `paymentMethod_options.${v}`])
+  ["cash", "bankTransfer", "card"].map(v => [v, `paymentMethod_options.${v}`])
 );
 
 const accountOptions = Object.fromEntries(
   [...ACCOUNTS].map(v => [v, `account_options.${v}`])
 );
 
-type AddExchangeTransactionFormProps = {
-  onOpenChange: (value: boolean) => void;
-  onCreated: (newTxn: TransactionCreateExchangeDTO) => Promise<void>;
-};
-
 const getEmptyTransaction = () => ({
   date: new Date().toISOString().slice(0,10),
-  amountExpense: "0",
-  amountIncome: "0",
-  currencyExpense: "",
-  currencyIncome: "",
-  account: "",
+  amount: "0",
+  currency: "",
+  accountFrom: "",
+  accountTo: "",
   paymentMethod: "",
-  additionalDescription: "",
+  additionalDescription: ""
 });
 
-export const AddExchangeTransactionForm = ({
+type AddTransferTransactionFormProps = {
+  onOpenChange: (value: boolean) => void;
+  onCreated: (newTxn: TransactionCreateTransferDTO) => Promise<void>;
+}
+
+export const AddTransferTransactionForm = ({
   onCreated,
-  onOpenChange
-}: AddExchangeTransactionFormProps) => {
+  onOpenChange,
+}: AddTransferTransactionFormProps) => {
   const { t } = useTranslation("common");
-  const form = useForm<TransactionCreateExchangeFormType>({
-    resolver: zodResolver(TransactionCreateExchangeFormSchema),
+  const form = useForm<TransactionCreateTransferFormType>({
+    resolver: zodResolver(TransactionCreateTransferFormSchema),
     defaultValues: getEmptyTransaction()
   });
   const [loading, setLoading] = useState(false);
@@ -60,18 +57,17 @@ export const AddExchangeTransactionForm = ({
     form.reset(getEmptyTransaction());
   }, [form]);
 
-  const onSubmit = async (values: TransactionCreateExchangeFormType) => {
+  const onSubmit = async (values: TransactionCreateTransferFormType) => {
     setLoading(true);
     try {
       await onCreated({
         ...values,
-        amountExpense: Number(values.amountExpense),
-        amountIncome: Number(values.amountIncome),
-        paymentMethod: values.paymentMethod as "cash" | "bankTransfer",
+        amount: Number(values.amount),
+        paymentMethod: values.paymentMethod as "cash" | "card" | "bankTransfer",
       })
     } catch (err: unknown) {
-      console.log('Creating transaction error:', err);
-      toast.error((err as CommonError).message || t('creatingExchangeTransactionFailed'));
+      console.log('Creating transfer transaction error:', err);
+      toast.error((err as CommonError).message || t('creatingTransferTransactionFailed'));
     } finally {
       onOpenChange(false);
       setLoading(false);
@@ -86,27 +82,28 @@ export const AddExchangeTransactionForm = ({
       >
         <ControlledInputField name="date" type="date" />
         <ControlledInputField name="additionalDescription" type="text" />
-        <ControlledInputField name="amountExpense" type="number" step={0.01} decimalPlaces={2} />
+        {/* TODO fix the bug that when typing 0.0 (when trying to type for example 0.01
+                 then it clears it and goes back to 0
+        */}
+        <ControlledInputField name="amount" type="number" step={0.01} decimalPlaces={2} />
         <ControlledSelectField
-          name={"currencyExpense"}
-          placeholderKey={"currencyExpensePlaceholder"}
+          name="currency"
+          placeholderKey="currencyPlaceholder"
           options={currencyOptions}
         />
-        <ControlledInputField name="amountIncome" type="number" step={0.01} decimalPlaces={2} />
-        <ControlledSelectField
-          name={"currencyIncome"}
-          placeholderKey={"currencyIncomePlaceholder"}
-          options={currencyOptions}
-        />
-        <ExchageRatesInfo />
         <ControlledSelectField
           name="paymentMethod"
           placeholderKey="paymentMethodPlaceholder"
           options={paymentMethodOptions}
         />
         <ControlledSelectField
-          name={"account"}
-          placeholderKey="accountPlaceholder"
+          name="accountFrom"
+          placeholderKey="accountFromPlaceholder"
+          options={accountOptions}
+        />
+        <ControlledSelectField
+          name="accountTo"
+          placeholderKey="accountToPlaceholder"
           options={accountOptions}
         />
         <DialogFooter className="col-start-2 flex justify-end gap-2">
@@ -114,7 +111,7 @@ export const AddExchangeTransactionForm = ({
             {t('cancel')}
           </Button>
           <Button type="submit" disabled={loading}>
-            {loading ? t("saving") : t("save")}
+            {loading ? t("saving") : t("save") }
           </Button>
         </DialogFooter>
       </form>

@@ -1,23 +1,32 @@
 "use client"
 
 import { useState } from "react";
-import { AddTransactionForm } from "./forms";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { CommonModal } from "@/components/common";
-import { AddExchangeTransactionForm } from "./forms/add-exchange-transaction-form";
-import { TransactionCreateDTO, TransactionCreateExchageDTO } from "@/schemas/transaction";
+import {
+  AddTransactionForm,
+  AddTransferTransactionForm,
+  AddExchangeTransactionForm,
+} from "./forms";
+import {
+  TransactionCreateDTO,
+  TransactionCreateExchangeDTO,
+  TransactionCreateTransferDTO,
+} from "@/schemas/transaction";
 
-type TransactionCreationWorkflowType = "standard" | "exchange";
+type TransactionCreationWorkflowType = "standard" | "exchange" | "transfer";
 
 type AddTransactionModalProps = {
   onStandardCreated: (newTxn: TransactionCreateDTO) => Promise<void>;
-  onExchangeCreated: (newTxn: TransactionCreateExchageDTO) => Promise<void>;
+  onExchangeCreated: (newTxn: TransactionCreateExchangeDTO) => Promise<void>;
+  onTransferCreated: (newTxn: TransactionCreateTransferDTO) => Promise<void>;
 };
 
 export const AddTransactionModal = ({
   onStandardCreated,
   onExchangeCreated,
+  onTransferCreated,
 }: AddTransactionModalProps) => {
   const { t } = useTranslation("common");
   const [open, setOpen] = useState(false);
@@ -59,6 +68,16 @@ export const AddTransactionModal = ({
         />
       )
       break;
+    case "transfer":
+      title = 'newTransferTransaction'
+      description = 'newTransferTransactionDescription'
+      component = (
+        <AddTransferTransactionForm
+          onOpenChange={handleOpenChange}
+          onCreated={onTransferCreated}
+        />
+      )
+      break;
     default:
       title = 'chooseCreationWorkflow'
       description = 'chooseCreationWorkflowDescription'
@@ -77,6 +96,13 @@ export const AddTransactionModal = ({
             onClick={() => setWorkflowType("exchange")}
           >
             {t('exchangeTransaction')}
+          </Button>
+          <Button
+            variant="default"
+            className="h-[100px]"
+            onClick={() => setWorkflowType("transfer")}
+          >
+            {t('transferTransaction')}
           </Button>
         </div>
       )

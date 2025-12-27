@@ -20,6 +20,8 @@ export const useUndoableDelete = () => {
     const previousTransactions = queryClient.getQueryData<FilteredTransactions>(
       ["transactions", filters]
     );
+
+    // TODO temporary from the view also the referenced transaction as it will also be deleted
     queryClient.setQueryData<FilteredTransactions>(
       ["transactions", filters],
       old => {

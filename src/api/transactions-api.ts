@@ -3,7 +3,8 @@ import { withRefresh } from "./auth-api";
 import { FilteredResponse } from "@/types/api-types";
 import {
   TransactionCreateDTO,
-  TransactionCreateExchageDTO,
+  TransactionCreateExchangeDTO,
+  TransactionCreateTransferDTO,
   TransactionUpdateDTO,
 } from "@/schemas/transaction";
 import {
@@ -73,20 +74,31 @@ export const createStandardTransaction = async (
 ): Promise<TransactionAPI | undefined> => withRefresh(createStandardTransactionNoRefresh, payload);
 
 const createExchangeTransactionNoRefresh = async (
-  payload: TransactionCreateExchageDTO
+  payload: TransactionCreateExchangeDTO
 ): Promise<TransactionAPI> => {
-  const { data } = await api.post('/transactions/exchange', payload)
+  const { data } = await api.post('/transactions/exchange', payload);
   return data;
 }
 
 export const createExchangeTransaction = async (
-  payload: TransactionCreateExchageDTO
+  payload: TransactionCreateExchangeDTO
 ): Promise<TransactionAPI | undefined> => withRefresh(createExchangeTransactionNoRefresh, payload);
 
 export const deleteTransactionNoRefresh = async (id: string): Promise<TransactionAPI> => {
   const { data } = await api.delete(`/transactions/${id}`);
   return data;
 }
+
+const createTransferTransactionNoRefresh = async (
+  payload: TransactionCreateTransferDTO
+): Promise<TransactionAPI> => {
+  const { data } = await api.post('/transactions/transfer', payload);
+  return data;
+}
+
+export const createTransferTransaction = async (
+  payload: TransactionCreateTransferDTO
+): Promise<TransactionAPI | undefined> => withRefresh(createTransferTransactionNoRefresh, payload);
 
 export const deleteTransaction = async (
   id: string

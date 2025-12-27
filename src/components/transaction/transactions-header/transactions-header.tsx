@@ -5,12 +5,20 @@ import { TransactionsFilterSwitch } from "./filter-switch";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import { useCreateTransaction } from "@/hooks/use-create-transaction";
 import { ExportTransactionsModal } from "./export-transactions-modal";
-import { TransactionCreateDTO, TransactionCreateExchageDTO } from "@/schemas/transaction";
+import {
+  TransactionCreateDTO,
+  TransactionCreateExchangeDTO,
+  TransactionCreateTransferDTO
+} from "@/schemas/transaction";
 
 
 export const TransactionsHeader = ({ total }: { total?: number}) => {
   const { t } = useTranslation("common");
-  const { createStandardMutation, createExchangeMutation } = useCreateTransaction();
+  const {
+    createStandardMutation,
+    createExchangeMutation,
+    createTransferMutation,
+  } = useCreateTransaction();
 
   return (
     <CardHeader >
@@ -27,8 +35,11 @@ export const TransactionsHeader = ({ total }: { total?: number}) => {
             onStandardCreated={async (created: TransactionCreateDTO) => {
               await createStandardMutation.mutateAsync(created);
             }}
-            onExchangeCreated={async (created: TransactionCreateExchageDTO) => {
+            onExchangeCreated={async (created: TransactionCreateExchangeDTO) => {
               await createExchangeMutation.mutateAsync(created)
+            }}
+            onTransferCreated={async (created: TransactionCreateTransferDTO) => {
+              await createTransferMutation.mutateAsync(created)
             }}
           />
           <TransactionsFilterSwitch />

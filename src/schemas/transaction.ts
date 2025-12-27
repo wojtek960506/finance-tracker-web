@@ -21,7 +21,7 @@ export const TransactionCreateSchema = TransactionCreateCommonSchema.extend({
   transactionType: z.enum([...TRANSACTION_TYPES]),
 })
 
-export const TransactionCreateExchangeSchema = z.object({
+export const TransactionCreateExchangeSchema = TransactionCreateCommonSchema.extend({
   additionalDescription: z.string().min(1, "Additional description cannot be empty").optional(),
   amountExpense: z.number().positive("Amount of expense in exchange must be positive"),
   amountIncome: z.number().positive("Amount of income in exchange must be positive"),
@@ -29,6 +29,36 @@ export const TransactionCreateExchangeSchema = z.object({
   currencyIncome: z.enum([...CURRENCIES]),
   account: z.enum([...ACCOUNTS]),
   paymentMethod: z.enum(["bankTransfer", "cash"]),
+})
+
+export const TransactionCreateTransferSchema = TransactionCreateCommonSchema.extend({
+  additionalDescription: z.string().min(1, "Additional description cannot be empty").optional(),
+  amount: z.number().positive("Amount must be positive"),
+  currency: z.enum([...CURRENCIES]),
+  accountFrom: z.enum([...ACCOUNTS]),
+  accountTo: z.enum([...ACCOUNTS]),
+  paymentMethod: z.enum(["bankTransfer", "cash", "card"]),
+})
+
+export const TransactionCreateTransferFormSchema = z.object({
+  date: z.string().min(1, "dateRequired"),
+  additionalDescription: z.string(),
+  amount: z.string()
+    .refine(v => v !== "", "amountRequired")
+    .refine(v => !Number.isNaN(v), "amountValidNumber")
+    .refine(v => Number(v) >= 0, "amountBiggerEqualZero"),
+  currency: z.string()
+    .refine(v => v !== "", "currencyRequired")
+    .refine(v => [...CURRENCIES].includes(v), "currencyOneOfEmums"),
+  accountFrom: z.string()
+    .refine(v => v !== "", "accountFromRequired")
+    .refine(v => [...ACCOUNTS].includes(v), "accountFromOneOfEmums"),
+  accountTo: z.string()
+    .refine(v => v !== "", "accountToRequired")
+    .refine(v => [...ACCOUNTS].includes(v), "accountToOneOfEmums"),
+  paymentMethod: z.string()
+    .refine(v => v !== "", "paymentMethodRequired")
+    .refine(v => ["bankTransfer", "cash", "card"].includes(v), "paymentMethodOneOfEmums"),
 })
 
 export const TransactionCreateExchangeFormSchema = z.object({
@@ -93,11 +123,13 @@ export const TransactionSchema = TransactionCreateSchema.extend({
 })
 
 export type TransactionCreateDTO = z.infer<typeof TransactionCreateSchema>;
-export type TransactionCreateExchageDTO = z.infer<typeof TransactionCreateExchangeSchema>;
+export type TransactionCreateExchangeDTO = z.infer<typeof TransactionCreateExchangeSchema>;
+export type TransactionCreateTransferDTO = z.infer<typeof TransactionCreateTransferSchema>;
 export type TransactionUpdateDTO = z.infer<typeof TransactionUpdateSchema>;
 export type TransactionDTO = z.infer<typeof TransactionSchema>;
 
 export type TransactionCreateFormType = z.infer<typeof TransactionCreateFormSchema>;
 export type TransactionCreateExchangeFormType = z.infer<typeof TransactionCreateExchangeFormSchema>;
+export type TransactionCreateTransferFormType = z.infer<typeof TransactionCreateTransferFormSchema>;
 
 export type TransactionUpdateFormType = z.infer<typeof TransactionUpdateFormSchema>;
