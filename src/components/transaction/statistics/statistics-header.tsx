@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import { CommonSelect } from "@/components/common/common-select";
 import { ControlledSelectField } from "@/components/controlled-form";
+import { CommonOmitSelect } from "@/components/common/common-omit-select";
 import { StatisticsType, VisualisationType } from "@/types/transaction-types";
 import {
   ACCOUNT_OPTIONS,
@@ -22,6 +23,7 @@ import {
   TransactionStatisticsFilter,
   transactionStatisticsFilterSchema,
 } from "@/schemas/transaction-statistics";
+
 
 const FIRST_YEAR = 2015
 const LAST_YEAR = 2025
@@ -37,6 +39,7 @@ const monthOptions = Object.fromEntries(
     .from({ length: 12 }, (_, i) => i + 1)
     .map(index => ([index, `month${index}` ]))
 );
+
 
 type TransactionStatisticsHeaderProps = {
   tmpFilters: TransactionStatisticsFilter;
@@ -60,6 +63,7 @@ export const TransactionStatisticsHeader = ({
 }: TransactionStatisticsHeaderProps) => {
   const { t } = useTranslation("common");
   const [areAdditionalFilters, setAreAdditionalFilters] = useState(false);
+  const [omitCategoryOptions, setOmitCategoryOptions] = useState(['myAccount', 'investments'])
 
   // TODO I copied this code from `filter-header` and adjusted a little
   // think about merging it into one function
@@ -90,6 +94,10 @@ export const TransactionStatisticsHeader = ({
   const month = useWatch({
     control: form.control,
     name: "month"
+  });
+  const category = useWatch({
+    control: form.control,
+    name: "category"
   });
 
   const handleSubmit = () => {
@@ -170,7 +178,7 @@ export const TransactionStatisticsHeader = ({
             e.preventDefault();
             handleSubmit();                  
           }} className="w-full justify-self-start">
-            <div className="grid grid-cols-[2fr_2fr_2fr_1fr] items-center gap-x-5 gap-y-2">
+            <div className="grid grid-cols-[1fr_1fr_1fr_1fr] items-center gap-x-5 gap-y-2">
               <ControlledSelectField
                 name="year"
                 placeholderKey="year"
@@ -213,6 +221,7 @@ export const TransactionStatisticsHeader = ({
                     isClearable={true}
                     isHorizontal={false}
                     showLabel={false}
+                    isDisabled={omitCategoryOptions.length > 0}
                   />
                   <ControlledSelectField
                     name="paymentMethod"
@@ -229,6 +238,17 @@ export const TransactionStatisticsHeader = ({
                     isClearable={true}
                     isHorizontal={false}
                     showLabel={false}
+                  />
+                  <CommonOmitSelect
+                    options={Object.entries(CATEGORY_OPTIONS).map(([key, value]) => ({
+                      label: value,
+                      value: key,
+                    }))}
+                    omitted={omitCategoryOptions}
+                    onChange={setOmitCategoryOptions}
+                    allInvolvedLabelKey='noCategoriesExcluded'
+                    excludedLabelKey='categoriesExcluded'
+                    disabled={!!category}
                   />
                 </>
               )}
