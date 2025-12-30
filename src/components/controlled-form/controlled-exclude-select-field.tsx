@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { ControlledFormField } from "./controlled-form-field";
-import { CommonOmitSelect, MultiOption } from "../common/common-omit-select";
+import { CommonExcludeSelect, MultiOption } from "../common/common-exclude-select";
 
 
-type ControlledOmitSelectFieldProps = {
+type ControlledExcludeSelectFieldProps = {
   name: string;
   options: MultiOption[];
   allInvolvedLabelKey: string;
@@ -13,7 +13,7 @@ type ControlledOmitSelectFieldProps = {
   showLabel?: boolean;
 }
 
-export const ControlledOmitSelectField = ({
+export const ControlledExcludeSelectField = ({
   name,
   options,
   allInvolvedLabelKey,
@@ -21,7 +21,7 @@ export const ControlledOmitSelectField = ({
   isDisabled = false,
   isHorizontal = true,
   showLabel = true,
-}: ControlledOmitSelectFieldProps) => {
+}: ControlledExcludeSelectFieldProps) => {
   const { t } = useTranslation("common");
   
   return (
@@ -32,9 +32,9 @@ export const ControlledOmitSelectField = ({
       showLabel={showLabel}
     >
       {(field) => (
-        <CommonOmitSelect
+        <CommonExcludeSelect
           options={options}
-          omitted={field.value ?? []}
+          excluded={field.value ?? []}
           onChange={field.onChange}
           allInvolvedLabelKey={allInvolvedLabelKey}
           excludedLabelKey={excludedLabelKey}

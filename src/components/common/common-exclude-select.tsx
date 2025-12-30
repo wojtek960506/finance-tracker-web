@@ -11,36 +11,36 @@ export type MultiOption = {
   value: string;
 }
 
-type CommonOmitSelectProps = {
+type CommonExcludeSelectProps = {
   options: MultiOption[];
-  omitted: string[];
+  excluded: string[];
   onChange: (v: string[]) => void;
   allInvolvedLabelKey: string;
   excludedLabelKey: string;
   isDisabled?: boolean;
 }
 
-export const CommonOmitSelect = ({
+export const CommonExcludeSelect = ({
   options,
-  omitted,
+  excluded,
   onChange,
   allInvolvedLabelKey,
   excludedLabelKey,
   isDisabled = false,
-}: CommonOmitSelectProps) => {
+}: CommonExcludeSelectProps) => {
   const { t } = useTranslation("common");
 
   const toggle = (value: string) => {
-    if (omitted.includes(value)) {
-      onChange(omitted.filter(v => v !== value))
+    if (excluded.includes(value)) {
+      onChange(excluded.filter(v => v !== value))
     } else {
-      onChange([...omitted, value])
+      onChange([...excluded, value])
     }
   }
 
-  const label = omitted.length === 0
+  const label = excluded.length === 0
     ? t(allInvolvedLabelKey)
-    : `${omitted.length} ${t(excludedLabelKey, { count: omitted.length })}`
+    : `${excluded.length} ${t(excludedLabelKey, { count: excluded.length })}`
 
   return (
     <Popover>
@@ -63,7 +63,7 @@ export const CommonOmitSelect = ({
             .map(option => (
             <Label key={option.value}>
               <Checkbox
-                checked={omitted.includes(option.value)}
+                checked={excluded.includes(option.value)}
                 onCheckedChange={() => toggle(option.value)}
               />
               <span className="text-sm">{t(option.label)}</span>

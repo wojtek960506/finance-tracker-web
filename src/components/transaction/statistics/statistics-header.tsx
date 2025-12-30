@@ -1,6 +1,8 @@
 "use client"
 
+import { cn } from "@/lib/utils";
 import { useState } from "react";
+import "@/components/components.css";
 import { Form } from "@/components/ui/form";
 import { Label } from "@radix-ui/react-label";
 import { useTranslation } from "react-i18next";
@@ -19,14 +21,14 @@ import {
 } from "@/lib/consts";
 import {
   ControlledSelectField,
-  ControlledOmitSelectField
+  ControlledExcludeSelectField
 } from "@/components/controlled-form";
 import {
   TransactionStatisticsFilter,
   transactionStatisticsFilterSchema,
 } from "@/schemas/transaction-statistics";
 
-
+// TODO get the available years from API
 const FIRST_YEAR = 2015
 const LAST_YEAR = 2025
 
@@ -194,7 +196,6 @@ export const TransactionStatisticsHeader = ({
                 isDisabled={statisticsType === "averageStatistics" || (
                   visualisationType === "barChartVisualisation" && !!month
                 )}
-
               />
               <ControlledSelectField
                 name="month"
@@ -244,7 +245,7 @@ export const TransactionStatisticsHeader = ({
                     isHorizontal={false}
                     showLabel={false}
                   />
-                  <ControlledOmitSelectField
+                  <ControlledExcludeSelectField
                     name="excludeCategories"
                     options={Object.entries(CATEGORY_OPTIONS).map(([key, value]) => ({
                       label: value,
@@ -264,7 +265,13 @@ export const TransactionStatisticsHeader = ({
         <div className="flex gap-2 text-xs justify-start w-full">
           {Object.entries(filters)
             .filter(([, value]) => value !== undefined && value.length > 0)
-            .sort((a, b) => t(a[0]).toUpperCase() > t(b[0]).toUpperCase() ? 1 : -1)
+            .sort(
+              (a, b) => 
+                t(a[0], { count: a[1].length }).toUpperCase() >
+                t(b[0], { count: b[1].length }).toUpperCase()
+                  ? 1
+                  : -1
+            )
             .map(([key, value]) => {
 
               const tmp = (label: string, value: string) => {
@@ -281,7 +288,21 @@ export const TransactionStatisticsHeader = ({
                   <CommonTooltip key={key}
                     triggerClassName="max-w-[180px] truncate inline-block text-left"
                     triggerValue={tmp(t(key, { count: value.length }), value.length.toString())}
-                    contentValue={parseValue(key, value)}
+                    contentValue={(
+                      <div className={cn(
+                        'flex flex-col max-h-[30vh] overflow-y-auto pr-2',
+                        'scrollbar-dark'
+                      )}>
+                        {(value as string[])
+                          .sort((a, b) =>
+                            t(`category_options.${a}`) > t(`category_options.${b}`) ? 1 : -1
+                          )
+                          .map(v => (
+                            <span key={v}>{t(`category_options.${v}`)}</span>
+                          )
+                        )}
+                      </div>
+                    )}
                   />
                 )
               }
