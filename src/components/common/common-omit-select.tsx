@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 
-type MultiOption = {
+export type MultiOption = {
   label: string;
   value: string;
 }
@@ -17,7 +17,7 @@ type CommonOmitSelectProps = {
   onChange: (v: string[]) => void;
   allInvolvedLabelKey: string;
   excludedLabelKey: string;
-  disabled?: boolean;
+  isDisabled?: boolean;
 }
 
 export const CommonOmitSelect = ({
@@ -26,7 +26,7 @@ export const CommonOmitSelect = ({
   onChange,
   allInvolvedLabelKey,
   excludedLabelKey,
-  disabled = false,
+  isDisabled = false,
 }: CommonOmitSelectProps) => {
   const { t } = useTranslation("common");
 
@@ -49,7 +49,7 @@ export const CommonOmitSelect = ({
           variant="outline"
           role="combobox"
           className="w-full justify-between"
-          disabled={disabled}
+          disabled={isDisabled}
         >
           <span className="truncate">{label}</span>
           <ChevronDown className="ml-2 h-4 w-4 opacity-50" />

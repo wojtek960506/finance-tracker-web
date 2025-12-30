@@ -1,14 +1,15 @@
 "use client"
 
+import { useState } from "react";
+import { Card } from "@/components/ui/card";
 import { AppLayout } from "@/components/layout/app-layout";
+import { StatisticsType, VisualisationType } from "@/types/transaction-types";
+import { TransactionStatisticsFilter } from "@/schemas/transaction-statistics";
 import {
   TransactionStatisticsContent,
   TransactionStatisticsHeader
 } from "@/components/transaction/statistics";
-import { Card } from "@/components/ui/card";
-import { TransactionStatisticsFilter } from "@/schemas/transaction-statistics";
-import { StatisticsType, VisualisationType } from "@/types/transaction-types";
-import { useState } from "react";
+
 
 const defaultValues: TransactionStatisticsFilter = {
   year: "",
@@ -21,7 +22,7 @@ const defaultValues: TransactionStatisticsFilter = {
 }
 
 export default function TransactionStatisticsPage() {
-  const [filters, setTmpFilters] = useState<TransactionStatisticsFilter>(defaultValues);
+  const [filters, setFilters] = useState<TransactionStatisticsFilter>(defaultValues);
   const [statisticsType, setStatisticsType] = useState<StatisticsType>("sumStatistics");
   const [
     visualisationType,
@@ -33,8 +34,8 @@ export default function TransactionStatisticsPage() {
       <div className="flex-1 flex flex-col h-full space-y-4 p-1 min-h-[350px]">
         <Card className="overflow-hidden gap-2">
           <TransactionStatisticsHeader
-            tmpFilters={filters}
-            setTmpFilters={setTmpFilters}
+            filters={filters}
+            setFilters={setFilters}
             defaultValues={defaultValues}
             statisticsType={statisticsType}
             setStatisticsType={setStatisticsType}

@@ -9,9 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CardHeader, CardTitle } from "@/components/ui/card";
-import { CommonSelect } from "@/components/common/common-select";
-import { ControlledSelectField } from "@/components/controlled-form";
-import { CommonOmitSelect } from "@/components/common/common-omit-select";
+import { CommonSelect, CommonTooltip } from "@/components/common";
 import { StatisticsType, VisualisationType } from "@/types/transaction-types";
 import {
   ACCOUNT_OPTIONS,
@@ -19,6 +17,10 @@ import {
   CURRENCY_CODE_OPTIONS,
   PAYMENT_METHOD_OPTIONS
 } from "@/lib/consts";
+import {
+  ControlledSelectField,
+  ControlledOmitSelectField
+} from "@/components/controlled-form";
 import {
   TransactionStatisticsFilter,
   transactionStatisticsFilterSchema,
@@ -42,8 +44,8 @@ const monthOptions = Object.fromEntries(
 
 
 type TransactionStatisticsHeaderProps = {
-  tmpFilters: TransactionStatisticsFilter;
-  setTmpFilters: (v: TransactionStatisticsFilter) => void;
+  filters: TransactionStatisticsFilter;
+  setFilters: (v: TransactionStatisticsFilter) => void;
   defaultValues: TransactionStatisticsFilter;
   statisticsType: StatisticsType;
   setStatisticsType: (v: StatisticsType) => void;
@@ -53,8 +55,8 @@ type TransactionStatisticsHeaderProps = {
 
 // TODO split this component into smaller ones
 export const TransactionStatisticsHeader = ({
-  tmpFilters,
-  setTmpFilters,
+  filters,
+  setFilters,
   defaultValues,
   statisticsType,
   setStatisticsType,
@@ -63,7 +65,6 @@ export const TransactionStatisticsHeader = ({
 }: TransactionStatisticsHeaderProps) => {
   const { t } = useTranslation("common");
   const [areAdditionalFilters, setAreAdditionalFilters] = useState(false);
-  const [omitCategoryOptions, setOmitCategoryOptions] = useState(['myAccount', 'investments'])
 
   // TODO I copied this code from `filter-header` and adjusted a little
   // think about merging it into one function
@@ -99,6 +100,10 @@ export const TransactionStatisticsHeader = ({
     control: form.control,
     name: "category"
   });
+  const omitCategory = useWatch({
+    control: form.control,
+    name: "omitCategory"
+  })
 
   const handleSubmit = () => {
     const raw = form.getValues();
@@ -108,7 +113,7 @@ export const TransactionStatisticsHeader = ({
     }
     // zod validation runs when calling form.handleSubmit
     form.handleSubmit(
-      (data) => setTmpFilters(data),
+      (data) => setFilters(data),
       (errors) => console.log("Validation errors - statistics form submit:", errors),
     )();
   }
@@ -221,7 +226,7 @@ export const TransactionStatisticsHeader = ({
                     isClearable={true}
                     isHorizontal={false}
                     showLabel={false}
-                    isDisabled={omitCategoryOptions.length > 0}
+                    isDisabled={omitCategory ? omitCategory.length > 0 : false}
                   />
                   <ControlledSelectField
                     name="paymentMethod"
@@ -239,16 +244,16 @@ export const TransactionStatisticsHeader = ({
                     isHorizontal={false}
                     showLabel={false}
                   />
-                  <CommonOmitSelect
+                  <ControlledOmitSelectField
+                    name="omitCategory"
                     options={Object.entries(CATEGORY_OPTIONS).map(([key, value]) => ({
                       label: value,
                       value: key,
                     }))}
-                    omitted={omitCategoryOptions}
-                    onChange={setOmitCategoryOptions}
                     allInvolvedLabelKey='noCategoriesExcluded'
                     excludedLabelKey='categoriesExcluded'
-                    disabled={!!category}
+                    isDisabled={!!category}
+                    showLabel={false}
                   />
                 </>
               )}
@@ -257,17 +262,37 @@ export const TransactionStatisticsHeader = ({
         </Form>
 
         <div className="flex gap-2 text-xs justify-start w-full">
-          {Object.entries(tmpFilters)
+          {Object.entries(filters)
             .filter(
-              ([key, value]) => value !== undefined && value !== "" && key !== "omitCategory"
+              ([key, value]) => value !== undefined && value.length > 0
+              //&& key !== "omitCategory"
             )
             .sort((a, b) => t(a[0]).toUpperCase() > t(b[0]).toUpperCase() ? 1 : -1)
-            .map(([key, value]) => (
-              <div key={key} className="px-2 py-1 border border-2 border-black rounded-lg">
-                <span className="font-bold">{`${t(key)}: `}</span>
-                <span>{parseValue(key, value)}</span>
-              </div>
-            ))
+            .map(([key, value]) => {
+              if (key === "omitCategory" && value.length > 1) {
+                return (
+                  <CommonTooltip key={key}
+                    triggerClassName="max-w-[180px] truncate inline-block text-left"
+                    // triggerValue={`${value.length} ${t('categoriesExcluded')}`}
+                    triggerValue={(
+                      <div key={key} className="px-2 py-1 border border-2 border-black rounded-lg">
+                      <span className="font-bold">{`${t(key)}: `}</span>
+                      <span>{value.length}</span>
+                    </div>
+                    )}
+                    contentValue={parseValue(key, value)}
+                  />
+                )
+              }
+
+
+              return (
+                <div key={key} className="px-2 py-1 border border-2 border-black rounded-lg">
+                  <span className="font-bold">{`${t(key)}: `}</span>
+                  <span>{parseValue(key, value)}</span>
+                </div>
+              )
+            })
           }
         </div>
       </div>

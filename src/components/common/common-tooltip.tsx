@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -7,8 +8,8 @@ import {
 
 type CommonTooltipProps = {
   triggerClassName: string;
-  triggerValue: string;
-  contentValue: string;
+  triggerValue: string | ReactNode;
+  contentValue: string | ReactNode;
 }
 
 export const CommonTooltip = ({

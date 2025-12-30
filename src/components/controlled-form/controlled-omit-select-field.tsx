@@ -1,28 +1,29 @@
 import { useTranslation } from "react-i18next";
 import { ControlledFormField } from "./controlled-form-field";
-import { CommonSelect, SelectOption } from "@/components/common";
+import { CommonOmitSelect, MultiOption } from "../common/common-omit-select";
 
-type ControlledSelectFieldProps = {
+
+type ControlledOmitSelectFieldProps = {
   name: string;
-  placeholderKey: string;
-  options: SelectOption;
+  options: MultiOption[];
+  allInvolvedLabelKey: string;
+  excludedLabelKey: string;
   isDisabled?: boolean;
-  isClearable?: boolean;
   isHorizontal?: boolean;
   showLabel?: boolean;
 }
 
-export const ControlledSelectField = ({
+export const ControlledOmitSelectField = ({
   name,
-  placeholderKey,
   options,
+  allInvolvedLabelKey,
+  excludedLabelKey,
   isDisabled = false,
-  isClearable = true,
   isHorizontal = true,
   showLabel = true,
-}: ControlledSelectFieldProps) => {
+}: ControlledOmitSelectFieldProps) => {
   const { t } = useTranslation("common");
-
+  
   return (
     <ControlledFormField
       name={name}
@@ -31,13 +32,13 @@ export const ControlledSelectField = ({
       showLabel={showLabel}
     >
       {(field) => (
-        <CommonSelect
-          value={field.value ?? ""}
-          setValue={field.onChange}
-          placeholderKey={placeholderKey}
+        <CommonOmitSelect
           options={options}
+          omitted={field.value ?? []}
+          onChange={field.onChange}
+          allInvolvedLabelKey={allInvolvedLabelKey}
+          excludedLabelKey={excludedLabelKey}
           isDisabled={isDisabled}
-          isClearable={isClearable}
         />
       )}
     </ControlledFormField>
