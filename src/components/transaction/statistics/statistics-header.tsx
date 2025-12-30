@@ -100,9 +100,9 @@ export const TransactionStatisticsHeader = ({
     control: form.control,
     name: "category"
   });
-  const omitCategory = useWatch({
+  const excludeCategories = useWatch({
     control: form.control,
-    name: "omitCategory"
+    name: "excludeCategories"
   })
 
   const handleSubmit = () => {
@@ -226,7 +226,7 @@ export const TransactionStatisticsHeader = ({
                     isClearable={true}
                     isHorizontal={false}
                     showLabel={false}
-                    isDisabled={omitCategory ? omitCategory.length > 0 : false}
+                    isDisabled={excludeCategories ? excludeCategories.length > 0 : false}
                   />
                   <ControlledSelectField
                     name="paymentMethod"
@@ -245,7 +245,7 @@ export const TransactionStatisticsHeader = ({
                     showLabel={false}
                   />
                   <ControlledOmitSelectField
-                    name="omitCategory"
+                    name="excludeCategories"
                     options={Object.entries(CATEGORY_OPTIONS).map(([key, value]) => ({
                       label: value,
                       value: key,
@@ -263,35 +263,29 @@ export const TransactionStatisticsHeader = ({
 
         <div className="flex gap-2 text-xs justify-start w-full">
           {Object.entries(filters)
-            .filter(
-              ([key, value]) => value !== undefined && value.length > 0
-              //&& key !== "omitCategory"
-            )
+            .filter(([, value]) => value !== undefined && value.length > 0)
             .sort((a, b) => t(a[0]).toUpperCase() > t(b[0]).toUpperCase() ? 1 : -1)
             .map(([key, value]) => {
-              if (key === "omitCategory" && value.length > 1) {
+
+              const tmp = (label: string, value: string) => {
+                return (
+                  <div key={key} className="px-2 py-1 border border-2 border-black rounded-lg">
+                  <span className="font-bold">{`${label}: `}</span>
+                  <span>{value}</span>
+                </div>
+                )
+              }
+
+              if (key === "excludeCategories" && value.length > 1) {
                 return (
                   <CommonTooltip key={key}
                     triggerClassName="max-w-[180px] truncate inline-block text-left"
-                    // triggerValue={`${value.length} ${t('categoriesExcluded')}`}
-                    triggerValue={(
-                      <div key={key} className="px-2 py-1 border border-2 border-black rounded-lg">
-                      <span className="font-bold">{`${t(key)}: `}</span>
-                      <span>{value.length}</span>
-                    </div>
-                    )}
+                    triggerValue={tmp(t(key, { count: value.length }), value.length.toString())}
                     contentValue={parseValue(key, value)}
                   />
                 )
               }
-
-
-              return (
-                <div key={key} className="px-2 py-1 border border-2 border-black rounded-lg">
-                  <span className="font-bold">{`${t(key)}: `}</span>
-                  <span>{parseValue(key, value)}</span>
-                </div>
-              )
+              return tmp(t(key, { count: value.length }), parseValue(key, value));
             })
           }
         </div>

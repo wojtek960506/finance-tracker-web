@@ -40,7 +40,7 @@ export const CommonOmitSelect = ({
 
   const label = omitted.length === 0
     ? t(allInvolvedLabelKey)
-    : `${omitted.length} ${t(excludedLabelKey)}`
+    : `${omitted.length} ${t(excludedLabelKey, { count: omitted.length })}`
 
   return (
     <Popover>

@@ -109,6 +109,12 @@
   "clear": "Clear",
   "clearFilters": "Clear filters",
 
+  "excludeCategories_one": "Exclude category",
+  "excludeCategories_other": "Exclude categories",
+
+  "categoriesExcluded_one": "category excluded",
+  "categoriesExcluded_other": "categories excluded",
+
   "paymentMethod_options": {
     "atm": "ATM",
     "bankTransfer": "Bank Transfer",

@@ -109,6 +109,14 @@
   "clear": "Wyczyść",
   "clearFilters": "Wyczyść filtry",
 
+  "excludeCategories_one": "Wyklucz kategorię",
+  "excludeCategories_few": "Wyklucz kategorie",
+  "excludeCategories_many": "Wyklucz kategorie",
+
+  "categoriesExcluded_one": "kategoria wykluczona",
+  "categoriesExcluded_few": "kategorie wykluczone",
+  "categoriesExcluded_many": "kategorii wykluczonych",
+
   "paymentMethod_options": {
     "atm": "Bankomat",
     "bankTransfer": "Przelew",

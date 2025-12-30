@@ -28,7 +28,7 @@ export const transactionStatisticsFilterSchema = z.object({
     .refine(v => Number(v) >= 0, "Must be number between 1 and 12").optional(),
   currency: z.enum([...CURRENCIES]),
   category: z.enum([...CATEGORIES, ""]).optional(),
-  omitCategory: z
+  excludeCategories: z
     .array(z.enum([...CATEGORIES]))
     .optional(),
   paymentMethod: z.enum([...PAYMENT_METHODS, ""]).optional(),

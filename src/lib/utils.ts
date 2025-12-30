@@ -27,14 +27,11 @@ export const areObjectsEqual = (
 export const buildQueryParams = (filters: Record<string, unknown>) => {
   const params = new URLSearchParams();
   Object.entries(filters).forEach(([key, value]) => {
-    if (value !== undefined && value !== "")
+    if (value !== undefined && value !== "") {
       if (Array.isArray(value)) {
-        value.forEach(v => {
-          params.append(key, String(v));
-        })
-      } else {
-        params.set(key, String(value));
-      }
+        if (value.length > 0) params.set(key, value.join(","));
+      } else params.set(key, String(value));
+    } 
   })
 
   return params.toString();
