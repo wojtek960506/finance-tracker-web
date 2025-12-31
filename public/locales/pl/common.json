@@ -117,6 +117,9 @@
   "categoriesExcluded_few": "kategorie wykluczone",
   "categoriesExcluded_many": "kategorii wykluczonych",
 
+  "noCategoriesExcluded": "Brak wykluczonych kategorii",
+  "includeAll": "Uwzględnij wszystkie",
+
   "paymentMethod_options": {
     "atm": "Bankomat",
     "bankTransfer": "Przelew",

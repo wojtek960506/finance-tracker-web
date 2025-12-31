@@ -115,6 +115,9 @@
   "categoriesExcluded_one": "category excluded",
   "categoriesExcluded_other": "categories excluded",
 
+  "noCategoriesExcluded": "No categories excluded",
+  "includeAll": "Include all",
+
   "paymentMethod_options": {
     "atm": "ATM",
     "bankTransfer": "Bank Transfer",
