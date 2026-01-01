@@ -27,6 +27,17 @@ export const AdditionalFilters = ({
       showLabel={false}
       isDisabled={excludeCategories ? excludeCategories.length > 0 : false}
     />
+    <ControlledExcludeSelectField
+      name="excludeCategories"
+      options={Object.entries(CATEGORY_OPTIONS).map(([key, value]) => ({
+        label: value,
+        value: key,
+      }))}
+      allInvolvedLabelKey='noCategoriesExcluded'
+      excludedLabelKey='categoriesExcluded'
+      isDisabled={!!category}
+      showLabel={false}
+    />
     <ControlledSelectField
       name="paymentMethod"
       placeholderKey="paymentMethod"
@@ -41,17 +52,6 @@ export const AdditionalFilters = ({
       options={ACCOUNT_OPTIONS}
       isClearable={true}
       isHorizontal={false}
-      showLabel={false}
-    />
-    <ControlledExcludeSelectField
-      name="excludeCategories"
-      options={Object.entries(CATEGORY_OPTIONS).map(([key, value]) => ({
-        label: value,
-        value: key,
-      }))}
-      allInvolvedLabelKey='noCategoriesExcluded'
-      excludedLabelKey='categoriesExcluded'
-      isDisabled={!!category}
       showLabel={false}
     />
   </>

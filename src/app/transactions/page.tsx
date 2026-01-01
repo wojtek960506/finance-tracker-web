@@ -1,42 +1,40 @@
 "use client"
 
-import { AppLayout } from "@/components/layout/app-layout"
-import { TransactionsMain } from "@/components/transaction/transactions-main";
-import { Spinner } from "@/components/ui/spinner";
-import { useGeneralStore } from "@/store/general-store";
-import { useTransactionsFilterStore } from "@/store/transactions-filter-store";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useGeneralStore } from "@/store/general-store";
+import { Card, CardContent } from "@/components/ui/card";
+import { useGetTransactions } from "@/hooks/use-get-transactions";
+import { NotLoggedLayout } from "@/components/layout/not-logged-layout";
+import { useTransactionsFilterStore } from "@/store/transactions-filter-store";
+import { TransactionsTable } from "@/components/transaction/transactions-table";
+import { TransactionsHeader } from "@/components/transaction/transactions-header";
+import { TransactionsFilterPanel } from "@/components/transaction/transactions-filter-panel";
 
 
 export default function TransactionsPage() {
   const { t } = useTranslation("common");
-  const accessToken = useGeneralStore(s => s.accessToken);
-  const hasHydrated = useGeneralStore(s => s._hasHydrated);
-  const hasTransactionsFilterHydrated = useTransactionsFilterStore(s => s._hasHydrated);
-  const router = useRouter();
+  const { data, isLoading, isError, error } = useGetTransactions();
+  const { isShown } = useTransactionsFilterStore();
+  const isLoggingOut = useGeneralStore(s => s.isLoggingOut);
 
-  useEffect(() => {
-    // store values has to be hydrated from localStorage because at the refresh
-    // of the page they are rendered like for the first time with default values
-    if (!hasHydrated || !hasTransactionsFilterHydrated) return;
-    
-    if (!accessToken) router.replace("/login");
-  }, [accessToken, router, hasHydrated, hasTransactionsFilterHydrated]);
-
-  if (!accessToken) {
-    return (
-      <div className="flex h-screen justify-center items-center gap-2 text-4xl">
-        <span>{t('loading')}</span>
-        <Spinner className="w-[1em] h-[1em] inline-block"/>
-      </div>
-    )
-  }
+  if (isLoggingOut) return null;
 
   return (
-    <AppLayout>
-      <TransactionsMain />
-    </AppLayout>
+    <NotLoggedLayout>
+      <div className="flex-1 flex flex-col h-full space-y-4 p-2 min-h-[400px]">
+        <Card className="overflow-hidden">
+          <TransactionsHeader total={data?.total} />
+          <CardContent className="flex flex-row overflow-hidden justify-between">
+            {isLoading && <p>{t('loading')}</p>}
+            {isError && <p className="text-red-500">{error?.message}</p>}
+            {!isLoading && data?.items.length === 0 && <p>{t('noTransactionsFound')}</p>}
+            {!isLoading && (data?.items ?? []).length > 0 && (
+              <TransactionsTable data={data!}/>
+            )}      
+            {isShown && <TransactionsFilterPanel />}
+          </CardContent>
+        </Card>
+      </div>
+    </NotLoggedLayout>
   )
 }

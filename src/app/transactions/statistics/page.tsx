@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { AppLayout } from "@/components/layout/app-layout";
+import { NotLoggedLayout } from "@/components/layout/not-logged-layout";
 import { StatisticsType, VisualisationType } from "@/types/transaction-types";
 import { TransactionStatisticsFilter } from "@/schemas/transaction-statistics";
 import {
   TransactionStatisticsContent,
   TransactionStatisticsHeader
 } from "@/components/transaction/statistics";
+import { useGeneralStore } from "@/store/general-store";
 
 
 const defaultValues: TransactionStatisticsFilter = {
@@ -28,9 +29,12 @@ export default function TransactionStatisticsPage() {
     visualisationType,
     setVisualisationType
   ] = useState<VisualisationType>("tableVisualisation");
+  const isLoggingOut = useGeneralStore(s => s.isLoggingOut);
+  
+    if (isLoggingOut) return null;
 
   return (
-    <AppLayout>
+    <NotLoggedLayout>
       <div className="flex-1 flex flex-col h-full space-y-4 p-1 min-h-[350px]">
         <Card className="overflow-hidden gap-2">
           <TransactionStatisticsHeader
@@ -49,6 +53,6 @@ export default function TransactionStatisticsPage() {
           />
         </Card>
       </div>
-    </AppLayout>
+    </NotLoggedLayout>
   )
 }

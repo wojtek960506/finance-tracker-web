@@ -44,10 +44,24 @@ export const TransactionStatisticsContent = ({
   statisticsType,
   visualisationType,
 }: TransactionStatisticsContentProps) => {
-  const { data: dataExpense } = useGetTransactionStatistics(filters, "expense");
-  const { data: dataIncome } = useGetTransactionStatistics(filters, "income");
+  const {
+    data: dataExpense,
+    isLoading: isExpenseLoading,
+  } = useGetTransactionStatistics(filters, "expense");
+  const {
+    data: dataIncome,
+    isLoading: isIncomeLoading,
+  } = useGetTransactionStatistics(filters, "income");
 
-  if (!dataExpense || !dataIncome) return null;
+  if (isExpenseLoading || isIncomeLoading) {
+    return (
+      <CardContent className="flex flex-col overflow-auto justify-between">
+        {'loading'}
+      </CardContent>
+    )
+  }
+
+  if (!dataExpense || !dataIncome) return 'afterLoadingSomeDataNotPresent';
 
   let expense: TransactionStatisticsAPI | undefined = undefined;
   let income: TransactionStatisticsAPI | undefined = undefined;
