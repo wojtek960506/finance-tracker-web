@@ -1,12 +1,20 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-
-import { useEffect } from "react";
-import { useGeneralStore } from "@/store/general-store";
-import { usePathname } from "next/navigation";
+import { UserFullName } from "./user-full-name";
 import { UserInitials } from "./user-initials";
+import { useGeneralStore } from "@/store/general-store";
 import { PrivateContextMenuItems } from "./private-context-menu-items";
+import {
+  DropdownMenu,
+  DropdownMenuSub,
+  DropdownMenuItem,
+  DropdownMenuContent,  
+  DropdownMenuTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+} from "@/components/ui/dropdown-menu";
 
 
 export const UserContextMenu = () => {
@@ -41,6 +49,7 @@ export const UserContextMenu = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="bottom" align="end">
+        {showPrivateData && <UserFullName />}
         <DropdownMenuSub>
           <DropdownMenuSubTrigger turnedLeft={true}>{t('language')}</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>

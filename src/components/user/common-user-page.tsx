@@ -1,14 +1,14 @@
-import { useGeneralStore } from "@/store/general-store";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { FieldValues, UseFormReturn } from "react-hook-form";
-
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { CommonError } from "@/types/api-types";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import { Form } from "@/components/ui/form";
+import { CommonError } from "@/types/api-types";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "../ui/spinner";
+import { Spinner } from "@/components/ui/spinner";
+import React, { useEffect, useState } from "react";
+import { useGeneralStore } from "@/store/general-store";
+import { FieldValues, UseFormReturn } from "react-hook-form";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+
 
 type CommonUserPageProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -18,6 +18,10 @@ type CommonUserPageProps<T extends FieldValues> = {
   nextRoutePath: string;
   nextRouteButtonText: string,
   submitMethod: (values: T) => Promise<void>;
+  isLoading: boolean;
+  setIsLoading: (v: boolean) => void;
+  isRedirecting: boolean;
+  setIsRedirecting: (v: boolean) => void;
   children: React.ReactNode;
 }
 
@@ -29,12 +33,15 @@ export const CommonUserPage = <T extends FieldValues,>({
   nextRoutePath,
   nextRouteButtonText,
   submitMethod,
+  isLoading,
+  setIsLoading,
+  isRedirecting,
+  setIsRedirecting,
   children,
 }: CommonUserPageProps<T>) => {
   const router = useRouter();
   const { accessToken, isLoggingOut, _hasHydrated } = useGeneralStore();
-  
-  const [isLoading, setIsLoading] = useState(false);
+
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
@@ -54,11 +61,12 @@ export const CommonUserPage = <T extends FieldValues,>({
       console.log(errorMessage);
       toast.error(errorMessage);
       setErrorMsg(errorMessage);
-    } finally {
       setIsLoading(false);
     }
   }
   
+  const isDisabled = isLoading || isRedirecting;
+
   return (
     <div className="flex min-h-full justify-center">
       <Card className="my-auto">
@@ -75,7 +83,7 @@ export const CommonUserPage = <T extends FieldValues,>({
               {errorMsg && (
                 <span className="text-destructive col-start-2 w-full">{errorMsg}</span>
               )}
-              <Button className=" mt-2 col-span-2" type="submit" disabled={isLoading}>
+              <Button className=" mt-2 col-span-2" type="submit" disabled={isDisabled}>
                 {isLoading ? <>{loadingText} <Spinner /></> : confirmButtonText}
               </Button>
             </form>
@@ -86,7 +94,11 @@ export const CommonUserPage = <T extends FieldValues,>({
           <Button
             className="w-full"
             variant="outline"
-            onClick={() => router.push(nextRoutePath)}
+            onClick={() => {
+              setIsRedirecting(true);
+              router.push(nextRoutePath)
+            }}
+            disabled={isLoading}
           >{nextRouteButtonText}</Button>
         </CardFooter>
       </Card>

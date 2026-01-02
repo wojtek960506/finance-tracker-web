@@ -1,14 +1,15 @@
 "use client"
 
-import { createUser } from "@/api/users-api";
-import { AppLayout } from "@/components/layout/app-layout";
-import { UserCreateDTO, UserCreateSchema } from "@/schemas/user-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { createUser } from "@/api/users-api";
+import { useTranslation } from "react-i18next";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AppLayout } from "@/components/layout/app-layout";
 import { CommonUserPage } from "@/components/user/common-user-page";
 import { ControlledInputField } from "@/components/controlled-form";
+import { UserCreateDTO, UserCreateSchema } from "@/schemas/user-schema";
 
 const defaultNewUserValues = {
   firstName: "",
@@ -25,6 +26,8 @@ export default function RegisterPage() {
     resolver: zodResolver(UserCreateSchema),
     defaultValues: defaultNewUserValues,
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   
   const submitMethod = async (values: UserCreateDTO) => {
     await createUser(values);
@@ -32,6 +35,8 @@ export default function RegisterPage() {
       `User '${values.firstName} ${values.lastName}' has been successfully created`
     );
   } 
+
+  const isDisabled = isLoading || isRedirecting;
 
   return (
     <AppLayout>
@@ -43,13 +48,17 @@ export default function RegisterPage() {
         nextRoutePath='/login'
         nextRouteButtonText={t('doYouHaveAccount')}
         submitMethod={submitMethod}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        isRedirecting={isRedirecting}
+        setIsRedirecting={setIsRedirecting}
       >
-        <ControlledInputField name="firstName" type="text" />
-        <ControlledInputField name="lastName" type="text" />
-        <ControlledInputField name="email" type="text" />
-        <ControlledInputField name="confirmEmail" type="text" />
-        <ControlledInputField name="password" type="password" />
-        <ControlledInputField name="confirmPassword" type="password" />
+        <ControlledInputField name="firstName" type="text" isDisabled={isDisabled} />
+        <ControlledInputField name="lastName" type="text" isDisabled={isDisabled} />
+        <ControlledInputField name="email" type="text" isDisabled={isDisabled} />
+        <ControlledInputField name="confirmEmail" type="text" isDisabled={isDisabled} />
+        <ControlledInputField name="password" type="password" isDisabled={isDisabled} />
+        <ControlledInputField name="confirmPassword" type="password" isDisabled={isDisabled} />
       </CommonUserPage>
     </AppLayout>
   )
