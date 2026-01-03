@@ -3,6 +3,7 @@ import { AddTransactionModal } from "../modals";
 import { TransactionsFilterHeader } from "./filter-header";
 import { TransactionsFilterSwitch } from "./filter-switch";
 import { CardHeader, CardTitle } from "@/components/ui/card";
+import { TransactionTotalsModal } from "./transaction-totals-modal";
 import { useCreateTransaction } from "@/hooks/use-create-transaction";
 import { ExportTransactionsModal } from "./export-transactions-modal";
 import {
@@ -12,7 +13,7 @@ import {
 } from "@/schemas/transaction";
 
 
-export const TransactionsHeader = ({ total }: { total?: number}) => {
+export const TransactionsHeader = () => {
   const { t } = useTranslation("common");
   const {
     createStandardMutation,
@@ -21,15 +22,15 @@ export const TransactionsHeader = ({ total }: { total?: number}) => {
   } = useCreateTransaction();
 
   return (
-    <CardHeader >
-      <div className="flex justify-between">
+    <CardHeader>
+      <div className="flex justify-between overflow-y-auto">
         <div className="flex gap-6 items-center">
           <CardTitle className="text-2xl">
             {t('allTransactions')}
           </CardTitle>
-          {total && <span>{total} item(s)</span>}
+          {<TransactionTotalsModal />}
         </div>
-        <div className="flex gap-6">
+        <div className="flex gap-6 items-center">
           <ExportTransactionsModal />
           <AddTransactionModal
             onStandardCreated={async (created: TransactionCreateDTO) => {

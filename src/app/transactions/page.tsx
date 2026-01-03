@@ -23,7 +23,7 @@ export default function TransactionsPage() {
     <NotLoggedLayout>
       <div className="flex-1 flex flex-col h-full space-y-4 p-2 min-h-[400px]">
         <Card className="overflow-hidden">
-          <TransactionsHeader total={data?.total} />
+          <TransactionsHeader />
           <CardContent className="flex flex-row overflow-hidden justify-between">
             {isLoading && <p>{t('loading')}</p>}
             {isError && <p className="text-red-500">{error?.message}</p>}

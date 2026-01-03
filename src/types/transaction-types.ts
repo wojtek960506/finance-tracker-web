@@ -62,3 +62,28 @@ export type CommonTransactionStatistics = {
   periodicIncome: TotalAmountAndItemsObj,
   periodicKeys: string[],
 }
+
+type TransactionTotalsProps = {
+  totalAmount: number;
+  totalItems: number;
+  averageAmount: number;
+  maxAmount: number;
+  minAmount: number;
+}
+
+export type TransactionTotalsByCurrency = {
+  totalItems: number,
+  expense: TransactionTotalsProps;
+  income: TransactionTotalsProps;
+}
+
+type TransactionTotalsOverall = {
+  totalItems: number,
+  expense: { totalItems: number },
+  income: { totalItems: number },
+}
+
+export type TransactionTotalsAPI = {
+  byCurrency: Record<string, TransactionTotalsByCurrency>,
+  overall: TransactionTotalsOverall,
+}

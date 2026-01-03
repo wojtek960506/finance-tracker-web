@@ -11,6 +11,7 @@ import {
   TransactionAPI,
   TransactionsAnalysisAPI,
   TransactionStatisticsAPI,
+  TransactionTotalsAPI,
 } from "@/types/transaction-types";
 
 
@@ -26,6 +27,15 @@ export const getTransactions = async (query: string): Promise<
   return withRefresh(getTransactionsNoRefresh, query);
 }
 
+const getTransactionTotalsNoRefresh = async (query: string): Promise<TransactionTotalsAPI> => {
+  const { data } = await api.get(`transactions/totals?${query}`);
+  return data;
+}
+
+export const getTransactionTotals = async (query: string): Promise<
+  TransactionTotalsAPI | undefined
+> => withRefresh(getTransactionTotalsNoRefresh, query);
+
 const exportTransactionsNoRefresh = async () => {
   const { data } = await api.get(`/transactions/export`, { responseType: 'blob' });
   return data;
@@ -34,7 +44,6 @@ const exportTransactionsNoRefresh = async () => {
 export const exportTransactions = async () => {
   return withRefresh(exportTransactionsNoRefresh);
 }
-
 
 const getTransactionsAnalysisNoRefresh = async (
   query: string

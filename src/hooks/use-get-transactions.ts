@@ -1,17 +1,17 @@
-import { getTransactions } from "@/api/transactions-api"
-import { buildQueryParams } from "@/lib/utils"
-import { useGeneralStore } from "@/store/general-store"
-import { useTransactionsFilterStore } from "@/store/transactions-filter-store"
-import { FilteredResponse } from "@/types/api-types"
-import { TransactionAPI } from "@/types/transaction-types"
-import { useQuery } from "@tanstack/react-query"
+import { buildQueryParams } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { FilteredResponse } from "@/types/api-types";
+import { useGeneralStore } from "@/store/general-store";
+import { getTransactions } from "@/api/transactions-api";
+import { TransactionAPI } from "@/types/transaction-types";
+import { useTransactionsFilterStore } from "@/store/transactions-filter-store";
+
 
 export const useGetTransactions = () => {
   const filters = useTransactionsFilterStore(s => s.filters);
   const { accessToken, isLoggingOut } = useGeneralStore();
   const { data, isLoading, isError, error } = useQuery<
-    FilteredResponse<TransactionAPI[]> | undefined
-    , Error
+    FilteredResponse<TransactionAPI[]> | undefined, Error
   >({
     queryKey: ['transactions', filters],
     queryFn: () => getTransactions(buildQueryParams(filters)),

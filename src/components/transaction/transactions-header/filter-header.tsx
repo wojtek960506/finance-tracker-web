@@ -8,7 +8,7 @@ export const TransactionsFilterHeader = () => {
   const filters = useTransactionsFilterStore(s => s.filters);
   const formatNumber = useFormatNumber()
 
-  const notShownFilters = ["page", "limit", "sortBy", "sortOrder", "currency"];
+  const notShownFilters = ["page", "limit", "sortBy", "sortOrder"];
 
 
   // TODO I copied this code to `statistics-header` and adjusted a little
@@ -30,7 +30,7 @@ export const TransactionsFilterHeader = () => {
   }
 
   return (
-    <ul className="flex gap-2 text-sm">
+    <ul className="flex gap-2 text-sm overflow-y-auto">
       {
         Object.entries(filters)
           .filter(([key, value]) => !notShownFilters.includes(key) && value !== undefined)

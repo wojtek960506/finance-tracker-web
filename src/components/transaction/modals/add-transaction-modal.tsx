@@ -49,8 +49,8 @@ export const AddTransactionModal = ({
 
   switch (workflowType) {
     case "exchange":
-      title = 'newExchangeTransaction'
-      description = 'newExchangeTransactionDescription'
+      title = t('newExchangeTransaction')
+      description = t('newExchangeTransactionDescription')
       component = (
         <AddExchangeTransactionForm
           onOpenChange={handleOpenChange}
@@ -69,8 +69,8 @@ export const AddTransactionModal = ({
       )
       break;
     case "transfer":
-      title = 'newTransferTransaction'
-      description = 'newTransferTransactionDescription'
+      title = t('newTransferTransaction')
+      description = t('newTransferTransactionDescription')
       component = (
         <AddTransferTransactionForm
           onOpenChange={handleOpenChange}
@@ -79,8 +79,8 @@ export const AddTransactionModal = ({
       )
       break;
     default:
-      title = 'chooseCreationWorkflow'
-      description = 'chooseCreationWorkflowDescription'
+      title = t('chooseCreationWorkflow')
+      description = t('chooseCreationWorkflowDescription')
       component = (
         <div className="flex flex-col gap-10">
           <Button
