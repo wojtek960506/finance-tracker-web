@@ -10,7 +10,6 @@ export const TransactionsFilterHeader = () => {
 
   const notShownFilters = ["page", "limit", "sortBy", "sortOrder"];
 
-
   // TODO I copied this code to `statistics-header` and adjusted a little
   // think about merging it into one function - actually it might be even possible
   // to have some common component to show chosen filters

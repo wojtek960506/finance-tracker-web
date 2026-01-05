@@ -1,18 +1,49 @@
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { CommonModal } from "@/components/common";
 import { Separator } from "@/components/ui/separator";
 import { TransactionsFilterHeader } from "./filter-header";
+import { useFormatNumber } from "@/hooks/use-format-number";
 import { ExpandableItem } from "@/components/common/expandable-item";
 import { useGetTransactionTotals } from "@/hooks/use-get-transaction-totals";
 
+
+type TmpTotalsByCurrencyRowProps = {
+  title: string,
+  valueExpense: string | number,
+  valueIncome: string | number,
+  isTextBold?: boolean,
+}
+
+const TmpTotalsByCurrencyRow = ({
+  title,
+  valueExpense,
+  valueIncome,
+  isTextBold = false,
+}: TmpTotalsByCurrencyRowProps) => (
+  <>
+    <span className={cn("text-center py-1", isTextBold ? "font-bold" : "")}>
+      {title}
+    </span>
+    <Separator orientation="vertical" className="!w-[2px]" />
+    <span className={cn("text-center py-1", isTextBold ? "font-bold" : "")}>
+      {valueExpense}
+    </span>
+    <Separator orientation="vertical" className="!w-[2px]" />
+    <span className={cn("text-center py-1", isTextBold ? "font-bold" : "")}>
+      {valueIncome}
+    </span>
+  </>
+)
 
 export const TransactionTotalsModal = () => {
   const { t } = useTranslation("common");
   const [open, setOpen] = useState(false);
   const { data } = useGetTransactionTotals();
+  const formatNumber = useFormatNumber();
 
   if (!data) return null;
   
@@ -28,87 +59,97 @@ export const TransactionTotalsModal = () => {
       description={t('transactionTotalsDescription')}
       trigger={trigger}
     >    
-      <div className="flex flex-col overflow-hidden">
+      <div className="flex flex-col overflow-hidden gap-2">
 
         <TransactionsFilterHeader />
 
-        <Card className="p-2 my-5 mx-1">
-        <div className="grid grid-cols-[1fr_1fr_1fr] gap-2">
-          <div className="flex flex-col items-center font-bold">
-            <span>{t('totalItems')}</span>
-            <span>{data.overall.totalItems}</span>
+        <Card className="p-2 mx-1">
+          <div className="grid grid-cols-[1fr_1fr_1fr] gap-2">
+            <div className="flex flex-col items-center font-bold">
+              <span>{t('totalItems')}</span>
+              <span>{data.overall.totalItems}</span>
+            </div>
+            <div className="flex flex-col items-center font-bold">
+              <span>{t('expenseItems')}</span>
+              <span>{data.overall.expense.totalItems}</span>
+            </div>
+            <div className="flex flex-col items-center font-bold">
+              <span>{t('incomeItems')}</span>
+              <span>{data.overall.income.totalItems}</span>
+            </div>
           </div>
-          <div className="flex flex-col items-center font-bold">
-            <span>{t('expenseItems')}</span>
-            <span>{data.overall.expense.totalItems}</span>
-          </div>
-          <div className="flex flex-col items-center font-bold">
-            <span>{t('incomeItems')}</span>
-            <span>{data.overall.income.totalItems}</span>
-          </div>
-        </div>
         </Card>
         
         {Object.entries(data.byCurrency).map(([currency, values]) => (
-          <Card key={currency} className="py-2 px-4 m-1">
+          <Card key={currency} className="py-2 px-4 mx-1">
             <ExpandableItem
               trigger={(
                 <span className="text-xl font-bold">
                   {`${currency} (${t(`currency_options.${currency}`)})`}
                 </span>
               )}
-              contentClassName="flex flex-col"
+              contentClassName="flex flex-col text-sm"
             >
-              {/* TODO enhance how this data is presented */}
-              <span className=" w-full font-bold text-m text-center">
-                {`${t('totalItems')}: ${values.totalItems}`}
-              </span>
-              <Separator className="col-span-2 bg-gray-300"/>
+              <div className="grid grid-cols-[1fr_1fr] text-base">
+                <span className="text-right pr-2 py-1 font-bold">
+                  {t('totalItems')}
+                  </span>
+                <span className="text-left pl-2 py-1 font-bold">
+                  {values.totalItems}
+                </span>
+              </div>
 
-              <span>Expense - total items: {values.expense.totalItems}</span>
-              <span>Expense - total amount: {values.expense.totalAmount}</span>
-              <span>Expense - average amount: {values.expense.averageAmount}</span>
-              <span>Expense - max amount: {values.expense.maxAmount}</span>
-              <span>Expense - min amount: {values.expense.minAmount}</span>
+              <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr] mt-2">
+                <Separator orientation="vertical" className="!w-[2px] col-span-1 col-start-2 " />
+                <span className="text-center py-1">{t('expense')}</span>
+                <Separator orientation="vertical" className="!w-[2px]" />
+                <span className="col-span-1 text-center py-1">{t('income')}</span>
 
-              <Separator className="col-span-2 bg-gray-300"/>
+                <Separator orientation="horizontal" className="col-span-5" />
 
-              <span>Income - total items: {values.income.totalItems}</span>
-              <span>Income - total amount: {values.income.totalAmount}</span>
-              <span>Income - average amount: {values.income.averageAmount}</span>
-              <span>Income - max amount: {values.income.maxAmount}</span>
-              <span>Income - min amount: {values.income.minAmount}</span>
+                <TmpTotalsByCurrencyRow
+                  title={t('totalItems')}
+                  valueExpense={values.expense.totalItems}
+                  valueIncome={values.income.totalItems}
+                  isTextBold={true}
+                />
 
+                <Separator orientation="horizontal" className="col-span-5" />
+
+                <TmpTotalsByCurrencyRow
+                  title={t('totalAmount')}
+                  valueExpense={formatNumber(values.expense.totalAmount, 2, true)}
+                  valueIncome={formatNumber(values.income.totalAmount, 2, true)}
+                />
+
+                <Separator orientation="horizontal" className="col-span-5" />
+
+                <TmpTotalsByCurrencyRow
+                  title={t('averageAmount')}
+                  valueExpense={formatNumber(values.expense.averageAmount, 2, true)}
+                  valueIncome={formatNumber(values.income.averageAmount, 2, true)}
+                />
+
+                <Separator orientation="horizontal" className="col-span-5" />
+
+                <TmpTotalsByCurrencyRow
+                  title={t('maxAmount')}
+                  valueExpense={formatNumber(values.expense.maxAmount, 2, true)}
+                  valueIncome={formatNumber(values.income.maxAmount, 2, true)}
+                />
+
+                <Separator orientation="horizontal" className="col-span-5" />
+
+                <TmpTotalsByCurrencyRow
+                  title={t('minAmount')}
+                  valueExpense={formatNumber(values.expense.minAmount, 2, true)}
+                  valueIncome={formatNumber(values.income.minAmount, 2, true)}
+                />
+              </div>
             </ExpandableItem>
           </Card>
         ))}
-
-        {/* {Object.entries(data.byCurrency).map(([currency, values]) => (
-          <div key={currency} className="flex flex-col">
-            <span className="font-bold text-xl">{currency}</span>
-
-            <span className="font-bold text-m">Total Items: {values.totalItems}</span>
-            <Separator className="col-span-2 bg-gray-300"/>
-
-            <span>Expense - total items: {values.expense.totalItems}</span>
-            <span>Expense - total amount: {values.expense.totalAmount}</span>
-            <span>Expense - average amount: {values.expense.averageAmount}</span>
-            <span>Expense - max amount: {values.expense.maxAmount}</span>
-            <span>Expense - min amount: {values.expense.minAmount}</span>
-
-            <Separator className="col-span-2 bg-gray-300"/>
-
-            <span>Income - total items: {values.income.totalItems}</span>
-            <span>Income - total amount: {values.income.totalAmount}</span>
-            <span>Income - average amount: {values.income.averageAmount}</span>
-            <span>Income - max amount: {values.income.maxAmount}</span>
-            <span>Income - min amount: {values.income.minAmount}</span>
-            
-            <Separator className="col-span-2 bg-gray-300 !h-1"/>
-          </div>
-        ))} */}
       </div>
-      
     </CommonModal>
   )
 }

@@ -37,7 +37,7 @@ export const CommonModal = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-      <DialogContent className={cn(contentClassName, "max-h-[90%] overflow-y-auto")}>
+      <DialogContent className={cn(contentClassName, "max-h-[90%] overflow-y-auto gap-3")}>
         <DialogHeader>
           <DialogTitle className={titleClassName}>{title}</DialogTitle>
           <DialogDescription className={descriptionClassName}>

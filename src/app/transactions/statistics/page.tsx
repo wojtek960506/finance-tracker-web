@@ -36,7 +36,7 @@ export default function TransactionStatisticsPage() {
   return (
     <NotLoggedLayout>
       <div className="flex-1 flex flex-col h-full space-y-4 p-1 min-h-[350px]">
-        <Card className="overflow-hidden gap-2">
+        <Card className="overflow-hidden gap-0">
           <TransactionStatisticsHeader
             filters={filters}
             setFilters={setFilters}
