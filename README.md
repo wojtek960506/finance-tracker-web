@@ -1,3 +1,10 @@
+# Finance Tracker - Frontend
+
+This module contains implementation for frontend in my Finance Tracker web application.
+
+
+### Code below was generated when creating app from template
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
