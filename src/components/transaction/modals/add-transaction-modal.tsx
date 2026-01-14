@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { CommonModal } from "@/components/common";
 import {
-  AddTransactionForm,
+  AddStandardTransactionForm,
   AddTransferTransactionForm,
   AddExchangeTransactionForm,
 } from "./forms";
@@ -62,7 +62,7 @@ export const AddTransactionModal = ({
       title = 'newStandardTransaction'
       description = 'newStandardTransactionDescription'
       component = (
-        <AddTransactionForm
+        <AddStandardTransactionForm
           onOpenChange={handleOpenChange}
           onCreated={onStandardCreated}
         />

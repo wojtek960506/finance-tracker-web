@@ -31,8 +31,8 @@ const getEmptyTransaction = () => ({
   date: new Date().toISOString().slice(0,10),
   amount: "0",
   currency: "",
-  accountFrom: "",
-  accountTo: "",
+  accountExpense: "",
+  accountIncome: "",
   paymentMethod: "",
   additionalDescription: ""
 });
@@ -97,12 +97,12 @@ export const AddTransferTransactionForm = ({
           options={paymentMethodOptions}
         />
         <ControlledSelectField
-          name="accountFrom"
+          name="accountExpense"
           placeholderKey="accountFromPlaceholder"
           options={accountOptions}
         />
         <ControlledSelectField
-          name="accountTo"
+          name="accountIncome"
           placeholderKey="accountToPlaceholder"
           options={accountOptions}
         />

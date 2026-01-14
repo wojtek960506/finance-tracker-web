@@ -35,8 +35,8 @@ export const TransactionCreateTransferSchema = TransactionCreateCommonSchema.ext
   additionalDescription: z.string().min(1, "Additional description cannot be empty").optional(),
   amount: z.number().positive("Amount must be positive"),
   currency: z.enum([...CURRENCIES]),
-  accountFrom: z.enum([...ACCOUNTS]),
-  accountTo: z.enum([...ACCOUNTS]),
+  accountExpense: z.enum([...ACCOUNTS]),
+  accountIncome: z.enum([...ACCOUNTS]),
   paymentMethod: z.enum(["bankTransfer", "cash", "card"]),
 })
 
@@ -50,10 +50,10 @@ export const TransactionCreateTransferFormSchema = z.object({
   currency: z.string()
     .refine(v => v !== "", "currencyRequired")
     .refine(v => [...CURRENCIES].includes(v), "currencyOneOfEmums"),
-  accountFrom: z.string()
+  accountExpense: z.string()
     .refine(v => v !== "", "accountFromRequired")
     .refine(v => [...ACCOUNTS].includes(v), "accountFromOneOfEmums"),
-  accountTo: z.string()
+  accountIncome: z.string()
     .refine(v => v !== "", "accountToRequired")
     .refine(v => [...ACCOUNTS].includes(v), "accountToOneOfEmums"),
   paymentMethod: z.string()

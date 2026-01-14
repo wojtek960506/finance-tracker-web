@@ -28,7 +28,7 @@ import {
 } from "@/components/controlled-form";
 
 
-type AddTransactionFormProps = {
+type AddStandardTransactionFormProps = {
   onOpenChange: (value: boolean) => void;
   onCreated: (newTxn: TransactionCreateDTO) => Promise<void>;
 };
@@ -44,7 +44,10 @@ const getEmptyTransaction = () => ({
   transactionType: "expense",
 });
 
-export const AddTransactionForm = ({ onCreated, onOpenChange }: AddTransactionFormProps) => {
+export const AddStandardTransactionForm = ({
+  onCreated,
+  onOpenChange
+}: AddStandardTransactionFormProps) => {
 
   const { t } = useTranslation("common");
   const form = useForm<TransactionCreateFormType>({
