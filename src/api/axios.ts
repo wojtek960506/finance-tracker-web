@@ -2,9 +2,10 @@ import { useGeneralStore } from "@/store/general-store";
 import { CommonError } from "@/types/api-types";
 import axios from "axios"
 
+console.log('base api url:', process.env.NEXT_PUBLIC_API_BASE_URL);
 
 export const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api`,
   headers: {
     'Content-Type': 'application/json'
   },
