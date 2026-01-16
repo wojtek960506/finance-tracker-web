@@ -1,8 +1,9 @@
-import { getTransactionsAnalysis } from "@/api/transactions-api";
 import { buildQueryParams } from "@/lib/utils";
-import { TransactionsAnalysisQuery } from "@/schemas/transaction-query";
-import { TransactionsAnalysisAPI } from "@/types/transaction-types";
 import { useQuery } from "@tanstack/react-query";
+import { getTransactionsAnalysis } from "@/api/transactions-api";
+import { TransactionsAnalysisAPI } from "@/types/transaction-types";
+import { TransactionsAnalysisQuery } from "@/schemas/transaction-statistics";
+
 
 export const useGetTransactionsAnalysis = (filters: TransactionsAnalysisQuery) => {
   const { data, isLoading, isError, error } = useQuery<
