@@ -2,12 +2,13 @@ import { ReactNode } from "react";
 import {
   Tooltip,
   TooltipContent,
+  TooltipTrigger,
   TooltipProvider,
-  TooltipTrigger
 } from "@/components/ui/tooltip";
 
+
 type CommonTooltipProps = {
-  triggerClassName: string;
+  triggerClassName?: string;
   triggerValue: string | ReactNode;
   contentValue: string | ReactNode;
 }
@@ -18,7 +19,7 @@ export const CommonTooltip = ({
   contentValue,
 }: CommonTooltipProps) => {
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger className={triggerClassName}>
           {triggerValue}
