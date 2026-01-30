@@ -21,14 +21,13 @@ export const useUndoableDelete = () => {
       ["transactions", filters]
     );
 
-    // TODO temporary from the view also the referenced transaction as it will also be deleted
     queryClient.setQueryData<FilteredTransactions>(
       ["transactions", filters],
       old => {
         if (!old) return undefined;
         return {
           ...old,
-          items: old?.items.filter(txn => txn.id !== id)
+          items: old?.items.filter(txn => txn.id !== id && txn.id !== refId)
         }
       }
     );
@@ -36,7 +35,8 @@ export const useUndoableDelete = () => {
     const makeFinalDeletion = async () => {
       try {
         await deleteTransaction(id);
-        queryClient.invalidateQueries({ queryKey: ["transcations", filters] })
+        queryClient.invalidateQueries({ queryKey: ["transcations", filters] });
+        queryClient.invalidateQueries({ queryKey: ['transactionTotals', filters] });
         toast.success(
           refId === undefined
           ? t('transactionSuccessfullyDeleted')

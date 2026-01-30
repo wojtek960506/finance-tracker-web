@@ -74,7 +74,7 @@ export const getTransactionStatistics = async (
 const createStandardTransactionNoRefresh = async (
   payload: TransactionCreateDTO
 ): Promise<TransactionAPI> => {
-  const { data } = await api.post('/transactions', payload)
+  const { data } = await api.post('/transactions/standard', payload)
   return data
 }
 

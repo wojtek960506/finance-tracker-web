@@ -1,6 +1,7 @@
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTransactionsFilterStore } from "@/store/transactions-filter-store";
 import {
   TransactionCreateDTO,
   TransactionCreateExchangeDTO,
@@ -12,17 +13,18 @@ import {
   createTransferTransaction,
 } from "@/api/transactions-api";
 
+
 export const useCreateTransaction = () => {
   const { t } = useTranslation("common");
   const queryClient = useQueryClient();
+  const filters = useTransactionsFilterStore(s => s.filters);
 
-  // TODO update queryKey in all of the above mutations with `filters`
-  // as it is probably not working properly
 
   const createStandardMutation = useMutation({
     mutationFn: (payload: TransactionCreateDTO) => createStandardTransaction(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["transactions"]});
+      queryClient.invalidateQueries({ queryKey: ["transactions", filters] });
+      queryClient.invalidateQueries({ queryKey: ['transactionTotals', filters] });
       toast.success(t('standardTransactionCreated'));
     },
   });
@@ -30,7 +32,8 @@ export const useCreateTransaction = () => {
   const createExchangeMutation = useMutation({
     mutationFn: (payload: TransactionCreateExchangeDTO) => createExchangeTransaction(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["transactions"]});
+      queryClient.invalidateQueries({ queryKey: ["transactions", filters] });
+      queryClient.invalidateQueries({ queryKey: ['transactionTotals', filters] });
       toast.success(t('exchangeTransactionCreated'));
     },
   });
@@ -38,16 +41,15 @@ export const useCreateTransaction = () => {
   const createTransferMutation = useMutation({
     mutationFn: (payload: TransactionCreateTransferDTO) => createTransferTransaction(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["transactions"]});
+      queryClient.invalidateQueries({ queryKey: ["transactions", filters] });
+      queryClient.invalidateQueries({ queryKey: ['transactionTotals', filters] });
       toast.success(t('transferTransactionCreated'));
     }
-  })
+  });
 
   return {
     createStandardMutation,
     createExchangeMutation,
     createTransferMutation,
   }
-  
-  
 }
