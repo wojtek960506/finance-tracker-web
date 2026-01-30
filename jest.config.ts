@@ -15,7 +15,6 @@ const config: Config = {
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
 
   // --- coverage settings ---
-  collectCoverage: true,
   coverageDirectory: '<rootDir>/coverage',
   coverageReporters: ['text', 'lcov', 'html'],
   collectCoverageFrom: [

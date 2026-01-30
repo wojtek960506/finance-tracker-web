@@ -14,6 +14,7 @@ export const ClearFieldButton = ({ setValue }: ClearFieldButtonProps) => {
         setValue("");
       }}
       className="p-1 ml-1"
+      data-testid="clear-field-button"
     >
       ✕
     </Button>
