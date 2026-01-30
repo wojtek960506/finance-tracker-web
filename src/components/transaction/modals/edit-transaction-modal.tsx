@@ -1,10 +1,11 @@
 "use client"
 
-import { TransactionUpdateDTO } from "@/schemas/transaction";
-import { TransactionAPI } from "@/types/transaction-types";
-import { useTranslation } from "react-i18next";
 import { EditTransactionForm } from "./forms";
+import { useTranslation } from "react-i18next";
 import { CommonModal } from "@/components/common";
+import { TransactionAPI } from "@/types/transaction-types";
+import { TransactionUpdateDTO } from "@/schemas/transaction";
+
 
 type EdtiTransactionModalProps = {
   onEdit: (id: string, updatedTransaction: TransactionUpdateDTO | null) => Promise<void>;
