@@ -1,5 +1,5 @@
-import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 import { ClearFieldButton } from './clear-field-button';
 
 
@@ -16,5 +16,12 @@ describe('clearFieldButton', () => {
     await userEvent.click(screen.getByTestId('clear-field-button'));
     expect(setValue).toHaveBeenCalledTimes(1);
     expect(setValue).toHaveBeenCalledWith("");
-  })
+  });
+
+  it("cannot click when disabled", async () => {
+    const setValue = jest.fn();
+    render(<ClearFieldButton setValue={setValue} isDisabled={true} />);
+    await userEvent.click(screen.getByTestId('clear-field-button'));
+    expect(setValue).toHaveBeenCalledTimes(0);
+  });
 })

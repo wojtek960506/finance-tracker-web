@@ -1,10 +1,15 @@
 import { Button } from "@/components/ui/button";
 
+
 type ClearFieldButtonProps = {
   setValue: (v: string) => void;
+  isDisabled?: boolean;
 }
 
-export const ClearFieldButton = ({ setValue }: ClearFieldButtonProps) => {
+export const ClearFieldButton = ({
+  setValue,
+  isDisabled=false
+}: ClearFieldButtonProps) => {
   return (
     <Button
       variant="ghost"
@@ -14,9 +19,10 @@ export const ClearFieldButton = ({ setValue }: ClearFieldButtonProps) => {
         setValue("");
       }}
       className="p-1 ml-1"
+      disabled={isDisabled}
       data-testid="clear-field-button"
     >
       ✕
     </Button>
-  )
+  );
 }

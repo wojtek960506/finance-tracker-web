@@ -1,22 +1,22 @@
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
-import { ClearFieldButton } from "./clear-field-button";
+import { ClearFieldButton } from "@/components/common";
 import {
   Select,
-  SelectContent,
   SelectItem,
+  SelectValue,
+  SelectContent,
   SelectTrigger,
-  SelectValue
 } from "@/components/ui/select";
 
 
-export type SelectOption = Record<string, string>
+export type SelectOptions = Record<string, string>
 
 type CommonSelectProps = {
   value: string | undefined;
   setValue: (v: string) => void;
   placeholderKey: string;
-  options: SelectOption;
+  options: SelectOptions;
   isDisabled?: boolean;
   isClearable?: boolean;
   className?: string;
@@ -46,15 +46,15 @@ export const CommonSelect = ({
         <SelectContent>
           {Object.entries(options)
             .sort((a, b) => t(a[1]).toUpperCase() > t(b[1]).toUpperCase() ? 1 : -1)
-            .map(([key, value]) => (
+            .map(([key, val]) => (
               <SelectItem key={key} value={key}>
-                {t(value)}
+                {t(val)}
               </SelectItem>
             ))
           }
         </SelectContent>
-        {value && isClearable && !isDisabled && (
-          <ClearFieldButton setValue={setValue} />
+        {value && isClearable && (
+          <ClearFieldButton setValue={setValue} isDisabled={isDisabled} />
         )}
       </Select>
     </div>
