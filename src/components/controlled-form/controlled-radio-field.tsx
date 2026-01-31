@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
-import { ControlledFormField } from "./controlled-form-field";
 import { Label } from "@/components/ui/label";
+import { useTranslation } from "react-i18next";
+import { ClearFieldButton } from "@/components/common";
+import { ControlledFormField } from "./controlled-form-field";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ClearFieldButton } from "../common/clear-field-button";
 
 
 type ControlledRadioFieldProps = {

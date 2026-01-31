@@ -6,7 +6,7 @@ import { FilteredResponse } from "@/types/api-types";
 import { TransactionContextMenu } from "./context-menu";
 import { TransactionAPI } from "@/types/transaction-types";
 import { TransactionUpdateDTO } from "@/schemas/transaction";
-import { useUndoableDelete } from "@/hooks/useUndoableDelete";
+import { useUndoableDelete } from "@/hooks/use-undoable-delete";
 import { useEditTransaction } from "@/hooks/use-edit-transaction";
 import { TransactionsPagination } from "./transactions-pagination";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";

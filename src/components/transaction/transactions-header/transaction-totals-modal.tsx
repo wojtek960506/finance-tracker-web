@@ -3,11 +3,10 @@ import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { CommonModal } from "@/components/common";
 import { Separator } from "@/components/ui/separator";
 import { TransactionsFilterHeader } from "./filter-header";
 import { useFormatNumber } from "@/hooks/use-format-number";
-import { ExpandableItem } from "@/components/common/expandable-item";
+import { CommonModal, ExpandableItem } from "@/components/common";
 import { useGetTransactionTotals } from "@/hooks/use-get-transaction-totals";
 
 

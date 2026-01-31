@@ -6,6 +6,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 
+
 type ExpandableItemProps = {
   trigger: ReactNode,
   contentClassName: string,
@@ -27,11 +28,9 @@ export const ExpandableItem = ({
           className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`}
         />
       </CollapsibleTrigger>
-
       <CollapsibleContent className={contentClassName}>
         {children}
       </CollapsibleContent>
     </Collapsible>
-  )
-
+  );
 }

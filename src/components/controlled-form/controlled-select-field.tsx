@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
 import { ControlledFormField } from "./controlled-form-field";
-import { CommonSelect, SelectOption } from "@/components/common";
+import { CommonSelect, SelectOptions } from "@/components/common";
 
 type ControlledSelectFieldProps = {
   name: string;
   placeholderKey: string;
-  options: SelectOption;
+  options: SelectOptions;
   isDisabled?: boolean;
   isClearable?: boolean;
   isHorizontal?: boolean;

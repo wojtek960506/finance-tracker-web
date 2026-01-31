@@ -1,11 +1,12 @@
 "use client"
 
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
+import { CommonModal } from "@/components/common";
 import { DialogFooter } from "@/components/ui/dialog";
 import { TransactionAPI } from "@/types/transaction-types";
-import { useTranslation } from "react-i18next";
 import { TransactionDetails } from "../details/transaction-details";
-import { CommonModal } from "@/components/common";
+
 
 type ShowTransactionModalProps = {
   transaction: TransactionAPI | null;
