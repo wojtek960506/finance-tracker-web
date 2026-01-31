@@ -1,22 +1,29 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { cn } from "@/lib/utils";
 import React from "react";
+import { cn } from "@/lib/utils";
 import { ControllerRenderProps, useFormContext } from "react-hook-form";
+import {
+  FormItem,
+  FormLabel,
+  FormField,
+  FormMessage,
+  FormControl,
+} from "@/components/ui/form";
+
 
 type ControlledFormFieldProps = {
   name: string,
   label: string,
-  children: (field: ControllerRenderProps) => React.ReactNode,
-  isHorizontal?: boolean,
   showLabel?: boolean,
+  isHorizontal?: boolean,
+  children: (field: ControllerRenderProps) => React.ReactNode,
 }
 
 export const ControlledFormField = ({
   name,
   label,
   children,
+  showLabel = true,
   isHorizontal = true,
-  showLabel = true
 }: ControlledFormFieldProps) => {
   const { control } = useFormContext();
   return (
