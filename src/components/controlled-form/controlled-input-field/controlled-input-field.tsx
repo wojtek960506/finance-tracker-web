@@ -1,26 +1,27 @@
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
-import { ControlledFormField } from "./controlled-form-field";
+import { ControlledFormField } from "@/components/controlled-form";
+
 
 type ControlledInputFieldProps = {
   name: string,
   type: "text" | "password" | "date" | "number"
   step?: number,
-  decimalPlaces?: number,
+  showLabel?: boolean,
   isRequired?: boolean,
   isDisabled?: boolean,
   isHorizontal?: boolean,
-  showLabel?: boolean,
+  decimalPlaces?: number,
 }
 
 export const ControlledInputField = ({
   name,
   type,
   step = 1,
+  showLabel = true,
   decimalPlaces = 0,
   isDisabled = false,
   isHorizontal = true,
-  showLabel = true,
 }: ControlledInputFieldProps) => {
   const { t } = useTranslation("common");
 
