@@ -51,7 +51,7 @@ export const CommonExcludeSelect = ({
           className="w-full justify-between"
           disabled={isDisabled}
         >
-          <span className="truncate">{label}</span>
+          <span className="truncate" data-testid="exclude-select-label">{label}</span>
           <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -63,18 +63,24 @@ export const CommonExcludeSelect = ({
             .map(option => (
             <Label key={option.value}>
               <Checkbox
+                data-testid={`exclude-select-checkbox-${option.value}`}
                 checked={excluded.includes(option.value)}
                 onCheckedChange={() => toggle(option.value)}
               />
-              <span className="text-sm">{t(option.label)}</span>
+              <span className="text-sm" data-testid="exclude-select-option-label">
+                {t(option.label)}
+              </span>
             </Label>
           ))}
         </div>
 
         <div className="flex flex-col justify-between pt-2">
-          <Button size="sm" variant="ghost" onClick={() => onChange([])}>
-            {t('includeAll')}
-          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => onChange([])}
+            data-testid="exclude-select-include-all-button"
+          >{t('includeAll')}</Button>
         </div>
       </PopoverContent>
     </Popover>
