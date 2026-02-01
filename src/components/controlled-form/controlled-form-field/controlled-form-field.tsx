@@ -1,22 +1,29 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { cn } from "@/lib/utils";
 import React from "react";
+import { cn } from "@/lib/utils";
 import { ControllerRenderProps, useFormContext } from "react-hook-form";
+import {
+  FormItem,
+  FormLabel,
+  FormField,
+  FormMessage,
+  FormControl,
+} from "@/components/ui/form";
+
 
 type ControlledFormFieldProps = {
   name: string,
   label: string,
-  children: (field: ControllerRenderProps) => React.ReactNode,
-  isHorizontal?: boolean,
   showLabel?: boolean,
+  isHorizontal?: boolean,
+  children: (field: ControllerRenderProps) => React.ReactNode,
 }
 
 export const ControlledFormField = ({
   name,
   label,
   children,
+  showLabel = true,
   isHorizontal = true,
-  showLabel = true
 }: ControlledFormFieldProps) => {
   const { control } = useFormContext();
   return (
@@ -25,7 +32,7 @@ export const ControlledFormField = ({
       name={name}
       render={({ field }) => (
         <FormItem className="contents">
-          {showLabel && <FormLabel>{label}</FormLabel>}
+          {showLabel && <FormLabel data-testid="form-field-label">{label}</FormLabel>}
           <FormControl>{children(field)}</FormControl>
           <FormMessage className={cn(isHorizontal ? "col-start-2" : "", "break-words")}/>
         </FormItem>

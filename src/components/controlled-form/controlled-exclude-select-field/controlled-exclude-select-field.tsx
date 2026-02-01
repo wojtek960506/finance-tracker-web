@@ -1,26 +1,26 @@
 import { useTranslation } from "react-i18next";
-import { ControlledFormField } from "./controlled-form-field";
-import { CommonExcludeSelect, MultiOption } from "../common/common-exclude-select";
+import { ControlledFormField } from "@/components/controlled-form";
+import { CommonExcludeSelect, MultiOption } from "@/components/common";
 
 
 type ControlledExcludeSelectFieldProps = {
   name: string;
   options: MultiOption[];
-  allInvolvedLabelKey: string;
   excludedLabelKey: string;
+  allInvolvedLabelKey: string;
+  showLabel?: boolean;
   isDisabled?: boolean;
   isHorizontal?: boolean;
-  showLabel?: boolean;
 }
 
 export const ControlledExcludeSelectField = ({
   name,
   options,
-  allInvolvedLabelKey,
   excludedLabelKey,
+  allInvolvedLabelKey,
+  showLabel = true,
   isDisabled = false,
   isHorizontal = true,
-  showLabel = true,
 }: ControlledExcludeSelectFieldProps) => {
   const { t } = useTranslation("common");
   

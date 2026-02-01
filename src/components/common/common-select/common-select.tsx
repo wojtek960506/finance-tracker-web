@@ -47,7 +47,7 @@ export const CommonSelect = ({
           {Object.entries(options)
             .sort((a, b) => t(a[1]).toUpperCase() > t(b[1]).toUpperCase() ? 1 : -1)
             .map(([key, val]) => (
-              <SelectItem key={key} value={key}>
+              <SelectItem key={key} value={key} data-testid={`common-select-item-${key}`}>
                 {t(val)}
               </SelectItem>
             ))
