@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { useTranslation } from "react-i18next";
 import { ClearFieldButton } from "@/components/common";
-import { ControlledFormField } from "./controlled-form-field";
+import { ControlledFormField } from "@/components/controlled-form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 
@@ -33,13 +33,18 @@ export const ControlledRadioField = ({
           <div className={`flex flex-${isHorizontal ? "row" : "col"} gap-2`}>
             {[...optionsKeys].map(optionKey => (
               <div key={optionKey} className="flex gap-2">
-                <RadioGroupItem value={optionKey} id={optionKey} />
+                <RadioGroupItem
+                  value={optionKey}
+                  id={optionKey}
+                  disabled={isDisabled}
+                  data-testid={`radio-field-${optionKey}`}
+                />
                 <Label htmlFor={optionKey}>{t(`${name}_options.${optionKey}`)}</Label>
               </div>
             ))}
           </div>
-          {field.value && isClearable && !isDisabled && (
-            <ClearFieldButton setValue={field.onChange} />
+          {field.value && isClearable && (
+            <ClearFieldButton setValue={field.onChange} isDisabled={isDisabled} />
           )}
         </RadioGroup>
       )}
