@@ -61,7 +61,7 @@ export const CommonExcludeSelect = ({
           {options
             .sort((a, b) => t(a.label).toUpperCase() > t(b.label).toUpperCase() ? 1 : -1)
             .map(option => (
-            <Label key={option.value}>
+            <Label key={option.value} data-testid={`exclude-select-option-${option.value}`}>
               <Checkbox
                 data-testid={`exclude-select-checkbox-${option.value}`}
                 checked={excluded.includes(option.value)}
