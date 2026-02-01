@@ -32,7 +32,7 @@ export const ControlledFormField = ({
       name={name}
       render={({ field }) => (
         <FormItem className="contents">
-          {showLabel && <FormLabel>{label}</FormLabel>}
+          {showLabel && <FormLabel data-testid="form-field-label">{label}</FormLabel>}
           <FormControl>{children(field)}</FormControl>
           <FormMessage className={cn(isHorizontal ? "col-start-2" : "", "break-words")}/>
         </FormItem>
